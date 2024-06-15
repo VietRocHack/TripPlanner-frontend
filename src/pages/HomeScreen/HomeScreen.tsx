@@ -17,12 +17,20 @@ const HomeScreen: React.FC = () => {
 
     return (
         <Box
+            component="section"
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '100vh'
+                height: '100vh',
+                width: "70vw", 
+                margin: 0, 
+                padding: 0, 
+                boxSizing: 'border-box', 
+                '@media (max-width: 600px)': {
+                    padding: '0 10px', 
+                },
             }}
         >
             {loading ? (
@@ -30,7 +38,7 @@ const HomeScreen: React.FC = () => {
             ) : (
                 <>
                     <TextField
-                        sx={{ width: '50%', marginBottom: 5 }}
+                        sx={{ width: '70%', marginBottom: 10 }}
                         label="Create the best and optimal travel plan"
                         id="search-bar"
                     />
