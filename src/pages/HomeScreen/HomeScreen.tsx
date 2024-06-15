@@ -41,17 +41,17 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const HomeScreen: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleButtonClick = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-            //navigate('/plan');
+            navigate('/plan');
         }, 5000);
     };
 
