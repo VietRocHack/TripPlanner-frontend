@@ -4,7 +4,6 @@ import HomeScreen from './pages/HomeScreen/HomeScreen'
 import PlanScreen from './pages/PlanScreen/PlanScreen'
 
 function App() {
-
   return (
     <Router>
       <Routes>
@@ -12,7 +11,7 @@ function App() {
         <Route path="/plan" element={<PlanScreen />} />
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
