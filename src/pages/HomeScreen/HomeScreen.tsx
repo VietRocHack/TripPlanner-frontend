@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, Typography, Link } from '@mui/material';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,6 +42,16 @@ const HomeScreen: React.FC = () => {
                         label="Create the best and optimal travel plan"
                         id="search-bar"
                     />
+                    <Typography variant="body1" paragraph>
+                      By using our website, you agree to our{' '}
+                      <Link href="/privacy-policy" color="primary" underline="hover">
+                        Privacy Policy
+                      </Link>{' '}
+                      and{' '}
+                      <Link href="/terms-and-conditions" color="primary" underline="hover">
+                        Terms and Conditions
+                      </Link>.
+                    </Typography>
                     <Button variant="contained" onClick={handleButtonClick}>
                         Let's find out
                     </Button>
