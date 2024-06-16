@@ -7,10 +7,10 @@ const PrivacyPolicy = () => {
         GDPR Privacy Policy for VietRocHack
       </Typography>
       <Typography variant="body1" paragraph>
-        At TripPlanner, accessible at <Link href="https://tripplanner.com">tripplanner.com</Link>, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by TripPlanner and how we use it.
+        At TripPlanner, accessible at <Link href="https://tripplanner-b05c6.web.app/">tripplanner-b05c6.web.app</Link>, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by TripPlanner and how we use it.
       </Typography>
       <Typography variant="body1" paragraph>
-        If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at <Link href="mailto:email@tripplanner.com">email@tripplanner.com</Link>
+        If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at <Link href="mailto:hochivuong2002@gmail.com">hochivuong2002@gmail.com</Link>
       </Typography>
 
       <Typography variant="h5" gutterBottom>

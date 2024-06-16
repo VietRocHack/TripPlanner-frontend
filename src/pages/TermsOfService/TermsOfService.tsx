@@ -10,7 +10,7 @@ const TermsOfService = () => {
         1. Terms
       </Typography>
       <Typography variant="body1" paragraph>
-        By accessing this Website, accessible from <a href="https://tripplanner.com">tripplanner.com</a>, you are agreeing to be bound by these Website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing this site. The materials contained in this Website are protected by copyright and trade mark law.
+        By accessing this Website, accessible from <a href="https://tripplanner-b05c6.web.app">tripplanner-b05c6.web.app</a>, you are agreeing to be bound by these Website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing this site. The materials contained in this Website are protected by copyright and trade mark law.
       </Typography>
 
       <Typography variant="h5" gutterBottom>
