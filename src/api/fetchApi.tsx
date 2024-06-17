@@ -1,16 +1,5 @@
 import axios from 'axios'
 
-interface Activity {
-    startTime: string
-    endTime: string
-    activity: string
-    location: string
-}
-
-interface ApiResponse {
-    activities: Activity[]
-}
-
 export async function fetchApi(url: string) {
     try {
         const response = await axios.get(url)
