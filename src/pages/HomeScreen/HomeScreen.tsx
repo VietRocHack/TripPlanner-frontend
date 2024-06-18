@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography, Link } from '@mui/material';
+import { TextField, Button, Box, Typography, Link, Container } from '@mui/material';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,25 +36,94 @@ const HomeScreen: React.FC = () => {
             {loading ? (
                 <LoadingScreen />
             ) : (
-                <>
-                    <TextField
-                        sx={{ width: '70%', marginBottom: 10 }}
-                        label="Create the best and optimal travel plan"
-                        id="search-bar"
-                    />
-                    <Typography variant="body1" paragraph>
-                      By using our website, you agree to our{' '}
-                      <Link href="/privacy-policy" color="primary" underline="hover">
-                        Privacy Policy
-                      </Link>{' '}
-                      and{' '}
-                      <Link href="/terms-and-conditions" color="primary" underline="hover">
-                        Terms and Conditions
-                      </Link>.
+                <>  
+                    <Container 
+                        maxWidth = "xl"
+                        sx={{ 
+                            position: 'relative', 
+                            height: '10%',
+                            width: '100%',
+                            textAlign: 'left'
+                        }}>
+                        <Typography 
+                            variant="h2" 
+                            sx={{ fontWeight: 'bold', position: 'absolute', top: '2px', left: '2px', color: '#FE285880', fontSize: { xs: '3rem', sm: '3rem', md: '2.9em', lg: '3.5rem', xl: '4rem' } }}
+                        >
+                            Discover your perfect getaway.
+                        </Typography>
+                        <Typography 
+                            variant="h2" 
+                            sx={{ fontWeight: 'bold', position: 'absolute', top: 0, left: 0, color: '#2AF0EA80', fontSize: { xs: '3rem', sm: '3rem', md: '2.9rem', lg: '3.5rem', xl: '4rem' } }}
+                        >
+                            Discover your perfect getaway.
+                        </Typography>
+                        <Typography 
+                            variant="h2" 
+                            sx={{ fontWeight: 'bold', position: 'absolute', top: '1px', left: '1px', color: 'white', fontSize: { xs: '3rem', sm: '3rem', md: '2.9rem', lg: '3.5rem', xl: '4rem' } }}
+                        >
+                            Discover your perfect getaway.
+                        </Typography>
+                    </Container>
+
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%', margin: 0, padding: 0, marginTop: { xs: 20, sm: 10, md: 5, lg: 2}, textAlign: 'left', direction: 'column' }}>
+                        <TextField
+                            fullWidth
+                            label="Describe your dream vacation..."
+                            id="search-bar"
+                            variant="outlined"
+                            InputProps={{ style: { width: 'auto' } }}
+                            sx={{ 
+                                marginBottom: { xs: 2, sm: 0 }, 
+                                width: { xs: 300, sm: 'calc(100% - 42px)', md: 672, lg: 810, xl: 925 }
+                            }}
+                        />
+                        <Button 
+                            variant="outlined" 
+                            onClick={handleButtonClick} 
+                            sx={{ 
+                                marginTop: { xs: 2, sm: 3 },
+                                width: '240px',
+                                height: '50px',
+                                padding: '17px 32px',
+                                border: '2px solid #FE285880', 
+                                borderRadius: '4px',
+                                color: 'transparent', 
+                                background: `linear-gradient(225deg, #00F5FE, #EEF0F2, #FF3E85)`,
+                                backgroundClip: 'text',
+                                WebkitBackgroundClip: 'text',
+                                '&:hover': {
+                                    backgroundColor: '#0A0A0A',
+                                    borderColor: '#2AF0EA80', 
+                                    boxShadow: '0px 0px 0px 2px #2AF0EA80', 
+                                },
+                                '&:active': {
+                                    boxShadow: 'inset 0px 0px 0px 2px #FE285880', 
+                                },
+                            }}
+                        >
+                            Generate Travel
+                        </Button>
+                    </Box>
+                    
+
+                    <Typography variant="body1" paragraph sx={{ 
+                        position: 'absolute', 
+                        bottom: 0, 
+                        left: 0,
+                        width: '100%', 
+                        textAlign: 'center', 
+                        marginBottom: 2, 
+                    }}>
+                        By using our website, you agree to our{' '}
+                        <Link href="/privacy-policy" color="primary" underline="hover">
+                            Privacy Policy
+                        </Link>{' '}
+                        and{' '}
+                        <Link href="/terms-and-conditions" color="primary" underline="hover">
+                            Terms and Conditions
+                        </Link>.
                     </Typography>
-                    <Button variant="contained" onClick={handleButtonClick}>
-                        Let's find out
-                    </Button>
+                
                 </>
             )}
         </Box>
