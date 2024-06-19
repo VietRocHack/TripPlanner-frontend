@@ -47,7 +47,7 @@ const HomeScreen: React.FC = () => {
                         }}>
                         <Typography 
                             variant="h2" 
-                            sx={{ fontWeight: 'bold', position: 'absolute', top: '2px', left: '2px', color: '#FE285880', fontSize: { xs: '3rem', sm: '3rem', md: '2.9em', lg: '3.5rem', xl: '4rem' } }}
+                            sx={{ fontWeight: 'bold', position: 'absolute', top: '3px', left: '3px', color: '#FE285880', fontSize: { xs: '3rem', sm: '3rem', md: '2.9em', lg: '3.5rem', xl: '4rem' } }}
                         >
                             Discover your perfect getaway.
                         </Typography>
@@ -59,7 +59,7 @@ const HomeScreen: React.FC = () => {
                         </Typography>
                         <Typography 
                             variant="h2" 
-                            sx={{ fontWeight: 'bold', position: 'absolute', top: '1px', left: '1px', color: 'white', fontSize: { xs: '3rem', sm: '3rem', md: '2.9rem', lg: '3.5rem', xl: '4rem' } }}
+                            sx={{ fontWeight: 'bold', position: 'absolute', top: '1.5px', left: '1.5px', color: 'white', fontSize: { xs: '3rem', sm: '3rem', md: '2.9rem', lg: '3.5rem', xl: '4rem' } }}
                         >
                             Discover your perfect getaway.
                         </Typography>
