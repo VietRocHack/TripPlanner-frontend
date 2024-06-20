@@ -4,7 +4,7 @@ import HomeScreen from './pages/HomeScreen/HomeScreen'
 import PlanScreen from './pages/PlanScreen/PlanScreen'
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService/TermsOfService'
-import Footer from './components/Footer/Footer'
+//import Footer from './components/Footer/Footer'
 
 function App() {
   return (
