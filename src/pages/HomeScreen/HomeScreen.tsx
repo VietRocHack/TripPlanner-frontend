@@ -33,13 +33,15 @@ const HomeScreen: React.FC = () => {
         );
         if (response.ok) {
           const result = await response.json();
-          console.log(result);
+          //console.log(result);
+          navigate("/plan", { state: { result } });
+        } else {
+          console.error("Failed to fetch data. Response status:", response.status);
         }
       } catch (error) {
         console.log("ERROR: " + error);
       } finally {
         setLoading(false);
-        navigate("/plan");
       }
     };
 

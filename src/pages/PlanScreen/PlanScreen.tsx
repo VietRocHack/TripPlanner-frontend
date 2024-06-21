@@ -2,37 +2,46 @@ import { Typography, Box, Button, Divider, Stack, Container, Stepper, Step, Step
 import FmdGoodIcon from '@mui/icons-material/FmdGood'
 import { useState } from "react"
 import ReactPlayer from 'react-player'
+import { useLocation } from "react-router-dom"
 
 // import { getActivities } from "../../api/activitiesApi";
 // import Footer from "../../components/Footer/Footer";
 // import React from "react";
 
-const steps = [
-  {
-    label: 'Visit Hanoi’s Famous Train Street',
-    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
-    videoUrl: 'https://www.youtube.com/watch?v=LXb3EKWsInQ'
-  },
-  {
-    label: 'Visit Uncle Ho’s Mausoleum',
-    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
-    videoUrl: 'https://www.youtube.com/watch?v=XggV42Kof0k'
-  },
-  {
-    label: 'End of Day',
-    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
-    videoUrl: 'https://www.youtube.com/watch?v=WRzvydkwSgg'
-  },
-];
+// const steps = [
+//   {
+//     label: 'Visit Hanoi’s Famous Train Street',
+//     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+//                 Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+//                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
+//     videoUrl: 'https://www.youtube.com/watch?v=LXb3EKWsInQ'
+//   },
+//   {
+//     label: 'Visit Uncle Ho’s Mausoleum',
+//     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+//                 Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+//                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
+//     videoUrl: 'https://www.youtube.com/watch?v=XggV42Kof0k'
+//   },
+//   {
+//     label: 'End of Day',
+//     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+//     Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+//     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
+//     videoUrl: 'https://www.youtube.com/watch?v=WRzvydkwSgg'
+//   },
+// ];
 
 const PlanScreen = () => {
   // const [data, setData] = useState(null);
+  const location = useLocation();
+  const { result } = location.state || { activities: [] };
+  console.log(result.activities);
+  const steps = result.activities.map((activity: any) => ({
+    label: activity.activity,
+    description: `Location: ${activity.location}\nTime: ${activity.startTime} - ${activity.endTime}`,
+    videoUrl: '', 
+  }));
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -151,7 +160,7 @@ const PlanScreen = () => {
               {/* Travel Detail Plan */}
               <Box sx={{ display: 'flex' }}>
                 <Stepper activeStep={activeStep} orientation="vertical">
-                  {steps.map((step, index) => (
+                  {steps.map((step: any, index: any) => (
                     <Step key={step.label}>
                       <StepLabel
                         optional={
