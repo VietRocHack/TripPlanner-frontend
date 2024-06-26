@@ -9,6 +9,16 @@ import {
 } from "@mui/material";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+
+const commonStyles = {
+  bgcolor: 'background.paper',
+  borderColor: 'text.primary',
+  m: 1,
+  border: 1,
+  width: '5rem',
+  height: '5rem',
+};
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
@@ -36,7 +46,10 @@ const HomeScreen: React.FC = () => {
           //console.log(result);
           navigate("/plan", { state: { result } });
         } else {
-          console.error("Failed to fetch data. Response status:", response.status);
+          console.error(
+            "Failed to fetch data. Response status:",
+            response.status
+          );
         }
       } catch (error) {
         console.log("ERROR: " + error);
@@ -151,6 +164,7 @@ const HomeScreen: React.FC = () => {
               direction: "column",
             }}
           >
+            {/* Describe vacation input field */}
             <TextField
               fullWidth
               label="Describe your dream vacation..."
@@ -159,7 +173,7 @@ const HomeScreen: React.FC = () => {
               onChange={handleChange}
               InputProps={{ style: { width: "auto" } }}
               sx={{
-                marginBottom: { xs: 2, sm: 0 },
+                marginBottom: { xs: 2, sm: 2 },
                 width: {
                   xs: 300,
                   sm: "calc(100% - 42px)",
@@ -169,7 +183,37 @@ const HomeScreen: React.FC = () => {
                 },
               }}
             />
-            <Button
+
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                width: {
+                  xs: 300,
+                  sm: "calc(100% - 42px)",
+                  md: 672,
+                  lg: 810,
+                  xl: 925,
+                },
+                marginBottom: { xs: 2, sm: 2 },
+              }}
+            >
+              {/* Import TikTok reel URL */}
+              <TextField
+                fullWidth
+                label="Input your TikTok URL reel"
+                id="search-bar"
+                variant="standard"
+                onChange={handleChange}
+                InputProps={{ style: { width: "auto" } }}
+                sx={{ marginBottom: { xs: 2, sm: 0 } }}
+              />
+              <FileUploadOutlinedIcon sx={{ fontSize: 40, marginLeft: 1 }} />
+            </Box>
+
+            <Box sx={{ ...commonStyles, borderRadius: 1 }} />
+
+            {/* <Button
               variant="outlined"
               onClick={handleButtonClick}
               sx={{
@@ -194,7 +238,7 @@ const HomeScreen: React.FC = () => {
               }}
             >
               Generate Travel
-            </Button>
+            </Button> */}
           </Box>
 
           <Typography
