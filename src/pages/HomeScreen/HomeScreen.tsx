@@ -10,24 +10,25 @@ import {
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-
-const commonStyles = {
-  bgcolor: 'background.paper',
-  borderColor: 'text.primary',
-  m: 1,
-  border: 1,
-  width: '5rem',
-  height: '5rem',
-};
+import IconButton from '@mui/material/IconButton';
+import file from "react-player/file";
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [videos, setVideos] = useState([]);
   const navigate = useNavigate();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTextInput(event.target.value);
   };
+
+  // const handleFileChange = (event: { target: { files: any[]; }; }) => {
+  //   const video = event.target.files[0]
+  //   if (video) {
+  //     setVideos((prevVideos) => [...prevVideos, URL.createObjectURL(file)])
+  //   }
+  // }  
 
   const handleButtonClick = () => {
     const fetchData = async (textInput: string) => {
@@ -208,12 +209,43 @@ const HomeScreen: React.FC = () => {
                 InputProps={{ style: { width: "auto" } }}
                 sx={{ marginBottom: { xs: 2, sm: 0 } }}
               />
-              <FileUploadOutlinedIcon sx={{ fontSize: 40, marginLeft: 1 }} />
+              {/* <IconButton color="primary" aria-label="upload video" component="span" onChange={handleVideo}>
+                <FileUploadOutlinedIcon sx={{ fontSize: 40 }} />
+              </IconButton> */}
+
+              <input
+                accept="video/*"
+                style={{ display: 'none' }}
+                id="video-upload"
+                type="file"
+                //onChange={handleFileChange}
+              />
+              <label htmlFor="video-upload">
+                <IconButton 
+                  color="primary" 
+                  aria-label="upload video" 
+                  component="span" 
+                  sx={{ 
+                    width: 56, 
+                    height: 56, 
+                    marginLeft: 1 
+                  }}
+                >
+                  <FileUploadOutlinedIcon sx={{ fontSize: 40 }} />
+                </IconButton>
+              </label>
+              
             </Box>
 
-            <Box sx={{ ...commonStyles, borderRadius: 1 }} />
+            {/* Display the list of uploaded videos */}
+            <div>
+              {videos.map((video, index) => (
+                <video key={index} controls width="250" src={video}></video>
+              ))}
+            </div>
 
-            {/* <Button
+
+            <Button
               variant="outlined"
               onClick={handleButtonClick}
               sx={{
@@ -238,7 +270,7 @@ const HomeScreen: React.FC = () => {
               }}
             >
               Generate Travel
-            </Button> */}
+            </Button>
           </Box>
 
           <Typography
