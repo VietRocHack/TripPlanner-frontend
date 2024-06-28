@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -6,23 +6,40 @@ import {
   Typography,
   Link,
   Container,
+  Grid,
 } from "@mui/material";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import IconButton from '@mui/material/IconButton';
-import file from "react-player/file";
+import ReactPlayer from 'react-player'
+
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState<string[]>([]);
   const navigate = useNavigate();
+  const fakeData = [
+    'https://www.youtube.com/watch?v=LXb3EKWsInQ',
+    'https://www.youtube.com/watch?v=ScMzIvxBSi4',
+  ];
 
+  const handleAddVideo = () => {
+    if (textInput) {
+      setVideos((prevVideos) => [...prevVideos, textInput])
+      setTextInput("")
+    }
+
+  }
+  
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTextInput(event.target.value);
   };
-
+  
+  useEffect(() => {
+    setVideos(fakeData);
+  }, []);
   // const handleFileChange = (event: { target: { files: any[]; }; }) => {
   //   const video = event.target.files[0]
   //   if (video) {
@@ -225,6 +242,7 @@ const HomeScreen: React.FC = () => {
                   color="primary" 
                   aria-label="upload video" 
                   component="span" 
+                  onClick={handleAddVideo}
                   sx={{ 
                     width: 56, 
                     height: 56, 
@@ -237,12 +255,27 @@ const HomeScreen: React.FC = () => {
               
             </Box>
 
-            {/* Display the list of uploaded videos */}
-            <div>
-              {videos.map((video, index) => (
-                <video key={index} controls width="250" src={video}></video>
+            <Grid container spacing={2}>
+              {videos.slice(0, 10).map((url, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: '300px',
+                      overflow: 'hidden',
+                      position: 'relative',
+                    }}
+                  >
+                    <ReactPlayer
+                      url={url}
+                      width='100%'
+                      height='100%'
+                      style={{ position: 'absolute', top: 0, left: 0 }}
+                    />
+                  </Box>
+                </Grid>
               ))}
-            </div>
+            </Grid>
 
 
             <Button
