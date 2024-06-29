@@ -10,42 +10,67 @@ import {
 } from "@mui/material";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import IconButton from '@mui/material/IconButton';
-import ReactPlayer from 'react-player'
-
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import IconButton from "@mui/material/IconButton";
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [videos, setVideos] = useState<string[]>([]);
+  const [embedHtml, setEmbedHtml] = useState(""); //store cái html để hiển thị video lên trang web
+  const [vid, setVid] = useState<string>(""); //store url của vid
+  const [listVid, setListVid] = useState<string[]>([]); //list to display all videos
   const navigate = useNavigate();
-  const fakeData = [
-    'https://www.youtube.com/watch?v=LXb3EKWsInQ',
-    'https://www.youtube.com/watch?v=ScMzIvxBSi4',
-  ];
 
-  const handleAddVideo = () => {
-    if (textInput) {
-      setVideos((prevVideos) => [...prevVideos, textInput])
-      setTextInput("")
-    }
-
-  }
-  
+  /**
+   * handle khi nhập url vào cái form field
+   * @param event 
+   */
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTextInput(event.target.value);
   };
-  
+
+/**
+ * Khi mà embedhtml nhận được url để hiện thị tiktok video, useEffect chạy để display video đó lên trang web
+ */
   useEffect(() => {
-    setVideos(fakeData);
-  }, []);
-  // const handleFileChange = (event: { target: { files: any[]; }; }) => {
-  //   const video = event.target.files[0]
-  //   if (video) {
-  //     setVideos((prevVideos) => [...prevVideos, URL.createObjectURL(file)])
-  //   }
-  // }  
+    if (embedHtml) {
+      const script = document.createElement("script");
+      script.src = "https://www.tiktok.com/embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [embedHtml]);
+
+  //function to fetch tiktok video
+  const fetchTikTok = async () => {
+    try {
+      const response = await fetch(`https://www.tiktok.com/oembed?url=${vid}`, {
+        method: "GET",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setEmbedHtml(data.html); //giữ lấy cái html để hiển thị vid
+        setListVid([...listVid, data.html]); //add vid vào list
+      }
+    } catch (error) {
+      console.error("Damn bro", error);
+    }
+  };
+
+  /**
+   * Chạy khi click upload button
+   */
+  const handleUpLoad = () => {
+    fetchTikTok(); //fetch tiktok video
+  };
+
+  const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
+    setVid(event.target.value);
+  };
 
   const handleButtonClick = () => {
     const fetchData = async (textInput: string) => {
@@ -61,7 +86,6 @@ const HomeScreen: React.FC = () => {
         );
         if (response.ok) {
           const result = await response.json();
-          //console.log(result);
           navigate("/plan", { state: { result } });
         } else {
           console.error(
@@ -216,67 +240,57 @@ const HomeScreen: React.FC = () => {
                 marginBottom: { xs: 2, sm: 2 },
               }}
             >
-              {/* Import TikTok reel URL */}
               <TextField
                 fullWidth
                 label="Input your TikTok URL reel"
                 id="search-bar"
                 variant="standard"
-                onChange={handleChange}
+                onChange={handleVid}
+                value={vid}
                 InputProps={{ style: { width: "auto" } }}
                 sx={{ marginBottom: { xs: 2, sm: 0 } }}
               />
-              {/* <IconButton color="primary" aria-label="upload video" component="span" onChange={handleVideo}>
-                <FileUploadOutlinedIcon sx={{ fontSize: 40 }} />
-              </IconButton> */}
 
               <input
-                accept="video/*"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 id="video-upload"
-                type="file"
-                //onChange={handleFileChange}
+                type="text"
+                value={vid}
               />
               <label htmlFor="video-upload">
-                <IconButton 
-                  color="primary" 
-                  aria-label="upload video" 
-                  component="span" 
-                  onClick={handleAddVideo}
-                  sx={{ 
-                    width: 56, 
-                    height: 56, 
-                    marginLeft: 1 
+                <IconButton
+                  color="primary"
+                  aria-label="upload video"
+                  component="span"
+                  onClick={handleUpLoad}
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    marginLeft: 1,
                   }}
                 >
                   <FileUploadOutlinedIcon sx={{ fontSize: 40 }} />
                 </IconButton>
               </label>
-              
             </Box>
 
-            <Grid container spacing={2}>
-              {videos.slice(0, 10).map((url, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: '300px',
-                      overflow: 'hidden',
-                      position: 'relative',
-                    }}
-                  >
-                    <ReactPlayer
-                      url={url}
-                      width='100%'
-                      height='100%'
-                      style={{ position: 'absolute', top: 0, left: 0 }}
-                    />
-                  </Box>
-                </Grid>
-              ))}
+            <Grid item xs={12} sm={6} md={4}>
+              <Box
+                sx={{
+                  position: "relative",
+                }}
+              >
+                {embedHtml ? (
+                  <ul>
+                    {listVid.map((video, index) => (
+                      <ul key={index} dangerouslySetInnerHTML={{ __html: video }} />
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Loading...</p>
+                )}
+              </Box>
             </Grid>
-
 
             <Button
               variant="outlined"
