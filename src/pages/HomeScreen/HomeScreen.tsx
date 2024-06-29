@@ -277,10 +277,17 @@ const HomeScreen: React.FC = () => {
             </Box>
 
             {embedHtml ? (
-              <Grid container spacing={2} sx={{ flexGrow: 1, bgcolor: 'lightgreen' }}>
+              <Grid container spacing={2} sx={{ flexGrow: 1 }}>
                 {listVid.map((video, index) => (
-                  <Grid item xs={6} sm={4} md={3} key={index} >
-                      <div dangerouslySetInnerHTML={{ __html: video }} style={{ objectFit: 'cover' }}/>
+                  <Grid item xs={6} sm={4} md={3.5} key={index} 
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    paddingBottom: '49%',
+                    position: 'relative',
+                    overflow: 'hidden',
+                  }}>
+                      <Box dangerouslySetInnerHTML={{ __html: video }} style={{ position: 'absolute', objectFit: 'cover', borderRadius: '5px' }}/>
                   </Grid>
                 ))}
               </Grid>
@@ -294,7 +301,7 @@ const HomeScreen: React.FC = () => {
               variant="outlined"
               onClick={handleButtonClick}
               sx={{
-                marginTop: { xs: 2, sm: 3 },
+                marginTop: { xs: 1, sm: 2 },
                 width: "240px",
                 height: "50px",
                 padding: "17px 32px",
