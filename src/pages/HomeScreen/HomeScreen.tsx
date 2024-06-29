@@ -12,6 +12,7 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import IconButton from "@mui/material/IconButton";
+import { InsertEmoticon } from "@mui/icons-material";
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
@@ -57,7 +58,7 @@ const HomeScreen: React.FC = () => {
         setListVid([...listVid, data.html]); //add vid vào list
       }
     } catch (error) {
-      console.error("Damn bro", error);
+      console.error("Can not receive the url", error);
     }
   };
 
@@ -66,6 +67,7 @@ const HomeScreen: React.FC = () => {
    */
   const handleUpLoad = () => {
     fetchTikTok(); //fetch tiktok video
+    setVid("")
   };
 
   const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
@@ -274,23 +276,19 @@ const HomeScreen: React.FC = () => {
               </label>
             </Box>
 
-            <Grid item xs={12} sm={6} md={4}>
-              <Box
-                sx={{
-                  position: "relative",
-                }}
-              >
-                {embedHtml ? (
-                  <ul>
-                    {listVid.map((video, index) => (
-                      <ul key={index} dangerouslySetInnerHTML={{ __html: video }} />
-                    ))}
-                  </ul>
-                ) : (
-                  <p>Loading...</p>
-                )}
-              </Box>
-            </Grid>
+            {embedHtml ? (
+              <Grid container spacing={2} sx={{ flexGrow: 1, bgcolor: 'lightgreen' }}>
+                {listVid.map((video, index) => (
+                  <Grid item xs={6} sm={4} md={3} key={index} >
+                      <div dangerouslySetInnerHTML={{ __html: video }} style={{ objectFit: 'cover' }}/>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <></>
+            )}
+              
+            
 
             <Button
               variant="outlined"
