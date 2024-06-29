@@ -12,7 +12,7 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import IconButton from "@mui/material/IconButton";
-import { InsertEmoticon } from "@mui/icons-material";
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
@@ -69,6 +69,10 @@ const HomeScreen: React.FC = () => {
     fetchTikTok(); //fetch tiktok video
     setVid("")
   };
+
+  const deleteVideo = (index: number) => {
+    setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
+  }
 
   const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
     setVid(event.target.value);
@@ -279,23 +283,52 @@ const HomeScreen: React.FC = () => {
             {embedHtml ? (
               <Grid container spacing={2} sx={{ flexGrow: 1 }}>
                 {listVid.map((video, index) => (
-                  <Grid item xs={6} sm={4} md={3.5} key={index} 
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    paddingBottom: '49%',
-                    position: 'relative',
-                    overflow: 'hidden',
-                  }}>
-                      <Box dangerouslySetInnerHTML={{ __html: video }} style={{ position: 'absolute', objectFit: 'cover', borderRadius: '5px' }}/>
+                  <Grid
+                    item
+                    xs={6}
+                    sm={4}
+                    md={3.5}
+                    key={index}
+                    sx={{
+                      width: "100%",
+                      maxHeight: "50%",
+                      paddingBottom: "49%",
+                      position: "relative",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Box
+                      dangerouslySetInnerHTML={{ __html: video }}
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "5px",
+                      }}
+                    />
+                    <ClearOutlinedIcon
+                      onClick={() => deleteVideo(index)}
+                      sx={{
+                        position: "absolute",
+                        top: 30,
+                        left: 30,
+                        color: "red",
+                        backgroundColor: "white",
+                        borderRadius: "50%",
+                        padding: "2px",
+                        cursor: "pointer",
+                        zIndex: 1,
+                      }}
+                    />
                   </Grid>
                 ))}
               </Grid>
             ) : (
               <></>
             )}
-              
-            
 
             <Button
               variant="outlined"
