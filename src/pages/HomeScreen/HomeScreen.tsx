@@ -1,23 +1,17 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Link,
-  Grid,
-} from "@mui/material";
+import { TextField, Button, Box, Typography, Link, Grid, Container } from "@mui/material";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import IconButton from "@mui/material/IconButton";
+import background from "../../assets/background.jpeg";
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [embedHtml, setEmbedHtml] = useState(""); //store cái html để hiển thị video lên trang web
-  const [vid, setVid] = useState<string>(""); //store url của vid
-  const [listVid, setListVid] = useState<string[]>([]); //list to display all videos
+  const [embedHtml, setEmbedHtml] = useState(""); 
+  const [vid, setVid] = useState<string>(""); 
+  const [listVid, setListVid] = useState<string[]>([]);
   const navigate = useNavigate();
 
   /**
@@ -53,7 +47,7 @@ const HomeScreen: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setEmbedHtml(data.html); //giữ lấy cái html để hiển thị vid
-        setListVid([...listVid, data]); //add vid vào list
+        setListVid([...listVid, data.html]); //add vid vào list
       }
     } catch (error) {
       console.error("Can not receive the url", error);
@@ -108,256 +102,275 @@ const HomeScreen: React.FC = () => {
   };
 
   return (
-    <Box
-      component="section"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        //justifyContent: "center",
-        //height: (embedHtml) ? "100vh" : "200vh",
-        height: '200vh',
-        width: "70vw",
-        margin: 0,
-        padding: 0,
-        flexGrow: 1,
-        boxSizing: "border-box",
-        "@media (max-width: 600px)": {
-          padding: "0 10px",
-        },
-      }}
-    >
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <>
-          <Box
-            maxWidth="xl"
-            sx={{
-              position: "relative",
-              height: "100px",
-              width: "100%",
-              textAlign: "left",
-              marginTop: "300px"
-            }}
-          >
-            <Typography
-              variant="h2"
+      <Box
+        component="section"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          flexGrow: 1,
+          backgroundImage: `url(${background})`,
+          backgroundSize: 'cover',
+          //backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          backgroundPosition: 'center',
+          "@media (max-width: 600px)": {
+            padding: "0 10px",
+          },
+        }}
+      >
+        {loading ? (
+          <LoadingScreen />
+        ) : (
+          <Container>
+            <Box
               sx={{
-                fontWeight: "bold",
-                position: "absolute",
-                top: "3px",
-                left: "3px",
-                color: "#FE285880",
-                fontSize: {
-                  xs: "3rem",
-                  sm: "3rem",
-                  md: "2.9em",
-                  lg: "3.5rem",
-                  xl: "4rem",
-                },
-              }}
-            >
-              Discover your perfect getaway.
-            </Typography>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: "bold",
-                position: "absolute",
-                top: 0,
-                left: 0,
-                color: "#2AF0EA80",
-                fontSize: {
-                  xs: "3rem",
-                  sm: "3rem",
-                  md: "2.9rem",
-                  lg: "3.5rem",
-                  xl: "4rem",
-                },
-              }}
-            >
-              Discover your perfect getaway.
-            </Typography>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: "bold",
-                position: "absolute",
-                top: "1.5px",
-                left: "1.5px",
-                color: "white",
-                fontSize: {
-                  xs: "3rem",
-                  sm: "3rem",
-                  md: "2.9rem",
-                  lg: "3.5rem",
-                  xl: "4rem",
-                },
-              }}
-            >
-              Discover your perfect getaway.
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              width: "100%",
-              margin: 0,
-              padding: 0,
-              marginTop: { xs: 20, sm: 10, md: 5, lg: 2 },
-              textAlign: "left",
-              direction: "column",
-            }}
-          >
-            {/* Describe vacation input field */}
-            <TextField
-              fullWidth
-              label="Describe your dream vacation..."
-              id="search-bar"
-              variant="outlined"
-              onChange={handleChange}
-              InputProps={{ style: { width: "auto" } }}
-              sx={{
-                marginBottom: { xs: 2, sm: 2 },
-                width: {
-                  xs: 300,
-                  sm: "calc(100% - 42px)",
-                  md: 672,
-                  lg: 810,
-                  xl: 925,
-                },
-              }}
-            />
-
-            <Typography
-              variant="body1"
-              paragraph
-              sx={{
-                bottom: 0,
-                left: 0,
+                display: "block",
+                position: "relative",
+                height: "100px",
                 width: "100%",
                 textAlign: "left",
-                marginBottom: 2,
+                marginTop: "200px",
               }}
             >
-              By using our website, you agree to our{" "}
-              <Link href="/privacy-policy" color="primary" underline="hover">
-                Privacy Policy
-              </Link>{" "}
-              and{" "}
-              <Link
-                href="/terms-and-conditions"
-                color="primary"
-                underline="hover"
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: "bold",
+                  position: "absolute",
+                  top: "3px",
+                  left: "3px",
+                  color: "#FE285880",
+                  fontSize: {
+                    xs: "3rem",
+                    sm: "3rem",
+                    md: "2.9em",
+                    lg: "3.5rem",
+                    xl: "4rem",
+                  },
+                }}
               >
-                Terms and Conditions
-              </Link>
-              .
-            </Typography>
+                Discover your perfect getaway.
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: "bold",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  color: "#2AF0EA80",
+                  fontSize: {
+                    xs: "3rem",
+                    sm: "3rem",
+                    md: "2.9rem",
+                    lg: "3.5rem",
+                    xl: "4rem",
+                  },
+                }}
+              >
+                Discover your perfect getaway.
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontWeight: "bold",
+                  position: "absolute",
+                  top: "1.5px",
+                  left: "1.5px",
+                  color: "white",
+                  fontSize: {
+                    xs: "3rem",
+                    sm: "3rem",
+                    md: "2.9rem",
+                    lg: "3.5rem",
+                    xl: "4rem",
+                  },
+                }}
+              >
+                Discover your perfect getaway.
+              </Typography>
+            </Box>
 
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
-                width: {
-                  xs: 300,
-                  sm: "calc(100% - 42px)",
-                  md: 672,
-                  lg: 810,
-                  xl: 925,
-                },
-                marginBottom: { xs: 2, sm: 2 },
+                flexDirection: "column",
+                alignItems: "flex-start",
+                width: "100%",
+                margin: 0,
+                padding: 0,
+                marginTop: { xs: 20, sm: 10, md: 5, lg: 2 },
+                textAlign: "left",
+                direction: "column",
               }}
             >
+              {/* Describe vacation input field */}
               <TextField
                 fullWidth
-                label="Input your TikTok URL reel"
+                label="Describe your dream vacation..."
                 id="search-bar"
-                variant="standard"
-                onChange={handleVid}
-                value={vid}
-                InputProps={{ style: { width: "auto" } }}
-                sx={{ marginBottom: { xs: 2, sm: 0 } }}
+                variant="outlined"
+                onChange={handleChange}
+                InputProps={{
+                  style: { width: "auto" },
+                  sx: {
+                    color: 'white', // Text color
+                    backgroundColor: 'rgba(128, 128, 128, 0.5)', // Grey with transparency
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': {
+                        borderColor: 'white', // Border color when not focused
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'white', // Border color when hovered
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: 'white', // Border color when focused
+                      },
+                    },
+                  },
+                }}
+                InputLabelProps={{
+                  sx: {
+                    color: 'white', // Label color
+                    '&.Mui-focused': {
+                      color: 'white', // Label color when focused
+                    },
+                  },
+                }}
+                sx={{
+                  marginBottom: { xs: 2, sm: 2 },
+                  width: {
+                    xs: 300,
+                    sm: "calc(100% - 42px)",
+                    md: 672,
+                    lg: 810,
+                    xl: 925,
+                  },
+                  '& .MuiInputBase-input': {
+                    color: 'white', // Text color inside the input
+                  },
+                }}
               />
 
-              <input
-                style={{ display: "none" }}
-                id="video-upload"
-                type="text"
-                value={vid}
-              />
-              <label htmlFor="video-upload">
-                <IconButton
+              <Typography
+                variant="body2"
+                paragraph
+                sx={{
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  textAlign: "left",
+                  marginBottom: 2,
+                  color: 'white'
+                }}
+              >
+                By using our website, you agree to our{" "}
+                <Link href="/privacy-policy" color="primary" underline="hover">
+                  Privacy Policy
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/terms-and-conditions"
                   color="primary"
-                  aria-label="upload video"
-                  component="span"
-                  onClick={handleUpLoad}
-                  sx={{
-                    width: 56,
-                    height: 56,
-                    marginLeft: 1,
-                  }}
+                  underline="hover"
                 >
-                  <FileUploadOutlinedIcon sx={{ fontSize: 40 }} />
-                </IconButton>
-              </label>
-            </Box>
+                  Terms and Conditions
+                </Link>
+                .
+              </Typography>
 
-            {embedHtml ? (
-              <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-                {listVid.map((video, index) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={3.5}
-                    key={index}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  width: {
+                    xs: 300,
+                    sm: "calc(100% - 42px)",
+                    md: 672,
+                    lg: 810,
+                    xl: 925,
+                  },
+                  marginBottom: { xs: 2, sm: 2 },
+                }}
+              >
+                <TextField
+                  fullWidth
+                  label="Input your TikTok URL reel"
+                  id="search-bar"
+                  variant="standard"
+                  onChange={handleVid}
+                  value={vid}
+                  InputProps={{ style: { width: "auto" } }}
+                  sx={{ marginBottom: { xs: 2, sm: 0 } }}
+                />
+
+                <input
+                  style={{ display: "none" }}
+                  id="video-upload"
+                  type="text"
+                  value={vid}
+                />
+                <label htmlFor="video-upload">
+                  <IconButton
+                    color="primary"
+                    aria-label="upload video"
+                    component="span"
+                    onClick={handleUpLoad}
+                    sx={{
+                      width: 56,
+                      height: 56,
+                      marginLeft: 1,
+                    }}
                   >
-                    <Box
-                      dangerouslySetInnerHTML={{ __html: video }}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <></>
-            )}
+                    <FileUploadOutlinedIcon sx={{ fontSize: 40 }} />
+                  </IconButton>
+                </label>
+              </Box>
 
-            <Button
-              variant="outlined"
-              onClick={handleButtonClick}
-              sx={{
-                marginTop: { xs: 1, sm: 2 },
-                width: "240px",
-                height: "50px",
-                padding: "17px 32px",
-                border: "2px solid #FE285880",
-                borderRadius: "4px",
-                color: "transparent",
-                background: `linear-gradient(225deg, #00F5FE, #EEF0F2, #FF3E85)`,
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                "&:hover": {
-                  backgroundColor: "#0A0A0A",
-                  borderColor: "#2AF0EA80",
-                  boxShadow: "0px 0px 0px 2px #2AF0EA80",
-                },
-                "&:active": {
-                  boxShadow: "inset 0px 0px 0px 2px #FE285880",
-                },
-              }}
-            >
-              Generate Travel
-            </Button>
-          </Box>
+              {embedHtml ? (
+                <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                  {listVid.map((video, index) => (
+                    <Grid item xs={12} sm={6} md={3.5} key={index}>
+                      <Box dangerouslySetInnerHTML={{ __html: video }} />
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : (
+                <></>
+              )}
 
-        </>
-      )}
-    </Box>
+              <Button
+                variant="outlined"
+                onClick={handleButtonClick}
+                sx={{
+                  marginTop: { xs: 1, sm: 2 },
+                  width: "240px",
+                  height: "50px",
+                  padding: "17px 32px",
+                  border: "2px solid #FE285880",
+                  borderRadius: "4px",
+                  color: "transparent",
+                  background: `linear-gradient(225deg, #00F5FE, #EEF0F2, #FF3E85)`,
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  "&:hover": {
+                    backgroundColor: "#0A0A0A",
+                    borderColor: "#2AF0EA80",
+                    boxShadow: "0px 0px 0px 2px #2AF0EA80",
+                  },
+                  "&:active": {
+                    boxShadow: "inset 0px 0px 0px 2px #FE285880",
+                  },
+                }}
+              >
+                Generate Travel
+              </Button>
+            </Box>
+          </Container>
+        )}
+      </Box>
   );
 };
 
