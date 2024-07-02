@@ -11,9 +11,6 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import IconButton from "@mui/material/IconButton";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import AspectRatio from '@mui/joy/AspectRatio';
-import "./HomeScreen.css";
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
@@ -71,9 +68,9 @@ const HomeScreen: React.FC = () => {
     setVid("")
   };
 
-  const deleteVideo = (index: number) => {
-    setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
-  }
+  // const deleteVideo = (index: number) => {
+  //   setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
+  // }
 
   const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
     setVid(event.target.value);
