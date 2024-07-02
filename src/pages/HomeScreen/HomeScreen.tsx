@@ -5,7 +5,6 @@ import {
   Box,
   Typography,
   Link,
-  Container,
   Grid,
 } from "@mui/material";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
@@ -13,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import IconButton from "@mui/material/IconButton";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import AspectRatio from '@mui/joy/AspectRatio';
+import "./HomeScreen.css";
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
@@ -55,7 +56,7 @@ const HomeScreen: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setEmbedHtml(data.html); //giữ lấy cái html để hiển thị vid
-        setListVid([...listVid, data.html]); //add vid vào list
+        setListVid([...listVid, data]); //add vid vào list
       }
     } catch (error) {
       console.error("Can not receive the url", error);
@@ -116,11 +117,13 @@ const HomeScreen: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
+        //justifyContent: "center",
+        //height: (embedHtml) ? "100vh" : "200vh",
+        height: '200vh',
         width: "70vw",
         margin: 0,
         padding: 0,
+        flexGrow: 1,
         boxSizing: "border-box",
         "@media (max-width: 600px)": {
           padding: "0 10px",
@@ -131,13 +134,14 @@ const HomeScreen: React.FC = () => {
         <LoadingScreen />
       ) : (
         <>
-          <Container
+          <Box
             maxWidth="xl"
             sx={{
               position: "relative",
-              height: "10%",
+              height: "100px",
               width: "100%",
               textAlign: "left",
+              marginTop: "300px"
             }}
           >
             <Typography
@@ -197,7 +201,7 @@ const HomeScreen: React.FC = () => {
             >
               Discover your perfect getaway.
             </Typography>
-          </Container>
+          </Box>
 
           <Box
             sx={{
@@ -231,6 +235,32 @@ const HomeScreen: React.FC = () => {
                 },
               }}
             />
+
+            <Typography
+              variant="body1"
+              paragraph
+              sx={{
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                textAlign: "left",
+                marginBottom: 2,
+              }}
+            >
+              By using our website, you agree to our{" "}
+              <Link href="/privacy-policy" color="primary" underline="hover">
+                Privacy Policy
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/terms-and-conditions"
+                color="primary"
+                underline="hover"
+              >
+                Terms and Conditions
+              </Link>
+              .
+            </Typography>
 
             <Box
               sx={{
@@ -285,43 +315,13 @@ const HomeScreen: React.FC = () => {
                 {listVid.map((video, index) => (
                   <Grid
                     item
-                    xs={6}
-                    sm={4}
+                    xs={12}
+                    sm={6}
                     md={3.5}
                     key={index}
-                    sx={{
-                      width: "100%",
-                      maxHeight: "50%",
-                      paddingBottom: "49%",
-                      position: "relative",
-                      overflow: "hidden",
-                    }}
                   >
                     <Box
                       dangerouslySetInnerHTML={{ __html: video }}
-                      sx={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        borderRadius: "5px",
-                      }}
-                    />
-                    <ClearOutlinedIcon
-                      onClick={() => deleteVideo(index)}
-                      sx={{
-                        position: "absolute",
-                        top: 30,
-                        left: 30,
-                        color: "red",
-                        backgroundColor: "white",
-                        borderRadius: "50%",
-                        padding: "2px",
-                        cursor: "pointer",
-                        zIndex: 1,
-                      }}
                     />
                   </Grid>
                 ))}
@@ -358,32 +358,6 @@ const HomeScreen: React.FC = () => {
             </Button>
           </Box>
 
-          <Typography
-            variant="body1"
-            paragraph
-            sx={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              textAlign: "center",
-              marginBottom: 2,
-            }}
-          >
-            By using our website, you agree to our{" "}
-            <Link href="/privacy-policy" color="primary" underline="hover">
-              Privacy Policy
-            </Link>{" "}
-            and{" "}
-            <Link
-              href="/terms-and-conditions"
-              color="primary"
-              underline="hover"
-            >
-              Terms and Conditions
-            </Link>
-            .
-          </Typography>
         </>
       )}
     </Box>
