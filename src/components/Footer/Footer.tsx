@@ -2,7 +2,7 @@ import { Typography, Link, Box } from '@mui/material';
 
 const Footer = () => {
   return (
-    <Box component="footer" sx={{ py: 3, textAlign: 'center', borderTop: '1px solid #ddd', mt: 4 }}>
+    <Box component="footer" sx={{ py: 3, textAlign: 'center', borderTop: '1px solid #ddd', width: '100vw'}}>
         <Typography variant="body1">
           <Link href="/privacy-policy" color="inherit" underline="hover">
             Privacy Policy

@@ -5,6 +5,7 @@ import PlanScreen from './pages/PlanScreen/PlanScreen'
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService/TermsOfService'
 import Footer from './components/Footer/Footer'
+import GetStartedScreen from './pages/GetStartedScreen/GetStartedScreen'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/plan" element={<PlanScreen />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsOfService />} />
+        <Route path="/get-started" element={<GetStartedScreen />}/>
       </Routes>
       <Footer />
     </Router>
