@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import IconButton from "@mui/material/IconButton";
 import background from "../../assets/background.jpeg";
+import AspectRatio from "@mui/joy/AspectRatio";
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
@@ -108,7 +109,7 @@ const HomeScreen: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          height: "100vh",
+          height: "200vh",
           width: "100vw",
           flexGrow: 1,
           backgroundImage: `url(${background})`,
@@ -302,8 +303,9 @@ const HomeScreen: React.FC = () => {
                   variant="standard"
                   onChange={handleVid}
                   value={vid}
+                  color="primary"
                   InputProps={{ style: { width: "auto" } }}
-                  sx={{ marginBottom: { xs: 2, sm: 0 } }}
+                  sx={{ marginBottom: { xs: 2, sm: 0 }, input: { color: "white" } }}
                 />
 
                 <input
@@ -333,7 +335,16 @@ const HomeScreen: React.FC = () => {
                 <Grid container spacing={2} sx={{ flexGrow: 1 }}>
                   {listVid.map((video, index) => (
                     <Grid item xs={12} sm={6} md={3.5} key={index}>
-                      <Box dangerouslySetInnerHTML={{ __html: video }} />
+                      <AspectRatio
+                        ratio="9/16"
+                        sx={{ borderRadius: "20px" }}
+                      >
+                        <iframe 
+                          className="tiktok-embed"
+                          src="https://www.tiktok.com/player/v1/6718335390845095173?rel=0&description=1"
+                          style={{ borderRadius:"inherit" }}
+                        />
+                      </AspectRatio>
                     </Grid>
                   ))}
                 </Grid>
