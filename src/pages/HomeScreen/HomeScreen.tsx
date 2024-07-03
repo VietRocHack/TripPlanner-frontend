@@ -1,10 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { TextField, Button, Box, Typography, Link, Grid, Container } from "@mui/material";
+import { TextField, Button, Box, Grid, Container } from "@mui/material";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import IconButton from "@mui/material/IconButton";
 import background from "../../assets/background.jpeg";
+import Catchphrase from "./Catchphrase";
+import TermsAndConditionsTextLine from "./TermsAndConditions";
 import AspectRatio from "@mui/joy/AspectRatio";
 
 const HomeScreen: React.FC = () => {
@@ -125,74 +127,7 @@ const HomeScreen: React.FC = () => {
           <LoadingScreen />
         ) : (
           <Container>
-            <Box
-              sx={{
-                display: "block",
-                position: "relative",
-                height: "100px",
-                width: "100%",
-                textAlign: "left",
-                marginTop: "200px",
-              }}
-            >
-              <Typography
-                variant="h2"
-                sx={{
-                  fontWeight: "bold",
-                  position: "absolute",
-                  top: "3px",
-                  left: "3px",
-                  color: "#FE285880",
-                  fontSize: {
-                    xs: "3rem",
-                    sm: "3rem",
-                    md: "2.9em",
-                    lg: "3.5rem",
-                    xl: "4rem",
-                  },
-                }}
-              >
-                Discover your perfect getaway.
-              </Typography>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontWeight: "bold",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  color: "#2AF0EA80",
-                  fontSize: {
-                    xs: "3rem",
-                    sm: "3rem",
-                    md: "2.9rem",
-                    lg: "3.5rem",
-                    xl: "4rem",
-                  },
-                }}
-              >
-                Discover your perfect getaway.
-              </Typography>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontWeight: "bold",
-                  position: "absolute",
-                  top: "1.5px",
-                  left: "1.5px",
-                  color: "white",
-                  fontSize: {
-                    xs: "3rem",
-                    sm: "3rem",
-                    md: "2.9rem",
-                    lg: "3.5rem",
-                    xl: "4rem",
-                  },
-                }}
-              >
-                Discover your perfect getaway.
-              </Typography>
-            </Box>
+            <Catchphrase/>
 
             <Box
               sx={{
@@ -255,32 +190,7 @@ const HomeScreen: React.FC = () => {
                 }}
               />
 
-              <Typography
-                variant="body2"
-                paragraph
-                sx={{
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  textAlign: "left",
-                  marginBottom: 2,
-                  color: 'white'
-                }}
-              >
-                By using our website, you agree to our{" "}
-                <Link href="/privacy-policy" color="primary" underline="hover">
-                  Privacy Policy
-                </Link>{" "}
-                and{" "}
-                <Link
-                  href="/terms-and-conditions"
-                  color="primary"
-                  underline="hover"
-                >
-                  Terms and Conditions
-                </Link>
-                .
-              </Typography>
+              <TermsAndConditionsTextLine/>
 
               <Box
                 sx={{
