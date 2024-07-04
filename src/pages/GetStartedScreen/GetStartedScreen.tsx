@@ -4,6 +4,7 @@ import Catchphrase from "../HomeScreen/Catchphrase";
 import { Button, Typography } from "@mui/material";
 // import HorizontalStepper from "../../components/Stepper/HorizontalStepper";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
+import VideoSelector from "../../components/VideoSelector/VideoSelector";
 
 const GetStartedScreen: React.FC = () => {
     return (
@@ -20,7 +21,12 @@ const GetStartedScreen: React.FC = () => {
           <Button>Get started</Button>
           <CustomHorizontalStepper 
           steps={["Step 1", "Step 2", "Step 3"]}
-          nodes={[<>1</>, <>2</>, <>3</>, <>end</>]}
+          nodes={[
+            <>1</>,
+            <VideoSelector steps={["something"]}/>,
+            <>3</>,
+            <>end</>
+          ]}
           />
         </div>
       </>
