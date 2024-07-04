@@ -20,7 +20,7 @@ const GetStartedScreen: React.FC = () => {
             in mind.
           </Typography>
           <Button>Get started</Button>
-          
+
         </div>
       </>
     );

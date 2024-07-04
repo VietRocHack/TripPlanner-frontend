@@ -4,7 +4,7 @@
   left: -50%; 
   width: 200%; 
   height: 200%;
-  z-index: -0.99;
+  z-index: -99;
 }
 .bg img {
   position: absolute; 
@@ -17,16 +17,6 @@
   min-height: 50%;
   opacity: 50%;
 }
-
-/* .bg .bg-dark-cover {
-  position: absolute; 
-  top: 0; 
-  left: 0; 
-  right: 0; 
-  bottom: 0; 
-  background-color: black;
-  z-index: ;
-} */
 
 .main-flex {
   display: flex;
