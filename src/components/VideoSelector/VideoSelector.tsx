@@ -56,6 +56,11 @@ export default function VideoSelector() {
   const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
     setVid(event.target.value);
   };
+
+  const handleDeleteVid = (index: number) => {
+    setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
+  }
+
   return (
     <Box
       sx={{
@@ -169,7 +174,7 @@ export default function VideoSelector() {
                     />
                     <IconButton
                       color="warning"
-                      onClick={()=>{}}
+                      onClick={() => { handleDeleteVid(index) }}
                       disableRipple={true}
                     >
                       <DeleteIcon />
