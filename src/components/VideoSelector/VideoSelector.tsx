@@ -1,6 +1,12 @@
-import { Box, Button, Grid, IconButton, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
+import { cleanTikTokVideoURL } from "../../utils/utils";
+
+interface TikTokVideoObject {
+  url: string,
+  id: string,
+}
 
 // import Typography from "@mui/material/Typography";
 
@@ -13,14 +19,22 @@ import AspectRatio from "@mui/joy/AspectRatio";
  */
 export default function VideoSelector() {
   const [vid, setVid] = useState<string>("");
-  const [listVid, setListVid] = useState<string[]>([]);
+  const [listVid, setListVid] = useState<TikTokVideoObject[]>([]);
   /**
    * Chạy khi click upload button
    */
   const handleUpLoad = () => {
+    if (vid.length == 0) {
+      return;
+    }
     const input = vid;
-    setListVid([...listVid, input]);
-    setVid("");
+    const cleaned = cleanTikTokVideoURL(input);
+    if (typeof cleaned === "string") {
+      alert("Bad URL");
+    } else {
+      setListVid([...listVid, cleaned]);
+      setVid("");
+    }
   };
 
   // const deleteVideo = (index: number) => {
@@ -73,7 +87,6 @@ export default function VideoSelector() {
             sx={{
               marginBottom: { xs: 2, sm: 0 },
               width: "80%",
-              input: { color: "white" }
             }}
           />
 
@@ -85,6 +98,7 @@ export default function VideoSelector() {
           />
           <Button
             variant="contained"
+            onClick={handleUpLoad}
             sx={{
               margin: "10px 0 0 10px"
             }}
@@ -96,13 +110,12 @@ export default function VideoSelector() {
         <Grid container spacing={2} sx={{ flexGrow: 1 }}>
           {listVid.map((video, index) => (
             <Grid item xs={12} sm={6} md={3.5} key={index}>
-              <AspectRatio ratio="9/16" sx={{ borderRadius: "20px" }}>
-                {/* <iframe
+              <AspectRatio ratio="9/16" sx={{ borderRadius: "10px" }}>
+                <iframe
                   className="tiktok-embed"
-                  src="https://www.tiktok.com/player/v1/6718335390845095173?rel=0&description=1"
+                  src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
                   style={{ borderRadius: "inherit" }}
-                /> */}
-                {video}
+                />
               </AspectRatio>
             </Grid>
           ))}
