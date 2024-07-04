@@ -29,19 +29,32 @@ export default function VideoSelector({
   setVideos,
 }: VideoSelectorProps) {
   const [vid, setVid] = useState<string>("");
-  const [listVid, setListVid] = useState<TikTokVideoObject[]>([]);
-  const [vidIds, setVidIds] = useState<Set<string>>(new Set());
+  const [listVid, setListVid] = useState<TikTokVideoObject[]>(JSON.parse(localStorage.getItem("listVid") ?? "[]"));
+  const [vidIds, setVidIds] = useState<Set<string>>(new Set(JSON.parse(localStorage.getItem("vidIds") ?? "[]")));
   const [addingVid, setAddingVid] = useState<boolean>(false);
 
   useEffect(() => {
-    const newVideos = new Map<string, TikTokVideoObject>();
-    for (const [video, videoObj] of Object.entries(videos)) {
-      if (vidIds.has(video)) {
-        newVideos.set(video, videoObj);
-      }
-    }
-    setVideos(newVideos);
+    console.log(vidIds);
+    console.log(videos);
+    // update videos here too
+    setVideos(prev => {
+      const newVideos = new Map<string, TikTokVideoObject>();
+      prev.forEach((videoObj) => {
+        if (vidIds.has(videoObj.id)) {
+          newVideos.set(videoObj.id, videoObj);
+        }
+      });
+      return newVideos;
+    });
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("listVid", JSON.stringify(listVid));
+  }, [listVid])
+
+  useEffect(() => {
+    localStorage.setItem("vidIds", JSON.stringify([...vidIds]));
+  }, [vidIds])
 
   /**
    * Chạy khi click upload button
@@ -67,8 +80,9 @@ export default function VideoSelector({
 
       setListVid([...listVid, extractedVid]);
       setVidIds((prev) => {
-        prev.add(extractedVid.id);
-        return prev;
+        const newVidIds = new Set(prev);
+        newVidIds.add(extractedVid.id);
+        return newVidIds;
       });
       setVid("");
     }
