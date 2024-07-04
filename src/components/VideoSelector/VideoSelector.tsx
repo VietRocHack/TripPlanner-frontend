@@ -13,7 +13,7 @@ import { ChangeEvent, Dispatch, useEffect, useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { checkTikTokUrl, cleanTikTokVideoURL } from "../../utils/utils";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import { TikTokVideoObject } from "../../utils/types";
 
 interface VideoSelectorProps {
@@ -21,15 +21,13 @@ interface VideoSelectorProps {
   setVideos: Dispatch<React.SetStateAction<Map<string, TikTokVideoObject>>>;
 }
 
-
-
 /**
  * Return a Stepper with multiple different ReactNodes as its steps
  */
 export default function VideoSelector({
   videos,
-  setVideos
-} : VideoSelectorProps) {
+  setVideos,
+}: VideoSelectorProps) {
   const [vid, setVid] = useState<string>("");
   const [listVid, setListVid] = useState<TikTokVideoObject[]>([]);
   const [vidIds, setVidIds] = useState<Set<string>>(new Set());
@@ -41,8 +39,8 @@ export default function VideoSelector({
         newVideos.set(video, videoObj);
       }
     }
-    setVideos(newVideos)
-  }, [])
+    setVideos(newVideos);
+  }, []);
 
   /**
    * Chạy khi click upload button
@@ -59,17 +57,17 @@ export default function VideoSelector({
       alert("Already exists");
     } else {
       const isExist = await checkTikTokUrl(extractedVid.url);
-      
+
       if (!isExist) {
         alert("This TikTok URL does not exist");
         return;
       }
 
       setListVid([...listVid, extractedVid]);
-      setVidIds(prev => {
+      setVidIds((prev) => {
         prev.add(extractedVid.id);
         return prev;
-      })
+      });
       setVid("");
     }
   };
@@ -84,31 +82,33 @@ export default function VideoSelector({
 
   const handleDeleteVid = (index: number, video: TikTokVideoObject) => {
     setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
-    setVidIds(prev => {
-      prev.delete(video.id);
-      return prev;
+    setVidIds((prev) => {
+      const newVidIds = new Set(prev);
+      newVidIds.delete(video.id);
+      return newVidIds;
     });
-    setVideos(prev => {
-      prev.delete(video.id);
-      return prev;
-    })
-  }
+    setVideos((prev) => {
+      const newVideos = new Map(prev);
+      newVideos.delete(video.id);
+      return newVideos;
+    });
+  };
 
   const handleChangeVid = (video: TikTokVideoObject) => {
-        if (videos.has(video.id)) {
-          setVideos(prev => {
-            const newVideos = new Map(prev);
-            newVideos.delete(video.id);
-            return newVideos;
-          });
-        } else {
-          setVideos(prev => {
-            const newVideos = new Map(prev);
-            newVideos.set(video.id, video);
-            return newVideos;
-          });
-        }
-      }
+    if (videos.has(video.id)) {
+      setVideos((prev) => {
+        const newVideos = new Map(prev);
+        newVideos.delete(video.id);
+        return newVideos;
+      });
+    } else {
+      setVideos((prev) => {
+        const newVideos = new Map(prev);
+        newVideos.set(video.id, video);
+        return newVideos;
+      });
+    }
+  };
 
   return (
     <Box
@@ -175,19 +175,10 @@ export default function VideoSelector({
         </Box>
 
         <FormGroup>
-          <Typography
-            variant="h5"
-          >
-            Your TikTok video library
+          <Typography variant="h5">Your TikTok video library</Typography>
+          <Typography variant="h6">
+            You selected {videos.size} video(s)
           </Typography>
-      <Typography color="black">
-        Something here
-        {
-          Object.entries(videos).map(([item, itemObj]) => {
-            return <>{item + " " + itemObj.url}</>
-          })
-        }
-      </Typography>
           <Grid
             container
             spacing={2}
@@ -198,7 +189,7 @@ export default function VideoSelector({
               backgroundColor: "lightgrey",
               borderRadius: "10px",
               padding: 2,
-              margin: 0 // not sure why margin is set to -2 somewhere idk
+              margin: 0, // not sure why margin is set to -2 somewhere idk
             }}
           >
             {listVid.length > 0 ? (
@@ -211,7 +202,7 @@ export default function VideoSelector({
                     sm={6}
                     md={3}
                     key={`added-video-${index}`}
-                    sx={{ padding: 0, }}
+                    sx={{ padding: 0 }}
                   >
                     <AspectRatio ratio="9/16">
                       <iframe
@@ -219,23 +210,37 @@ export default function VideoSelector({
                         style={{ borderRadius: "inherit" }}
                       />
                     </AspectRatio>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={videos.has(video.id)}
-                          onChange={()=> {handleChangeVid(video)}
-                        }
-                        />
-                      }
-                      label="Add to the trip!"
-                    />
-                    <IconButton
-                      color="warning"
-                      onClick={() => { handleDeleteVid(index, video) }}
-                      disableRipple={true}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between"
+                      }}
                     >
-                      <DeleteIcon />
-                    </IconButton>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={videos.has(video.id)}
+                            onChange={() => {
+                              handleChangeVid(video);
+                            }}
+                          />
+                        }
+                        label={
+                          videos.has(video.id) ?
+                            "Added to the trip!":
+                            "Add to the trip"
+                        }
+                      />
+                      <IconButton
+                        color="warning"
+                        onClick={() => {
+                          handleDeleteVid(index, video);
+                        }}
+                        disableRipple={true}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
                   </Grid>
                 ))}
               </>
