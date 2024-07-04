@@ -170,11 +170,13 @@ export default function VideoSelector({
             width: "100%",
             marginBottom: 8,
             padding: 3,
+            border: "1px solid lightgrey",
+            boxShadow: "5px 5px 0 0 lightgrey",
           }}
         >
           <TextField
             fullWidth
-            label="Input your TikTok URL reel"
+            label="Input your TikTok URL video"
             id="search-bar"
             variant="standard"
             onChange={handleVid}
