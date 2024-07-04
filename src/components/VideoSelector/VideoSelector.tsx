@@ -118,17 +118,22 @@ export default function VideoSelector() {
         </Box>
 
         <FormGroup>
-          <Typography>Your TikTok video library</Typography>
+          <Typography
+            variant="h5"
+          >
+            Your TikTok video library
+          </Typography>
           <Grid
             container
             spacing={2}
             sx={{
               flexGrow: 1,
               height: 750,
-              overflowY: "scroll",
+              overflowY: "auto",
               backgroundColor: "lightgrey",
               borderRadius: "10px",
               padding: 2,
+              margin: 0 // not sure why margin is set to -2 somewhere idk
             }}
           >
             {listVid.length > 0 ? (
