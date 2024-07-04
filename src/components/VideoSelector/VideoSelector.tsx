@@ -31,6 +31,7 @@ export default function VideoSelector({
   const [vid, setVid] = useState<string>("");
   const [listVid, setListVid] = useState<TikTokVideoObject[]>([]);
   const [vidIds, setVidIds] = useState<Set<string>>(new Set());
+  const [addingVid, setAddingVid] = useState<boolean>(false);
 
   useEffect(() => {
     const newVideos = new Map<string, TikTokVideoObject>();
@@ -45,7 +46,8 @@ export default function VideoSelector({
   /**
    * Chạy khi click upload button
    */
-  const handleUpLoad = async () => {
+  const handleAddVid = async () => {
+    setAddingVid(true);
     if (vid.length == 0) {
       return;
     }
@@ -70,6 +72,7 @@ export default function VideoSelector({
       });
       setVid("");
     }
+    setAddingVid(false);
   };
 
   // const deleteVideo = (index: number) => {
@@ -165,19 +168,22 @@ export default function VideoSelector({
           />
           <Button
             variant="contained"
-            onClick={handleUpLoad}
+            onClick={handleAddVid}
             sx={{
               margin: "10px 0 0 10px",
             }}
+            disabled={addingVid}
           >
-            Add video
+            {
+              addingVid ? "Adding...." : "Add video"
+            }
           </Button>
         </Box>
 
         <FormGroup>
           <Typography variant="h5">Your TikTok video library</Typography>
           <Typography variant="h6">
-            You selected {videos.size} video(s)
+            You selected {videos.size} out of {listVid.length} video{listVid.length > 1 ?"s" : ""}.
           </Typography>
           <Grid
             container
