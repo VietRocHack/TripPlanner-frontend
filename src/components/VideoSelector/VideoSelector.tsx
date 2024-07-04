@@ -1,11 +1,21 @@
-import { Box, Button, Grid, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { cleanTikTokVideoURL } from "../../utils/utils";
+import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 
 interface TikTokVideoObject {
-  url: string,
-  id: string,
+  url: string;
+  id: string;
 }
 
 // import Typography from "@mui/material/Typography";
@@ -58,12 +68,12 @@ export default function VideoSelector() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          maxWidth: 1000,
+          maxWidth: 1500,
           width: "100%",
           margin: 3,
           marginBottom: { xs: 2, sm: 2 },
           backgroundColor: "white",
-          padding: 10
+          padding: 10,
         }}
       >
         <Box
@@ -72,7 +82,7 @@ export default function VideoSelector() {
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
-            marginBottom: 4
+            marginBottom: 8,
           }}
         >
           <TextField
@@ -100,26 +110,87 @@ export default function VideoSelector() {
             variant="contained"
             onClick={handleUpLoad}
             sx={{
-              margin: "10px 0 0 10px"
+              margin: "10px 0 0 10px",
             }}
           >
             Add video
           </Button>
-
         </Box>
-        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-          {listVid.map((video, index) => (
-            <Grid item xs={12} sm={6} md={3.5} key={index}>
-              <AspectRatio ratio="9/16" sx={{ borderRadius: "10px" }}>
-                <iframe
-                  className="tiktok-embed"
-                  src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
-                  style={{ borderRadius: "inherit" }}
+
+        <FormGroup>
+          <Typography>Your TikTok video library</Typography>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              flexGrow: 1,
+              height: 750,
+              overflowY: "scroll",
+              backgroundColor: "lightgrey",
+              borderRadius: "10px",
+              padding: 2,
+            }}
+          >
+            {listVid.length > 0 ? (
+              <>
+                {listVid.map((video, index) => (
+                  <Grid
+                    padding="0"
+                    item
+                    xs={12}
+                    sm={6}
+                    md={3}
+                    key={`added-video-${index}`}
+                    sx={{
+                      padding: 0,
+                      // display: "flex",
+                      // justifyContent: "center",
+                      // alignItems: "center",
+                    }}
+                  >
+                    <AspectRatio ratio="9/16">
+                      <iframe
+                        src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
+                        style={{ borderRadius: "inherit" }}
+                      />
+                    </AspectRatio>
+                    <FormControlLabel
+                      control={<Checkbox />}
+                      label="Add to the trip!"
+                    />
+                  </Grid>
+                ))}
+              </>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  maxWidth: 400,
+                  margin: "auto",
+                  padding: 4,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 2,
+                  boxShadow: 1,
+                }}
+              >
+                <SlowMotionVideoIcon
+                  fontSize="inherit"
+                  sx={{ fontSize: 60, color: "primary.main" }}
                 />
-              </AspectRatio>
-            </Grid>
-          ))}
-        </Grid>
+                <Typography
+                  variant="h6"
+                  color="textPrimary"
+                  sx={{ marginTop: 2 }}
+                >
+                  Add your first TikTok here!
+                </Typography>
+              </Box>
+            )}
+          </Grid>
+        </FormGroup>
       </Box>
     </Box>
   );
