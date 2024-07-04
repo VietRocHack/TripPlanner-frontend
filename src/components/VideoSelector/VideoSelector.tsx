@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -12,6 +13,7 @@ import { ChangeEvent, useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { cleanTikTokVideoURL } from "../../utils/utils";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface TikTokVideoObject {
   url: string;
@@ -160,9 +162,18 @@ export default function VideoSelector() {
                       />
                     </AspectRatio>
                     <FormControlLabel
-                      control={<Checkbox />}
+                      control={
+                        <Checkbox />
+                      }
                       label="Add to the trip!"
                     />
+                    <IconButton
+                      color="warning"
+                      onClick={()=>{}}
+                      disableRipple={true}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
                   </Grid>
                 ))}
               </>
