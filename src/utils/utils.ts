@@ -26,3 +26,17 @@ export const cleanTikTokVideoURL = (inputUrl: string) => {
     return "";
   }
 };
+
+export const checkTikTokUrl = async (url: string) => {
+  try {
+    const response = await fetch(`https://www.tiktok.com/oembed?url=${url}`);
+    // Check if the status is 403 (Forbidden)
+    if (response.status === 400) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    return false;
+  }
+};

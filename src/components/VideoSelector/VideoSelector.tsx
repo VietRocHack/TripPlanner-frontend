@@ -40,11 +40,24 @@ export default function VideoSelector() {
       return;
     }
     const input = vid;
-    const cleaned = cleanTikTokVideoURL(input);
-    if (typeof cleaned === "string") {
-      alert("Bad URL");
+    const extractedVid = cleanTikTokVideoURL(input);
+    if (typeof extractedVid === "string") {
+      alert("Invalid TikTok URL");
+    } else if (vidIds.has(extractedVid.id)) {
+      alert("Already exists");
     } else {
-      setListVid([...listVid, cleaned]);
+      const isExist = await checkTikTokUrl(extractedVid.url);
+      
+      if (!isExist) {
+        alert("This TikTok URL does not exist");
+        return;
+      }
+
+      setListVid([...listVid, extractedVid]);
+      setVidIds(prev => {
+        prev.add(extractedVid.id);
+        return prev;
+      })
       setVid("");
     }
   };
