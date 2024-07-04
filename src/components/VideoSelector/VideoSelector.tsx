@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   Checkbox,
+  Experimental_CssVarsProvider as CssVarsProvider,
+  experimental_extendTheme as extendMuiTheme,
   FormControlLabel,
   FormGroup,
   Grid,
@@ -15,11 +17,21 @@ import { checkTikTokUrl, cleanTikTokVideoURL } from "../../utils/utils";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TikTokVideoObject } from "../../utils/types";
+import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
+import { deepmerge } from "@mui/utils";
 
 interface VideoSelectorProps {
   videos: Map<string, TikTokVideoObject>;
   setVideos: Dispatch<React.SetStateAction<Map<string, TikTokVideoObject>>>;
 }
+
+const joyTheme = extendJoyTheme({
+  cssVarPrefix: "mui",
+});
+
+const muiTheme = extendMuiTheme();
+
+const theme = deepmerge(joyTheme, muiTheme);
 
 /**
  * Return a Stepper with multiple different ReactNodes as its steps
@@ -29,15 +41,19 @@ export default function VideoSelector({
   setVideos,
 }: VideoSelectorProps) {
   const [vid, setVid] = useState<string>("");
-  const [listVid, setListVid] = useState<TikTokVideoObject[]>(JSON.parse(localStorage.getItem("listVid") ?? "[]"));
-  const [vidIds, setVidIds] = useState<Set<string>>(new Set(JSON.parse(localStorage.getItem("vidIds") ?? "[]")));
+  const [listVid, setListVid] = useState<TikTokVideoObject[]>(
+    JSON.parse(localStorage.getItem("listVid") ?? "[]")
+  );
+  const [vidIds, setVidIds] = useState<Set<string>>(
+    new Set(JSON.parse(localStorage.getItem("vidIds") ?? "[]"))
+  );
   const [addingVid, setAddingVid] = useState<boolean>(false);
 
   useEffect(() => {
     console.log(vidIds);
     console.log(videos);
     // update videos here too
-    setVideos(prev => {
+    setVideos((prev) => {
       const newVideos = new Map<string, TikTokVideoObject>();
       prev.forEach((videoObj) => {
         if (vidIds.has(videoObj.id)) {
@@ -50,11 +66,11 @@ export default function VideoSelector({
 
   useEffect(() => {
     localStorage.setItem("listVid", JSON.stringify(listVid));
-  }, [listVid])
+  }, [listVid]);
 
   useEffect(() => {
     localStorage.setItem("vidIds", JSON.stringify([...vidIds]));
-  }, [vidIds])
+  }, [vidIds]);
 
   /**
    * Chạy khi click upload button
@@ -157,6 +173,8 @@ export default function VideoSelector({
             alignItems: "center",
             width: "100%",
             marginBottom: 8,
+            backgroundColor: "lightgrey",
+            padding: 3,
           }}
         >
           <TextField
@@ -171,6 +189,7 @@ export default function VideoSelector({
             sx={{
               marginBottom: { xs: 2, sm: 0 },
               width: "80%",
+              color: "black"
             }}
           />
 
@@ -188,16 +207,15 @@ export default function VideoSelector({
             }}
             disabled={addingVid}
           >
-            {
-              addingVid ? "Adding...." : "Add video"
-            }
+            {addingVid ? "Adding...." : "Add video"}
           </Button>
         </Box>
 
         <FormGroup>
           <Typography variant="h5">Your TikTok video library</Typography>
           <Typography variant="h6">
-            You selected {videos.size} out of {listVid.length} video{listVid.length > 1 ?"s" : ""}.
+            You selected {videos.size} out of {listVid.length} video
+            {listVid.length > 1 ? "s" : ""}.
           </Typography>
           <Grid
             container
@@ -224,16 +242,18 @@ export default function VideoSelector({
                     key={`added-video-${index}`}
                     sx={{ padding: 0 }}
                   >
-                    <AspectRatio ratio="9/16">
-                      <iframe
-                        src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
-                        style={{ borderRadius: "inherit" }}
-                      />
-                    </AspectRatio>
+                    <CssVarsProvider theme={theme}>
+                      <AspectRatio ratio="9/16">
+                        <iframe
+                          src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
+                          style={{ borderRadius: "inherit" }}
+                        />
+                      </AspectRatio>
+                    </CssVarsProvider>
                     <Box
                       sx={{
                         display: "flex",
-                        justifyContent: "space-between"
+                        justifyContent: "space-between",
                       }}
                     >
                       <FormControlLabel
@@ -246,9 +266,9 @@ export default function VideoSelector({
                           />
                         }
                         label={
-                          videos.has(video.id) ?
-                            "Added to the trip!":
-                            "Add to the trip"
+                          videos.has(video.id)
+                            ? "Added to the trip!"
+                            : "Add to the trip"
                         }
                       />
                       <IconButton
