@@ -22,7 +22,7 @@ const GetStartedScreen: React.FC = () => {
           <CustomHorizontalStepper 
           steps={["Step 1", "Step 2", "Step 3"]}
           nodes={[
-            <>1</>,
+            <VideoSelector />,
             <VideoSelector />,
             <>3</>,
             <>end</>

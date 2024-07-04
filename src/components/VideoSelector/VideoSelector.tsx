@@ -1,6 +1,7 @@
-import { Box, Grid, IconButton, TextField } from "@mui/material";
+import { Box, Button, Grid, IconButton, TextField } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
+
 // import Typography from "@mui/material/Typography";
 
 // interface VideoSelectorProps {
@@ -33,64 +34,80 @@ export default function VideoSelector() {
     <Box
       sx={{
         display: "flex",
-        alignItems: "center",
-        width: {
-          xs: 300,
-          sm: "calc(100% - 42px)",
-          md: 672,
-          lg: 810,
-          xl: 925,
-        },
-        marginBottom: { xs: 2, sm: 2 },
+        // alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
       }}
     >
-      <TextField
-        fullWidth
-        label="Input your TikTok URL reel"
-        id="search-bar"
-        variant="standard"
-        onChange={handleVid}
-        value={vid}
-        color="primary"
-        InputProps={{ style: { width: "auto" } }}
-        sx={{ marginBottom: { xs: 2, sm: 0 }, input: { color: "white" } }}
-      />
-
-      <input
-        style={{ display: "none" }}
-        id="video-upload"
-        type="text"
-        value={vid}
-      />
-      <label htmlFor="video-upload">
-        <IconButton
-          color="primary"
-          aria-label="upload video"
-          component="span"
-          onClick={handleUpLoad}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          maxWidth: 1000,
+          width: "100%",
+          margin: 3,
+          marginBottom: { xs: 2, sm: 2 },
+          backgroundColor: "white",
+          padding: 10
+        }}
+      >
+        <Box
           sx={{
-            width: 56,
-            height: 56,
-            marginLeft: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            marginBottom: 4
           }}
         >
-          {/* <FileUploadOutlinedIcon sx={{ fontSize: 40 }} /> */}
-        </IconButton>
-      </label>
+          <TextField
+            fullWidth
+            label="Input your TikTok URL reel"
+            id="search-bar"
+            variant="standard"
+            onChange={handleVid}
+            value={vid}
+            color="primary"
+            InputProps={{ style: { width: "auto" } }}
+            sx={{
+              marginBottom: { xs: 2, sm: 0 },
+              width: "80%",
+              input: { color: "white" }
+            }}
+          />
 
-      <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-        {listVid.map((video, index) => (
-          <Grid item xs={12} sm={6} md={3.5} key={index}>
-            <AspectRatio ratio="9/16" sx={{ borderRadius: "20px" }}>
-              <iframe
-                className="tiktok-embed"
-                src="https://www.tiktok.com/player/v1/6718335390845095173?rel=0&description=1"
-                style={{ borderRadius: "inherit" }}
-              />
-            </AspectRatio>
-          </Grid>
-        ))}
-      </Grid>
+          <input
+            style={{ display: "none" }}
+            id="video-upload"
+            type="text"
+            value={vid}
+          />
+          <Button
+            variant="contained"
+            sx={{
+              margin: "10px 0 0 10px"
+            }}
+          >
+            Add video
+          </Button>
+
+        </Box>
+        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+          {listVid.map((video, index) => (
+            <Grid item xs={12} sm={6} md={3.5} key={index}>
+              <AspectRatio ratio="9/16" sx={{ borderRadius: "20px" }}>
+                {/* <iframe
+                  className="tiktok-embed"
+                  src="https://www.tiktok.com/player/v1/6718335390845095173?rel=0&description=1"
+                  style={{ borderRadius: "inherit" }}
+                /> */}
+                {video}
+              </AspectRatio>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Box>
   );
 }
