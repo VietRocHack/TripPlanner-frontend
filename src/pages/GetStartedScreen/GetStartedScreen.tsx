@@ -4,6 +4,7 @@ import './GetStartedScreen.css'
 import { Button, Typography } from "@mui/material";
 // import HorizontalStepper from "../../components/Stepper/HorizontalStepper";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
+import ReviewYourTrip from "../../components/Stepper/ReviewYourTrip";
 
 const GetStartedScreen: React.FC = () => {
     return (
@@ -20,7 +21,7 @@ const GetStartedScreen: React.FC = () => {
           <Button>Get started</Button>
           <CustomHorizontalStepper 
           steps={["Step 1", "Step 2", "Step 3"]}
-          nodes={[<>1</>, <>2</>, <>3</>, <>end</>]}
+          nodes={[<>1</>, <>2</>, <><ReviewYourTrip/></>, <>end</>]}
           />
         </div>
       </>
