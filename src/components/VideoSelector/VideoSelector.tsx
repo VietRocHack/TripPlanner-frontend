@@ -9,33 +9,45 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, useEffect, useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
-import { cleanTikTokVideoURL } from "../../utils/utils";
+import { checkTikTokUrl, cleanTikTokVideoURL } from "../../utils/utils";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TikTokVideoObject } from "../../utils/types";
 
-interface TikTokVideoObject {
-  url: string;
-  id: string;
+interface VideoSelectorProps {
+  videos: Map<string, TikTokVideoObject>;
+  setVideos: Dispatch<React.SetStateAction<Map<string, TikTokVideoObject>>>;
 }
 
-// import Typography from "@mui/material/Typography";
 
-// interface VideoSelectorProps {
-//   steps: string[];
-// }
 
 /**
  * Return a Stepper with multiple different ReactNodes as its steps
  */
-export default function VideoSelector() {
+export default function VideoSelector({
+  videos,
+  setVideos
+} : VideoSelectorProps) {
   const [vid, setVid] = useState<string>("");
   const [listVid, setListVid] = useState<TikTokVideoObject[]>([]);
+  const [vidIds, setVidIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const newVideos = new Map<string, TikTokVideoObject>();
+    for (const [video, videoObj] of Object.entries(videos)) {
+      if (vidIds.has(video)) {
+        newVideos.set(video, videoObj);
+      }
+    }
+    setVideos(newVideos)
+  }, [])
+
   /**
    * Chạy khi click upload button
    */
-  const handleUpLoad = () => {
+  const handleUpLoad = async () => {
     if (vid.length == 0) {
       return;
     }
@@ -70,9 +82,33 @@ export default function VideoSelector() {
     setVid(event.target.value);
   };
 
-  const handleDeleteVid = (index: number) => {
+  const handleDeleteVid = (index: number, video: TikTokVideoObject) => {
     setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
+    setVidIds(prev => {
+      prev.delete(video.id);
+      return prev;
+    });
+    setVideos(prev => {
+      prev.delete(video.id);
+      return prev;
+    })
   }
+
+  const handleChangeVid = (video: TikTokVideoObject) => {
+        if (videos.has(video.id)) {
+          setVideos(prev => {
+            const newVideos = new Map(prev);
+            newVideos.delete(video.id);
+            return newVideos;
+          });
+        } else {
+          setVideos(prev => {
+            const newVideos = new Map(prev);
+            newVideos.set(video.id, video);
+            return newVideos;
+          });
+        }
+      }
 
   return (
     <Box
@@ -94,6 +130,7 @@ export default function VideoSelector() {
           marginBottom: { xs: 2, sm: 2 },
           backgroundColor: "white",
           padding: 10,
+          boxShadow: "5px 5px 5px lightgrey",
         }}
       >
         <Box
@@ -143,6 +180,14 @@ export default function VideoSelector() {
           >
             Your TikTok video library
           </Typography>
+      <Typography color="black">
+        Something here
+        {
+          Object.entries(videos).map(([item, itemObj]) => {
+            return <>{item + " " + itemObj.url}</>
+          })
+        }
+      </Typography>
           <Grid
             container
             spacing={2}
@@ -166,12 +211,7 @@ export default function VideoSelector() {
                     sm={6}
                     md={3}
                     key={`added-video-${index}`}
-                    sx={{
-                      padding: 0,
-                      // display: "flex",
-                      // justifyContent: "center",
-                      // alignItems: "center",
-                    }}
+                    sx={{ padding: 0, }}
                   >
                     <AspectRatio ratio="9/16">
                       <iframe
@@ -181,13 +221,17 @@ export default function VideoSelector() {
                     </AspectRatio>
                     <FormControlLabel
                       control={
-                        <Checkbox />
+                        <Checkbox
+                          checked={videos.has(video.id)}
+                          onChange={()=> {handleChangeVid(video)}
+                        }
+                        />
                       }
                       label="Add to the trip!"
                     />
                     <IconButton
                       color="warning"
-                      onClick={() => { handleDeleteVid(index) }}
+                      onClick={() => { handleDeleteVid(index, video) }}
                       disableRipple={true}
                     >
                       <DeleteIcon />
