@@ -1,6 +1,6 @@
 import React from "react";
 import './GetStartedScreen.css'
-import Catchphrase from "../HomeScreen/Catchphrase";
+//import Catchphrase from "../HomeScreen/Catchphrase";
 import { Button, Typography } from "@mui/material";
 // import HorizontalStepper from "../../components/Stepper/HorizontalStepper";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
@@ -13,7 +13,7 @@ const GetStartedScreen: React.FC = () => {
             <div className="bg-dark-cover"></div>     
         </div>
         <div className="main-flex">
-          <Catchphrase />
+          {/* <Catchphrase /> */}
           <Typography variant="body1" sx={{color: "white"}}>
             SwipeAndFly is your travel helper with your interests and favorites in mind.
           </Typography>
