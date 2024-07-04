@@ -8,7 +8,7 @@ export const cleanTikTokVideoURL = (inputUrl: string) => {
     }
 
     // Check if the pathname matches the pattern /@{username}/video/{id}
-    const pathRegex = /^\/@\w+\/video\/(\d+)$/;
+    const pathRegex = /^\/@[\w.]+\/video\/(\d+)$/;
     const pathname = url.pathname.split('?')[0]; // Remove query params if any
 
     const match = pathname.match(pathRegex);
