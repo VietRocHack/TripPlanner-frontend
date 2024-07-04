@@ -6,25 +6,27 @@ import { Button, Typography } from "@mui/material";
 // import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
 // import FormPartOne from "../FormScreen/FormPartOne";
 import ReviewYourTrip from "../../components/Stepper/ReviewYourTrip";
+import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
+import Catchphrase from "../HomeScreen/Catchphrase";
 
 const GetStartedScreen: React.FC = () => {
     return (
       <>
         <div className="bg">
           <img src="./src/assets/background.jpeg" alt="" />
-          {/* <div className="bg-dark-cover"></div> */}
+          <div className="bg-dark-cover"></div>
         </div>
         <div className="main-flex">
-          {/* <Catchphrase /> */}
+          <Catchphrase />
           <Typography variant="body1" sx={{ color: "white" }}>
             SwipeAndFly is your travel helper with your interests and favorites
             in mind.
           </Typography>
           <Button>Get started</Button>
-          {/* <CustomHorizontalStepper 
+          <CustomHorizontalStepper 
           steps={["Step 1", "Step 2", "Step 3"]}
-          nodes={[<>1</>, <>2</>, <>3</>, <>end</>]}
-          /> */}
+          nodes={[<>1</>, <>2</>, <><ReviewYourTrip/></>, <>end</>]}
+          />
         </div>
       </>
     );
