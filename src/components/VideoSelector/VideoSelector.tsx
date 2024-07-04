@@ -186,6 +186,8 @@ export default function VideoSelector({
               width: "80%",
               color: "black",
             }}
+            inputProps={{ style: { fontSize: "x-large" } }} // font size of input text
+            InputLabelProps={{ style: { fontSize: "x-large" } }} // font size of input label
           />
 
           <input
@@ -199,6 +201,7 @@ export default function VideoSelector({
             onClick={handleAddVid}
             sx={{
               margin: "10px 0 0 10px",
+              fontSize: "large",
             }}
             disabled={addingVid}
           >
