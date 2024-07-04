@@ -23,7 +23,7 @@ const GetStartedScreen: React.FC = () => {
           steps={["Step 1", "Step 2", "Step 3"]}
           nodes={[
             <>1</>,
-            <VideoSelector steps={["something"]}/>,
+            <VideoSelector />,
             <>3</>,
             <>end</>
           ]}

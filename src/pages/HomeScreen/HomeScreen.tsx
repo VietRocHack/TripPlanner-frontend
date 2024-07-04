@@ -1,20 +1,14 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { TextField, Button, Box, Grid, Container } from "@mui/material";
+import React, { ChangeEvent, useState } from "react";
+import { TextField, Button, Box, Container } from "@mui/material";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { useNavigate } from "react-router-dom";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import IconButton from "@mui/material/IconButton";
 import background from "../../assets/background.jpeg";
 import Catchphrase from "./Catchphrase";
 import TermsAndConditionsTextLine from "./TermsAndConditions";
-import AspectRatio from "@mui/joy/AspectRatio";
 
 const HomeScreen: React.FC = () => {
   const [textInput, setTextInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [embedHtml, setEmbedHtml] = useState(""); 
-  const [vid, setVid] = useState<string>(""); 
-  const [listVid, setListVid] = useState<string[]>([]);
   const navigate = useNavigate();
 
   /**
@@ -23,54 +17,6 @@ const HomeScreen: React.FC = () => {
    */
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTextInput(event.target.value);
-  };
-
-/**
- * Khi mà embedhtml nhận được url để hiện thị tiktok video, useEffect chạy để display video đó lên trang web
- */
-  useEffect(() => {
-    if (embedHtml) {
-      const script = document.createElement("script");
-      script.src = "https://www.tiktok.com/embed.js";
-      script.async = true;
-      document.body.appendChild(script);
-
-      return () => {
-        document.body.removeChild(script);
-      };
-    }
-  }, [embedHtml]);
-
-  //function to fetch tiktok video
-  const fetchTikTok = async () => {
-    try {
-      const response = await fetch(`https://www.tiktok.com/oembed?url=${vid}`, {
-        method: "GET",
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setEmbedHtml(data.html); //giữ lấy cái html để hiển thị vid
-        setListVid([...listVid, data.html]); //add vid vào list
-      }
-    } catch (error) {
-      console.error("Can not receive the url", error);
-    }
-  };
-
-  /**
-   * Chạy khi click upload button
-   */
-  const handleUpLoad = () => {
-    fetchTikTok(); //fetch tiktok video
-    setVid("")
-  };
-
-  // const deleteVideo = (index: number) => {
-  //   setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
-  // }
-
-  const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
-    setVid(event.target.value);
   };
 
   const handleButtonClick = () => {
@@ -128,7 +74,6 @@ const HomeScreen: React.FC = () => {
         ) : (
           <Container>
             <Catchphrase/>
-
             <Box
               sx={{
                 display: "flex",
@@ -191,76 +136,6 @@ const HomeScreen: React.FC = () => {
               />
 
               <TermsAndConditionsTextLine/>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  width: {
-                    xs: 300,
-                    sm: "calc(100% - 42px)",
-                    md: 672,
-                    lg: 810,
-                    xl: 925,
-                  },
-                  marginBottom: { xs: 2, sm: 2 },
-                }}
-              >
-                <TextField
-                  fullWidth
-                  label="Input your TikTok URL reel"
-                  id="search-bar"
-                  variant="standard"
-                  onChange={handleVid}
-                  value={vid}
-                  color="primary"
-                  InputProps={{ style: { width: "auto" } }}
-                  sx={{ marginBottom: { xs: 2, sm: 0 }, input: { color: "white" } }}
-                />
-
-                <input
-                  style={{ display: "none" }}
-                  id="video-upload"
-                  type="text"
-                  value={vid}
-                />
-                <label htmlFor="video-upload">
-                  <IconButton
-                    color="primary"
-                    aria-label="upload video"
-                    component="span"
-                    onClick={handleUpLoad}
-                    sx={{
-                      width: 56,
-                      height: 56,
-                      marginLeft: 1,
-                    }}
-                  >
-                    <FileUploadOutlinedIcon sx={{ fontSize: 40 }} />
-                  </IconButton>
-                </label>
-              </Box>
-
-              {embedHtml ? (
-                <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-                  {listVid.map((video, index) => (
-                    <Grid item xs={12} sm={6} md={3.5} key={index}>
-                      <AspectRatio
-                        ratio="9/16"
-                        sx={{ borderRadius: "20px" }}
-                      >
-                        <iframe 
-                          className="tiktok-embed"
-                          src="https://www.tiktok.com/player/v1/6718335390845095173?rel=0&description=1"
-                          style={{ borderRadius:"inherit" }}
-                        />
-                      </AspectRatio>
-                    </Grid>
-                  ))}
-                </Grid>
-              ) : (
-                <></>
-              )}
 
               <Button
                 variant="outlined"
