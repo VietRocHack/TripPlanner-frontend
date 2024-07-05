@@ -12,7 +12,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { Dispatch, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, useEffect, useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { checkTikTokUrl, cleanTikTokVideoURL } from "../../utils/utils";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
@@ -73,22 +73,35 @@ export default function VideoSelector({
     localStorage.setItem("vidIds", JSON.stringify([...vidIds]));
   }, [vidIds]);
 
+  const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
+    setVid(event.target.value);
+  };
+
   /**
    * Chạy khi click upload button
    */
   const handleAddVid = async () => {
+    console.log("Adding vid");
     setAddingVid(true);
-    if (vid.length == 0) {
+    if (vid.length === 0) {
+      alert("Empty");
+      setAddingVid(false);
       return;
     }
     const input = vid;
+    console.log("cleaning vid");
+
     const extractedVid = cleanTikTokVideoURL(input);
+    console.log("cleaning vid done");
+
     if (typeof extractedVid === "string") {
       alert("Invalid TikTok URL");
     } else if (vidIds.has(extractedVid.id)) {
       alert("Already exists");
     } else {
+      console.log("Checking exsistence");
       const isExist = await checkTikTokUrl(extractedVid.url);
+      console.log("Done");
 
       if (!isExist) {
         alert("This TikTok URL does not exist");
@@ -176,6 +189,8 @@ export default function VideoSelector({
               variant="outlined"
               fullWidth
               required
+              value={vid}
+              onChange={handleVid}
             />
           </Grid>
           <Grid item xs={1}>
@@ -210,8 +225,10 @@ export default function VideoSelector({
               height: 750,
               overflowY: "auto",
               padding: 2,
-              margin: 0, // not sure why margin is set to -2 somewhere idk
             }}
+            // xs={{
+            //   margin: 0,
+            // }}
           >
             {listVid.length > 0 ? (
               <>
@@ -221,7 +238,8 @@ export default function VideoSelector({
                     item
                     xs={12}
                     sm={6}
-                    md={3}
+                    md={4}
+                    lg={3}
                     key={`added-video-${index}`}
                     sx={{ padding: 0 }}
                   >
@@ -248,22 +266,21 @@ export default function VideoSelector({
                             onChange={() => {
                               handleChangeVid(video);
                             }}
+                            color="secondary"
                           />
                         }
                         label={
                           videos.has(video.id) ? (
-                            <Typography color="primary">
+                            <Typography color="secondary">
                               Added to the trip!
                             </Typography>
                           ) : (
-                            <Typography color="primary">
-                              Add to the trip!
-                            </Typography>
+                            <Typography>Add to the trip!</Typography>
                           )
                         }
                       />
                       <IconButton
-                        color="warning"
+                        color="primary"
                         onClick={() => {
                           handleDeleteVid(index, video);
                         }}
