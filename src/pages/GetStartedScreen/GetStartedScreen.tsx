@@ -1,17 +1,20 @@
 import React from "react";
 import './GetStartedScreen.css'
-import Catchphrase from "../HomeScreen/Catchphrase";
+//import Catchphrase from "../HomeScreen/Catchphrase";
 import { Button, Typography } from "@mui/material";
 // import HorizontalStepper from "../../components/Stepper/HorizontalStepper";
 // import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
 // import FormPartOne from "../FormScreen/FormPartOne";
+import ReviewYourTrip from "../../components/Stepper/ReviewYourTrip";
+import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
+import Catchphrase from "../HomeScreen/Catchphrase";
 
 const GetStartedScreen: React.FC = () => {
     return (
       <>
         <div className="bg">
           <img src="./src/assets/background.jpeg" alt="" />
-          {/* <div className="bg-dark-cover"></div> */}
+          <div className="bg-dark-cover"></div>
         </div>
         <div className="main-flex">
           <Catchphrase />
@@ -20,7 +23,10 @@ const GetStartedScreen: React.FC = () => {
             in mind.
           </Typography>
           <Button>Get started</Button>
-
+          <CustomHorizontalStepper 
+          steps={["Step 1", "Step 2", "Step 3"]}
+          nodes={[<>1</>, <>2</>, <><ReviewYourTrip/></>, <>end</>]}
+          />
         </div>
       </>
     );
