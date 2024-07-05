@@ -1,6 +1,6 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import HomeScreen from './pages/HomeScreen/HomeScreen'
+// import HomeScreen from './pages/HomeScreen/HomeScreen'
 import PlanScreen from './pages/PlanScreen/PlanScreen'
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService/TermsOfService'
@@ -13,12 +13,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomeScreen />} />
+        {/* <Route path="/" element={<HomeScreen />} /> */}
+        <Route path="/" element={<GetStartedScreen />} />
         <Route path="/plan" element={<PlanScreen />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsOfService />} />
-        <Route path="/get-started" element={<GetStartedScreen />}/>
-        <Route path="/create-trip" element={<FormScreen/>}/>
+        <Route path="/create-trip" element={<FormScreen />} />
       </Routes>
       <Footer />
     </Router>
