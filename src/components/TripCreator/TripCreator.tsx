@@ -72,7 +72,9 @@ export default function TripCreator({
   };
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 2, background: "#28282B" }}>
+    <Box
+      sx={{ flexGrow: 1, padding: 2, background: "#28282B", maxWidth: 1200 }}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -83,6 +85,7 @@ export default function TripCreator({
             variant="outlined"
             fullWidth
             onChange={handleLocationChange}
+            required
           />
         </Grid>
         <Grid item xs={12} sm={3}>
@@ -95,6 +98,7 @@ export default function TripCreator({
             inputProps={{ step: 300 }} // 5 min
             fullWidth
             onChange={handleStartTimeChange}
+            required
           />
         </Grid>
         <Grid item xs={12} sm={3}>
@@ -107,10 +111,11 @@ export default function TripCreator({
             inputProps={{ step: 300 }} // 5 min
             fullWidth
             onChange={handleEndTimeChange}
+            required
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControl fullWidth variant="outlined">
+          <FormControl fullWidth variant="outlined" required>
             <InputLabel id="activity-label">Activity</InputLabel>
             <Select
               labelId="activity-label"

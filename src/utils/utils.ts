@@ -40,3 +40,15 @@ export const checkTikTokUrl = async (url: string) => {
     return false;
   }
 };
+
+export const convertTo12HourFormat = (time: string) => {
+  if (time === "") {
+    return "N/A"
+  }
+  const [hourString, minute] = time.split(':');
+  let hour = parseInt(hourString, 10);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  hour = hour % 12 || 12; // Convert hour to 12-hour format
+  const formattedHour = hour < 10 ? `0${hour}` : hour; // Ensure two digits
+  return `${formattedHour}:${minute} ${ampm}`;
+};

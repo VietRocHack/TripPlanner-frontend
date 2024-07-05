@@ -24,8 +24,8 @@ export default function FormScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tripInfo, setTripInfo] = useState<TripInfo>({
     location: "",
-    startTime: "00:00 AM",
-    endTime: "11:59 PM",
+    startTime: "",
+    endTime: "",
     activityTags: [],
     comments: "",
   });
