@@ -10,7 +10,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { Dispatch, useState } from "react";
+import { Dispatch } from "react";
 
 interface TripCreatorProps {
   tripInfo: TripInfo;
@@ -24,17 +24,49 @@ export default function TripCreator({
   console.log(tripInfo);
   console.log(setTripInfo);
 
-  const handleLocationChange = (event) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleLocationChange = (event: any) => {
     setTripInfo((prev) => {
       return { ...prev, location: event.target.value };
     });
   };
 
-  const handleActivityChange = (event) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleActivityChange = (event: any) => {
     setTripInfo((prev) => {
       return {
         ...prev,
-        tags: event.target.value,
+        activityTags: event.target.value,
+      };
+    });
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleStartTimeChange = (event: any) => {
+    setTripInfo((prev) => {
+      return {
+        ...prev,
+        startTime: event.target.value,
+      };
+    });
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleEndTimeChange = (event: any) => {
+    setTripInfo((prev) => {
+      return {
+        ...prev,
+        endTime: event.target.value,
+      };
+    });
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleCommentsChange = (event: any) => {
+    setTripInfo((prev) => {
+      return {
+        ...prev,
+        comments: event.target.value,
       };
     });
   };
@@ -58,9 +90,11 @@ export default function TripCreator({
             id="start-time"
             label="Start Time"
             type="time"
+            value={tripInfo.startTime}
             InputLabelProps={{ shrink: true }}
             inputProps={{ step: 300 }} // 5 min
             fullWidth
+            onChange={handleStartTimeChange}
           />
         </Grid>
         <Grid item xs={12} sm={3}>
@@ -68,9 +102,11 @@ export default function TripCreator({
             id="end-time"
             label="End Time"
             type="time"
+            value={tripInfo.endTime}
             InputLabelProps={{ shrink: true }}
             inputProps={{ step: 300 }} // 5 min
             fullWidth
+            onChange={handleEndTimeChange}
           />
         </Grid>
         <Grid item xs={12}>
@@ -80,14 +116,16 @@ export default function TripCreator({
               labelId="activity-label"
               id="activity"
               multiple
-              value={tripInfo.tags}
+              value={tripInfo.activityTags}
               onChange={handleActivityChange}
               renderValue={(selected) => selected.join(", ")}
               label="Activity"
             >
               {Object.values(ActivityTag).map((activity) => (
                 <MenuItem key={activity} value={activity}>
-                  <Checkbox checked={tripInfo.tags.includes(activity)} />
+                  <Checkbox
+                    checked={tripInfo.activityTags.includes(activity)}
+                  />
                   <ListItemText primary={activity} />
                 </MenuItem>
               ))}
@@ -99,9 +137,11 @@ export default function TripCreator({
             id="special-notes"
             label="Special Notes"
             variant="outlined"
+            placeholder="E.g., Allergies, accessibility needs, travelling with children, or other preferences"
             multiline
             rows={4}
             fullWidth
+            onChange={handleCommentsChange}
           />
         </Grid>
       </Grid>

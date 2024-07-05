@@ -5,7 +5,7 @@ import ImageBackground from "../../components/Background/Background";
 import { useState } from "react";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
 import Catchphrase from "../HomeScreen/Catchphrase";
-import { ActivityTag, TikTokVideoObject, TripInfo } from "../../utils/types";
+import { TikTokVideoObject, TripInfo } from "../../utils/types";
 import FormPartTwo from "./FormPartTwo";
 
 import bgImage from "../../assets/wallpaper.jpg";
@@ -24,9 +24,9 @@ export default function FormScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tripInfo, setTripInfo] = useState<TripInfo>({
     location: "",
-    startOfDay: 0,
-    endOfDay: 24,
-    tags: [],
+    startTime: "00:00 AM",
+    endTime: "11:59 PM",
+    activityTags: [],
     comments: "",
   });
   const [videos, setVideos] = useState<Map<string, TikTokVideoObject>>(

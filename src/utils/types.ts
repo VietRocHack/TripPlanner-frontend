@@ -32,9 +32,9 @@ export enum ActivityTag {
 
 export interface TripInfo {
   location: string;
-  startOfDay: number;
-  endOfDay: number;
-  tags: ActivityTag[];
+  startTime: string;
+  endTime: string;
+  activityTags: ActivityTag[];
   comments: string;
 }
 
