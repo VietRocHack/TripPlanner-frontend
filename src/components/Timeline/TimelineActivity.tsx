@@ -8,6 +8,7 @@ import { Activity } from "../../utils/types";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { deepmerge } from "@mui/utils";
 import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
+import { cleanTikTokVideoURL } from "../../utils/utils";
 
 const joyTheme = extendJoyTheme({
   cssVarPrefix: "mui",
@@ -25,6 +26,19 @@ export default function TimelineActivity({
   activity,
   width,
 }: TimelineActivityProps) {
+  const displayTiktok = (url: string) => {
+    const video = cleanTikTokVideoURL(url);
+    if (typeof video === "string") {
+      return <Typography>Broken URL link</Typography>;
+    } else {
+      return (
+        <iframe
+          src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
+        ></iframe>
+      );
+    }
+  };
+
   return (
     <div style={{ width: width }}>
       <Grid container spacing={2}>
@@ -55,10 +69,7 @@ export default function TimelineActivity({
             <div style={{ maxWidth: "250px" }}>
               <CssVarsProvider theme={theme}>
                 <AspectRatio ratio="9/16">
-                  <iframe
-                    src={activity.inspiredBy.video_url}
-                    style={{ borderRadius: "inherit" }}
-                  />
+                  {displayTiktok(activity.inspiredBy.video_url)}
                 </AspectRatio>
               </CssVarsProvider>
             </div>
