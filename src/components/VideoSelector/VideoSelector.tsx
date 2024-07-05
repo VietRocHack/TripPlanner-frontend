@@ -1,10 +1,6 @@
 import {
   Box,
-  Checkbox,
   CircularProgress,
-  Experimental_CssVarsProvider as CssVarsProvider,
-  experimental_extendTheme as extendMuiTheme,
-  FormControlLabel,
   Grid,
   IconButton,
   Paper,
@@ -13,26 +9,15 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { ChangeEvent, Dispatch, useEffect, useState } from "react";
-import AspectRatio from "@mui/joy/AspectRatio";
 import { checkTikTokUrl, cleanTikTokVideoURL } from "../../utils/utils";
-import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { TikTokVideoObject } from "../../utils/types";
-import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
-import { deepmerge } from "@mui/utils";
 import { Send } from "@mui/icons-material"; // Import icon for button
+import VideoDisplay from "./VideoDisplay/VideoDisplay";
+import { darkTheme } from "../../utils/themes";
 interface VideoSelectorProps {
   videos: Map<string, TikTokVideoObject>;
   setVideos: Dispatch<React.SetStateAction<Map<string, TikTokVideoObject>>>;
 }
-
-const joyTheme = extendJoyTheme({
-  cssVarPrefix: "mui",
-});
-
-const muiTheme = extendMuiTheme();
-
-const theme = deepmerge(joyTheme, muiTheme);
 
 /**
  * Return a Stepper with multiple different ReactNodes as its steps
@@ -41,7 +26,7 @@ export default function VideoSelector({
   videos,
   setVideos,
 }: VideoSelectorProps) {
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(darkTheme.breakpoints.down("sm"));
   const [vid, setVid] = useState<string>("");
   const [listVid, setListVid] = useState<TikTokVideoObject[]>(
     JSON.parse(localStorage.getItem("listVid") ?? "[]")
@@ -205,9 +190,11 @@ export default function VideoSelector({
             </IconButton>
           </Grid>
         </Grid>
-
-        <Paper
-          elevation={3}
+        <VideoDisplay
+          listVid={listVid}
+          videos={videos}
+          handleChangeVid={handleChangeVid}
+          handleDeleteVid={handleDeleteVid}
           sx={{
             padding: 3,
             borderRadius: 2,
@@ -216,111 +203,7 @@ export default function VideoSelector({
             background: "#131314",
             maxWidth: 1000,
           }}
-        >
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              flexGrow: 1,
-              height: 750,
-              overflowY: "auto",
-              padding: 2,
-            }}
-            // xs={{
-            //   margin: 0,
-            // }}
-          >
-            {listVid.length > 0 ? (
-              <>
-                {listVid.map((video, index) => (
-                  <Grid
-                    padding="0"
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={3}
-                    key={`added-video-${index}`}
-                    sx={{ padding: 0 }}
-                  >
-                    {/* Display video using this component */}
-                    <CssVarsProvider theme={theme}>
-                      <AspectRatio ratio="9/16">
-                        <iframe
-                          src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
-                          style={{ borderRadius: "inherit" }}
-                        />
-                      </AspectRatio>
-                    </CssVarsProvider>
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={videos.has(video.id)}
-                            onChange={() => {
-                              handleChangeVid(video);
-                            }}
-                            color="secondary"
-                          />
-                        }
-                        label={
-                          videos.has(video.id) ? (
-                            <Typography color="secondary">
-                              Added to the trip!
-                            </Typography>
-                          ) : (
-                            <Typography>Add to the trip!</Typography>
-                          )
-                        }
-                      />
-                      <IconButton
-                        color="primary"
-                        onClick={() => {
-                          handleDeleteVid(index, video);
-                        }}
-                        disableRipple={true}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Box>
-                  </Grid>
-                ))}
-              </>
-            ) : (
-              <Paper
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  maxWidth: 400,
-                  margin: "auto",
-                  padding: 4,
-                  borderRadius: 2,
-                  boxShadow: 1,
-                }}
-              >
-                <SlowMotionVideoIcon
-                  fontSize="inherit"
-                  sx={{ fontSize: 40, color: "primary.main" }}
-                />
-                <Typography
-                  variant="body1"
-                  sx={{ marginTop: 2 }}
-                  textAlign="center"
-                >
-                  Add your first TikTok here!
-                </Typography>
-              </Paper>
-            )}
-          </Grid>
-        </Paper>
+        />
       </Paper>
     </Box>
   );
