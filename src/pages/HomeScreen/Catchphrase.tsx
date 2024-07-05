@@ -1,19 +1,23 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-interface CatchphraseProps{
-  fontSizeMobile?: string,
-  fontSizeDesktop?: string,
+interface CatchphraseProps {
+  fontSizeMobile?: string;
+  fontSizeDesktop?: string;
 }
 
-
-const Catchphrase: React.FC = ({fontSizeMobile="2.8rem", fontSizeDesktop="3rem"}: CatchphraseProps) => {
+const Catchphrase: React.FC = ({
+  fontSizeMobile = "2.8rem",
+  fontSizeDesktop = "3rem",
+}: CatchphraseProps) => {
   return (
     <>
       <Box
         sx={{
           position: "relative",
           textAlign: "center",
+          marginBottom: 4,
+          backgroundColor: "primary",
         }}
       >
         <Typography

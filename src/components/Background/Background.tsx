@@ -1,4 +1,3 @@
-
 interface BackgroundProps {
   backgroundUrl: string;
   opacity: number;
@@ -6,7 +5,7 @@ interface BackgroundProps {
 
 export default function ImageBackground({
   backgroundUrl,
-  opacity
+  opacity,
 }: BackgroundProps) {
   return (
     <>

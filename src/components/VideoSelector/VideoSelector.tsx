@@ -9,7 +9,6 @@ import {
   Grid,
   IconButton,
   TextField,
-  ThemeProvider,
   Typography,
 } from "@mui/material";
 import { ChangeEvent, Dispatch, useEffect, useState } from "react";
@@ -20,8 +19,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { TikTokVideoObject } from "../../utils/types";
 import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
 import { deepmerge } from "@mui/utils";
-// import { lightTheme } from "../../utils/themes";
-import { darkTheme } from "../../utils/themes";
 
 interface VideoSelectorProps {
   videos: Map<string, TikTokVideoObject>;
@@ -146,7 +143,6 @@ export default function VideoSelector({
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
     <Box
       sx={{
         display: "flex",
@@ -214,9 +210,7 @@ export default function VideoSelector({
       </Box>
 
       <FormGroup>
-        <Typography variant="h5">
-          Your TikTok video library
-        </Typography>
+        <Typography variant="h5">Your TikTok video library</Typography>
         <Typography variant="h6">
           You selected {videos.size} out of {listVid.length} video
           {listVid.length > 1 ? "s" : ""}.
@@ -253,7 +247,7 @@ export default function VideoSelector({
                       />
                     </AspectRatio>
                   </CssVarsProvider>
-                  
+
                   <Box
                     sx={{
                       display: "flex",
@@ -313,11 +307,7 @@ export default function VideoSelector({
                 fontSize="inherit"
                 sx={{ fontSize: 60, color: "primary.main" }}
               />
-              <Typography
-                variant="h6"
-                color="black"
-                sx={{ marginTop: 2 }}
-              >
+              <Typography variant="h6" color="black" sx={{ marginTop: 2 }}>
                 Add your first TikTok here!
               </Typography>
             </Box>
@@ -325,6 +315,5 @@ export default function VideoSelector({
         </Grid>
       </FormGroup>
     </Box>
-    </ThemeProvider>
   );
 }

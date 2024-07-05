@@ -11,7 +11,7 @@ import FormPartTwo from "./FormPartTwo";
 import bgImage from "../../assets/wallpaper.jpg";
 
 import "./FormScreen.css";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import FormPartOne from "./FormPartOne";
 import FormPartThree from "./FormPartThree";
 
@@ -37,7 +37,7 @@ export default function FormScreen() {
     <>
       <ImageBackground backgroundUrl={bgImage} opacity={0.2} />
 
-      <div className="main-content">
+      <Box className="main-content">
         <Grid container spacing={2}>
           <Grid item xs={0} md={1}></Grid>
           <Grid item xs={12} md={10}>
@@ -54,7 +54,7 @@ export default function FormScreen() {
           </Grid>
           <Grid item xs={0} md={1}></Grid>
         </Grid>
-      </div>
+      </Box>
     </>
   );
 }
