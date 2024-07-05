@@ -23,10 +23,10 @@ import FormPartThree from "./FormPartThree";
 export default function FormScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tripInfo, setTripInfo] = useState<TripInfo>({
-    location: "Hanoi",
-    startOfDay: 8,
+    location: "",
+    startOfDay: 0,
     endOfDay: 24,
-    tags: [ActivityTag.Adventure],
+    tags: [],
     comments: "",
   });
   const [videos, setVideos] = useState<Map<string, TikTokVideoObject>>(

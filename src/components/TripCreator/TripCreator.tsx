@@ -24,10 +24,19 @@ export default function TripCreator({
   console.log(tripInfo);
   console.log(setTripInfo);
 
-  const [activity, setActivity] = useState([]);
+  const handleLocationChange = (event) => {
+    setTripInfo((prev) => {
+      return { ...prev, location: event.target.value };
+    });
+  };
 
   const handleActivityChange = (event) => {
-    setActivity(event.target.value);
+    setTripInfo((prev) => {
+      return {
+        ...prev,
+        tags: event.target.value,
+      };
+    });
   };
 
   return (
@@ -36,9 +45,12 @@ export default function TripCreator({
         <Grid item xs={12} sm={6}>
           <TextField
             id="location"
+            placeholder="Ha Noi, Vietnam"
+            value={tripInfo.location}
             label="Location"
             variant="outlined"
             fullWidth
+            onChange={handleLocationChange}
           />
         </Grid>
         <Grid item xs={12} sm={3}>
@@ -68,14 +80,14 @@ export default function TripCreator({
               labelId="activity-label"
               id="activity"
               multiple
-              value={activity}
+              value={tripInfo.tags}
               onChange={handleActivityChange}
               renderValue={(selected) => selected.join(", ")}
               label="Activity"
             >
               {Object.values(ActivityTag).map((activity) => (
                 <MenuItem key={activity} value={activity}>
-                  <Checkbox checked={activity.includes(activity)} />
+                  <Checkbox checked={tripInfo.tags.includes(activity)} />
                   <ListItemText primary={activity} />
                 </MenuItem>
               ))}

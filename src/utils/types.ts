@@ -14,7 +14,7 @@ export enum ActivityTag {
   Relaxation = "Relaxation",
   Nightlife = "Nightlife",
   Wildlife = "Wildlife",
-  CulturalExperience = "CulturalExperience",
+  CulturalExperience = "Cultural Experience",
   Sports = "Sports",
   Festival = "Festival",
   RoadTrip = "RoadTrip",
@@ -24,10 +24,10 @@ export enum ActivityTag {
   Photography = "Photography",
   Entertainment = "Entertainment",
   History = "History",
-  FamilyFun = "FamilyFun",
-  ThemePark = "ThemePark",
-  WaterSports = "WaterSports",
-  WinterSports = "WinterSports"
+  FamilyFun = "Family Fun",
+  ThemePark = "Theme Park",
+  WaterSports = "Water Sports",
+  WinterSports = "Winter Sports"
 }
 
 export interface TripInfo {
