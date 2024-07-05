@@ -5,7 +5,7 @@ import ImageBackground from "../../components/Background/Background";
 import { useState } from "react";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
 import Catchphrase from "../HomeScreen/Catchphrase";
-import { TikTokVideoObject, TripInfo } from "../../utils/types";
+import { ActivityTag, TikTokVideoObject, TripInfo } from "../../utils/types";
 import FormPartTwo from "./FormPartTwo";
 
 import bgImage from "../../assets/wallpaper.jpg";
@@ -22,7 +22,13 @@ import FormPartThree from "./FormPartThree";
 
 export default function FormScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [tripInfo, setTripInfo] = useState<TripInfo>({});
+  const [tripInfo, setTripInfo] = useState<TripInfo>({
+    location: "Hanoi",
+    startOfDay: 8,
+    endOfDay: 24,
+    tags: [ActivityTag.Adventure],
+    comments: "",
+  });
   const [videos, setVideos] = useState<Map<string, TikTokVideoObject>>(
     new Map<string, TikTokVideoObject>()
   );
@@ -39,7 +45,7 @@ export default function FormScreen() {
             <CustomHorizontalStepper
               steps={["Initial steps", "Add your touch", "Review your trip"]}
               nodes={[
-                <FormPartOne></FormPartOne>,
+                <FormPartOne tripInfo={tripInfo} setTripInfo={setTripInfo} />,
                 <FormPartTwo videos={videos} setVideos={setVideos} />,
                 <FormPartThree videos={videos} tripInfo={tripInfo} />,
                 <>end</>,
