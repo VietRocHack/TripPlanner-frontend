@@ -5,7 +5,7 @@ import ImageBackground from "../../components/Background/Background";
 import { useState } from "react";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
 import Catchphrase from "../HomeScreen/Catchphrase";
-import { TikTokVideoObject } from "../../utils/types";
+import { TikTokVideoObject, TripInfo } from "../../utils/types";
 import FormPartTwo from "./FormPartTwo";
 
 import bgImage from "../../assets/wallpaper.jpg";
@@ -13,6 +13,7 @@ import bgImage from "../../assets/wallpaper.jpg";
 import "./FormScreen.css";
 import { Grid } from "@mui/material";
 import FormPartOne from "./FormPartOne";
+import FormPartThree from "./FormPartThree";
 
 // interface Time{
 //   hour: number
@@ -20,11 +21,8 @@ import FormPartOne from "./FormPartOne";
 // }
 
 export default function FormScreen() {
-  // const [location, setLocation] = useState<string>("");
-  // const [startTime, setStartTime] = useState<Time>();
-  // const [endTime, setEndTime] = useState<Time>();
-  // const [preferredActivities, setPreferredActivities] = useState<string[]>()
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [tripInfo, setTripInfo] = useState<TripInfo>({});
   const [videos, setVideos] = useState<Map<string, TikTokVideoObject>>(
     new Map<string, TikTokVideoObject>()
   );
@@ -43,7 +41,7 @@ export default function FormScreen() {
               nodes={[
                 <FormPartOne></FormPartOne>,
                 <FormPartTwo videos={videos} setVideos={setVideos} />,
-                <>3</>,
+                <FormPartThree videos={videos} tripInfo={tripInfo} />,
                 <>end</>,
               ]}
             />
