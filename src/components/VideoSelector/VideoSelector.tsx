@@ -5,7 +5,6 @@ import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendMuiTheme,
   FormControlLabel,
-  FormGroup,
   Grid,
   IconButton,
   Paper,
@@ -162,6 +161,12 @@ export default function VideoSelector({
           maxWidth: 1000,
         }}
       >
+        <Typography variant="h6">Your TikTok video library</Typography>
+        <Typography variant="body1" sx={{ marginBottom: 2 }}>
+          You selected {videos.size} out of {listVid.length} video
+          {listVid.length > 1 ? "s" : ""}.
+        </Typography>
+
         <Grid container spacing={2}>
           <Grid item xs={11}>
             <TextField
@@ -185,12 +190,18 @@ export default function VideoSelector({
             </IconButton>
           </Grid>
         </Grid>
-        <FormGroup>
-          <Typography variant="h5">Your TikTok video library</Typography>
-          <Typography variant="h6">
-            You selected {videos.size} out of {listVid.length} video
-            {listVid.length > 1 ? "s" : ""}.
-          </Typography>
+
+        <Paper
+          elevation={3}
+          sx={{
+            padding: 3,
+            borderRadius: 2,
+            marginTop: 3,
+            width: "100%",
+            background: "#131314",
+            maxWidth: 1000,
+          }}
+        >
           <Grid
             container
             spacing={2}
@@ -265,7 +276,7 @@ export default function VideoSelector({
                 ))}
               </>
             ) : (
-              <Box
+              <Paper
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -274,22 +285,25 @@ export default function VideoSelector({
                   maxWidth: 400,
                   margin: "auto",
                   padding: 4,
-                  backgroundColor: "#f5f5f5",
                   borderRadius: 2,
                   boxShadow: 1,
                 }}
               >
                 <SlowMotionVideoIcon
                   fontSize="inherit"
-                  sx={{ fontSize: 60, color: "primary.main" }}
+                  sx={{ fontSize: 40, color: "primary.main" }}
                 />
-                <Typography variant="h6" color="black" sx={{ marginTop: 2 }}>
+                <Typography
+                  variant="body1"
+                  sx={{ marginTop: 2 }}
+                  textAlign="center"
+                >
                   Add your first TikTok here!
                 </Typography>
-              </Box>
+              </Paper>
             )}
           </Grid>
-        </FormGroup>
+        </Paper>
       </Paper>
     </Box>
   );
