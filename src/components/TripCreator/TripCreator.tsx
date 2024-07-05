@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import { ActivityTag, TripInfo } from "../../utils/types";
 import {
   Checkbox,
@@ -7,6 +6,7 @@ import {
   InputLabel,
   ListItemText,
   MenuItem,
+  Paper,
   Select,
   TextField,
 } from "@mui/material";
@@ -72,8 +72,13 @@ export default function TripCreator({
   };
 
   return (
-    <Box
-      sx={{ flexGrow: 1, padding: 2, background: "#28282B", maxWidth: 1200 }}
+    <Paper
+      sx={{
+        flexGrow: 1,
+        padding: 2,
+        background: "#28282B",
+        maxWidth: 1200,
+      }}
     >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
@@ -150,6 +155,6 @@ export default function TripCreator({
           />
         </Grid>
       </Grid>
-    </Box>
+    </Paper>
   );
 }

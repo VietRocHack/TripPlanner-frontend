@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { TikTokVideoObject, TripInfo } from "../../utils/types";
-import { List, ListItem, ListItemText, Paper, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { convertTo12HourFormat } from "../../utils/utils";
 
 interface TripSummaryProps {
@@ -18,6 +18,7 @@ export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
         borderRadius: 2,
         marginTop: 3,
         width: "100%",
+        background: "#28282B",
         maxWidth: 1000,
       }}
     >
