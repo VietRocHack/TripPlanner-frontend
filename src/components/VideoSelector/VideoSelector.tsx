@@ -244,6 +244,7 @@ export default function VideoSelector({
                   key={`added-video-${index}`}
                   sx={{ padding: 0 }}
                 >
+                  {/* Display video using this component */}
                   <CssVarsProvider theme={theme}>
                     <AspectRatio ratio="9/16">
                       <iframe
@@ -252,6 +253,7 @@ export default function VideoSelector({
                       />
                     </AspectRatio>
                   </CssVarsProvider>
+                  
                   <Box
                     sx={{
                       display: "flex",

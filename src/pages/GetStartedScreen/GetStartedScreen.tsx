@@ -18,7 +18,7 @@ const GetStartedScreen: React.FC = () => {
             SwipeAndFly is your travel helper with your interests and favorites
             in mind.
           </Typography>
-          <Button variant="contained" color="secondary" onClick={() => {document.location.href="./create-trip"}}>Get started</Button>
+          <Button variant="contained" color="primary" onClick={() => {document.location.href="./create-trip"}}>Get started</Button>
           
         </div>
       </div>
