@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
 import Catchphrase from "../HomeScreen/Catchphrase";
-import { ActivityTag, TikTokVideoObject, TripInfo } from "../../utils/types";
+import { TikTokVideoObject, TripInfo } from "../../utils/types";
 import FormPartTwo from "./FormPartTwo";
 
 import "./FormScreen.css";
