@@ -11,6 +11,7 @@ import FormPartThree from "./FormPartThree";
 import ImageBackground from "../../components/Background/Background";
 import FormSubmitGenerate from "./FormSubmitGenerate";
 import bgImage from "../../assets/background.jpeg";
+import "../../animation.css";
 
 // interface Time{
 //   hour: number
@@ -40,6 +41,37 @@ export default function FormScreen() {
             <Catchphrase />
             <CustomHorizontalStepper
               steps={["Initial steps", "Add your touch", "Review your trip"]}
+              requirements={[
+                {
+                  condition: (): boolean => {
+                    return (
+                      tripInfo.location.length > 0 &&
+                      tripInfo.startTime.length > 0 &&
+                      tripInfo.endTime.length > 0 &&
+                      tripInfo.activityTags.length > 0
+                    );
+                  },
+                  errorMsg: "Please fill in all the required (*) section",
+                },
+                {
+                  condition: (): boolean => {
+                    throw new Error("Function not implemented.");
+                  },
+                  errorMsg: "",
+                },
+                {
+                  condition: function (): boolean {
+                    throw new Error("Function not implemented.");
+                  },
+                  errorMsg: "",
+                },
+                {
+                  condition: function (): boolean {
+                    throw new Error("Function not implemented.");
+                  },
+                  errorMsg: "",
+                },
+              ]}
               nodes={[
                 <FormPartOne tripInfo={tripInfo} setTripInfo={setTripInfo} />,
                 <FormPartTwo videos={videos} setVideos={setVideos} />,

@@ -54,3 +54,8 @@ export interface Activity {
 export interface Itinerary{
   activities: Activity[]
 }
+
+export interface FormRequirements {
+  condition: (...args: unknown[]) => boolean;
+  errorMsg: string;
+}
