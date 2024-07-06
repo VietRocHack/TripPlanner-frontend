@@ -17,7 +17,7 @@ export enum ActivityTag {
   CulturalExperience = "Cultural Experience",
   Sports = "Sports",
   Festival = "Festival",
-  RoadTrip = "RoadTrip",
+  RoadTrip = "Road Trip",
   Camping = "Camping",
   Cruise = "Cruise",
   Spa = "Spa",

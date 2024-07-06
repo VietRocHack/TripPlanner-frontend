@@ -152,7 +152,7 @@ export default function VideoSelector({
       <Typography variant="h4" color="primary" gutterBottom>
         Customize your trip with your TikTok videos
       </Typography>
-      <Typography variant="body1" sx={{ marginBottom: 3 }} gutterBottom>
+      <Typography variant="body1" sx={{ marginBottom: 3 }}>
         Here you can add your TikTok videos and choose it to be put into your
         trip.
       </Typography>
