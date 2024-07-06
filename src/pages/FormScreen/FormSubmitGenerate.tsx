@@ -9,6 +9,8 @@ import {
 import { TikTokVideoObject, TripInfo } from "../../utils/types";
 import { useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
+import { useNavigate } from "react-router-dom";
+import { preparePrompt, prepareTikTokUrls } from "../../utils/utils";
 
 interface FormSubmitGenerateProps {
   tripInfo: TripInfo;
@@ -22,6 +24,7 @@ export default function FormSubmitGenerate({
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [statusList, setStatusList] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setStatusList([
@@ -33,27 +36,47 @@ export default function FormSubmitGenerate({
       "crafting the best place for ya",
       "bored, yet? dw, almost there",
     ]);
-  }, []);
+  }, [tripInfo.location]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
     let progressValue = 0;
 
     const interval = setInterval(() => {
       progressValue += 1;
       setProgress(progressValue);
-      if (progressValue >= 99) {
+      if (progressValue == 90) {
         clearInterval(interval);
-        // Simulate API call delay
-        setTimeout(() => {
-          setLoading(false);
-          setProgress(0);
-          // Handle API response here
-        }, 300);
       }
     }, 300); // 99% in 30 seconds = 300ms interval
+
+    try {
+      const response = await fetch(
+        `https://spvzn3tnm0.execute-api.us-east-1.amazonaws.com/generate_itinerary?` +
+          `prompt=${encodeURIComponent(preparePrompt(tripInfo))}` +
+          `&video_urls=${prepareTikTokUrls(videos)}`,
+        {
+          method: "POST",
+        }
+      );
+      if (response.ok) {
+        const result = await response.text();
+        navigate(`/your-trip/${result}`);
+      } else {
+        alert("error");
+        console.error(
+          "Failed to fetch data. Response status:",
+          response.status
+        );
+      }
+    } catch (error) {
+      console.log("ERROR: " + error);
+    } finally {
+      clearInterval(interval);
+      setLoading(false);
+      setProgress(0);
+    }
   };
-  console.log(videos);
   return (
     <Paper
       elevation={3}

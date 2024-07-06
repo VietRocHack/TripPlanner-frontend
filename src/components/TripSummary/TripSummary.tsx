@@ -13,7 +13,6 @@ interface TripSummaryProps {
 export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
   const isMobile = useMediaQuery(darkTheme.breakpoints.down("sm"));
 
-  console.log(videos);
   return (
     <Paper
       elevation={3}
