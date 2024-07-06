@@ -1,5 +1,6 @@
 import { ActivityTag, TripInfo } from "../../utils/types";
 import {
+  Box,
   Checkbox,
   FormControl,
   Grid,
@@ -137,7 +138,11 @@ export default function TripCreator({
               multiple
               value={tripInfo.activityTags}
               onChange={handleActivityChange}
-              renderValue={(selected) => selected.join(", ")}
+              renderValue={(selected) => (
+                <Box sx={{ textOverflow: "ellipsis", width: 50 }}>
+                  {selected.join(", ")}
+                </Box>
+              )}
               label="Activity"
             >
               {Object.values(ActivityTag).map((activity) => (
