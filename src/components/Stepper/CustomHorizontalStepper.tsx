@@ -39,6 +39,7 @@ export default function CustomHorizontalStepper({
   };
 
   const handleBack = () => {
+    setError(false);
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -61,20 +62,21 @@ export default function CustomHorizontalStepper({
             );
           })}
         </Stepper>
+        {nodes[activeStep]}
+
         {isError && (
           <Alert
             severity="error"
             variant="outlined"
             sx={{
               mx: 5,
-              mb: 3,
+              mt: 3,
               animation: shake ? "shake 0.5s" : "none",
             }}
           >
             {requirements[activeStep].errorMsg}
           </Alert>
         )}
-        {nodes[activeStep]}
 
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Button

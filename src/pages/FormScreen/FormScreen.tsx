@@ -55,9 +55,10 @@ export default function FormScreen() {
                 },
                 {
                   condition: (): boolean => {
-                    throw new Error("Function not implemented.");
+                    console.log(videos.size);
+                    return videos.size > 0;
                   },
-                  errorMsg: "",
+                  errorMsg: "Please include at least one video into your trip",
                 },
                 {
                   condition: function (): boolean {
