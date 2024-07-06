@@ -1,7 +1,13 @@
 // import React from "react";
-import { Box, IconButton, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { TikTokVideoObject, TripInfo } from "../../utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 
 interface FormSubmitGenerateProps {
@@ -15,6 +21,19 @@ export default function FormSubmitGenerate({
 }: FormSubmitGenerateProps) {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [statusList, setStatusList] = useState<string[]>([]);
+
+  useEffect(() => {
+    setStatusList([
+      "processing your request",
+      `wow, you're going to ${tripInfo.location}`,
+      "analyzing your tiktoks",
+      "googlin- i mean doing some magic",
+      "great choice of videos, btw",
+      "crafting the best place for ya",
+      "bored, yet? dw, almost there",
+    ]);
+  }, []);
 
   const handleSubmit = () => {
     setLoading(true);
@@ -35,7 +54,6 @@ export default function FormSubmitGenerate({
     }, 300); // 99% in 30 seconds = 300ms interval
   };
   console.log(videos);
-  console.log(tripInfo);
   return (
     <Paper
       elevation={3}
@@ -64,24 +82,30 @@ export default function FormSubmitGenerate({
         </>
       )}
       {loading && (
-        <Box
-          sx={{
-            width: "80%",
-            height: 30,
-            backgroundColor: "f3f3f3",
-            borderRadius: "5px",
-            overflow: "hidden",
-          }}
-        >
+        <>
+          <CircularProgress color="secondary" sx={{ marginBottom: 6 }} />
           <Box
             sx={{
-              height: "100%",
-              backgroundColor: "#FE2858",
-              width: `${progress}%`,
-              transition: "width 0.3s ease-in-out",
+              width: "80%",
+              height: 30,
+              backgroundColor: "f3f3f3",
+              borderRadius: "5px",
+              overflow: "hidden",
+              border: "solid 2px",
             }}
-          />
-        </Box>
+          >
+            {statusList[Math.floor(progress / (100 / statusList.length))]}
+            <Box
+              sx={{
+                height: "100%",
+                marginTop: -3,
+                backgroundColor: "#FE2858",
+                width: `${progress}%`,
+                transition: "width 0.3s ease-in-out",
+              }}
+            ></Box>
+          </Box>
+        </>
       )}
     </Paper>
   );
