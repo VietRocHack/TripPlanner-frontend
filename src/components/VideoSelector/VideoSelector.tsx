@@ -270,6 +270,7 @@ export default function VideoSelector({
           height: 750,
           backgroundColor: "rgba(19,19,20, 0.2) !important",
         }}
+        videosPerRow={isMobile ? 1 : 4}
       />
     </Paper>
   );

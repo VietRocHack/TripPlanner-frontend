@@ -21,10 +21,10 @@ import "../../animation.css";
 export default function FormScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tripInfo, setTripInfo] = useState<TripInfo>({
-    location: "Placeholder",
-    startTime: "00:00",
-    endTime: "00:00",
-    activityTags: [ActivityTag.Adventure],
+    location: "",
+    startTime: "",
+    endTime: "",
+    activityTags: [],
     comments: "",
   });
   const [videos, setVideos] = useState<Map<string, TikTokVideoObject>>(
