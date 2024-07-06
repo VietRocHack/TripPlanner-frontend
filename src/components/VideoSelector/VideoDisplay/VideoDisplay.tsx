@@ -9,7 +9,6 @@ import {
   Typography,
   IconButton,
   SxProps,
-  Theme,
 } from "@mui/material";
 import { TikTokVideoObject } from "../../../utils/types";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
@@ -25,7 +24,10 @@ interface VideoDisplayProps {
   listVid: TikTokVideoObject[];
   handleDeleteVid: (index: number, video: TikTokVideoObject) => void;
   handleChangeVid: (video: TikTokVideoObject) => void;
-  sx?: SxProps<Theme>;
+  orientation: "vertical" | "horizontal";
+  videosPerRow?: number;
+  minimalSettings?: boolean;
+  sx: SxProps | undefined;
 }
 
 const joyTheme = extendJoyTheme({
@@ -41,113 +43,162 @@ export default function VideoDisplay({
   listVid,
   handleDeleteVid,
   handleChangeVid,
+  orientation,
+  videosPerRow = 4,
+  minimalSettings = false,
   sx,
 }: VideoDisplayProps) {
+  const settingBox = (video: TikTokVideoObject, index: number) => {
+    if (minimalSettings) {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Checkbox
+            checked={videos.has(video.id)}
+            onChange={() => {
+              handleChangeVid(video);
+            }}
+            color="secondary"
+          />
+        </Box>
+      );
+    } else {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={videos.has(video.id)}
+                onChange={() => {
+                  handleChangeVid(video);
+                }}
+                color="secondary"
+              />
+            }
+            label={
+              videos.has(video.id) ? (
+                <Typography color="secondary">Added to the trip!</Typography>
+              ) : (
+                <Typography>Add to the trip!</Typography>
+              )
+            }
+          />
+          <IconButton
+            color="primary"
+            onClick={() => {
+              handleDeleteVid(index, video);
+            }}
+            disableRipple={true}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      );
+    }
+  };
+
   return (
     <Paper elevation={3} sx={sx}>
-      <Grid
-        container
-        spacing={2}
-        sx={{
-          flexGrow: 1,
-          height: 750,
-          overflowY: "auto",
-          padding: 2,
-        }}
-        // xs={{
-        //   margin: 0,
-        // }}
-      >
-        {listVid.length > 0 ? (
-          <>
-            {listVid.map((video, index) => (
-              <Grid
-                padding="0"
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                key={`added-video-${index}`}
-                sx={{ padding: 0 }}
-              >
-                {/* Display video using this component */}
-                <CssVarsProvider theme={theme}>
-                  <AspectRatio ratio="9/16">
-                    <iframe
-                      src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
-                      style={{ borderRadius: "inherit" }}
-                    />
-                  </AspectRatio>
-                </CssVarsProvider>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
+      {orientation === "vertical" ? (
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            flexGrow: 1,
+            height: "100%",
+            overflowY: "auto",
+            padding: 2,
+          }}
+          // xs={{
+          //   margin: 0,
+          // }}
+        >
+          {listVid.length > 0 ? (
+            <>
+              {listVid.map((video, index) => (
+                <Grid
+                  padding="0"
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={`added-video-${index}`}
+                  sx={{ padding: 0 }}
                 >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={videos.has(video.id)}
-                        onChange={() => {
-                          handleChangeVid(video);
-                        }}
-                        color="secondary"
+                  {/* Display video using this component */}
+                  <CssVarsProvider theme={theme}>
+                    <AspectRatio ratio="9/16">
+                      <iframe
+                        src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
+                        height="200"
+                        style={{ borderRadius: "inherit" }}
                       />
-                    }
-                    label={
-                      videos.has(video.id) ? (
-                        <Typography color="secondary">
-                          Added to the trip!
-                        </Typography>
-                      ) : (
-                        <Typography>Add to the trip!</Typography>
-                      )
-                    }
-                  />
-                  <IconButton
-                    color="primary"
-                    onClick={() => {
-                      handleDeleteVid(index, video);
-                    }}
-                    disableRipple={true}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Box>
-              </Grid>
-            ))}
-          </>
-        ) : (
-          <Paper
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              maxWidth: 400,
-              margin: "auto",
-              padding: 4,
-              borderRadius: 2,
-              boxShadow: 1,
-            }}
-          >
-            <SlowMotionVideoIcon
-              fontSize="inherit"
-              sx={{ fontSize: 40, color: "primary.main" }}
-            />
-            <Typography
-              variant="body1"
-              sx={{ marginTop: 2 }}
-              textAlign="center"
+                    </AspectRatio>
+                  </CssVarsProvider>
+                  {settingBox(video, index)}
+                </Grid>
+              ))}
+            </>
+          ) : (
+            <Paper
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                maxWidth: 400,
+                margin: "auto",
+                padding: 4,
+                borderRadius: 2,
+                boxShadow: 1,
+              }}
             >
-              Add your first TikTok here!
-            </Typography>
-          </Paper>
-        )}
-      </Grid>
+              <SlowMotionVideoIcon
+                fontSize="inherit"
+                sx={{ fontSize: 40, color: "primary.main" }}
+              />
+              <Typography
+                variant="body1"
+                sx={{ marginTop: 2 }}
+                textAlign="center"
+              >
+                Add your first TikTok here!
+              </Typography>
+            </Paper>
+          )}
+        </Grid>
+      ) : (
+        <Box style={{ display: "flex", overflowX: "auto", gap: 15 }}>
+          {listVid.map((video, index) => (
+            <Box
+              key={video.id}
+              sx={{
+                width: 100 / videosPerRow + "%",
+              }}
+            >
+              <CssVarsProvider theme={theme}>
+                <AspectRatio ratio="9/16">
+                  <iframe
+                    src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
+                    style={{ borderRadius: "inherit" }}
+                  />
+                </AspectRatio>
+              </CssVarsProvider>
+              {settingBox(video, index)}
+            </Box>
+          ))}
+        </Box>
+      )}
     </Paper>
   );
 }

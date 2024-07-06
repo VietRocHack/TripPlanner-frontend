@@ -15,6 +15,7 @@ export default function FormPartTwo({ videos, setVideos }: FormPartTwoProps) {
       sx={{
         display: "flex",
         justifyContent: "center",
+        alignItems: "center",
         width: "100%",
       }}
     >

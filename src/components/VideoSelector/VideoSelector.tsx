@@ -1,5 +1,4 @@
 import {
-  Box,
   CircularProgress,
   Grid,
   IconButton,
@@ -139,72 +138,95 @@ export default function VideoSelector({
   };
 
   return (
-    <Box
+    <Paper
+      elevation={3}
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        maxWidth: 1500,
+        padding: 3,
+        borderRadius: 2,
+        marginTop: 3,
         width: "100%",
+        background: "#28282B",
+        maxWidth: 1000,
       }}
     >
-      <Paper
-        elevation={3}
+      <Typography variant="h4" color="primary" gutterBottom>
+        Customize your trip with your TikTok videos
+      </Typography>
+      <Typography variant="body1" sx={{ marginBottom: 3 }} gutterBottom>
+        Here you can add your TikTok videos and choose it to be put into your
+        trip.
+      </Typography>
+
+      <Grid container spacing={2}>
+        <Grid item xs={11}>
+          <TextField
+            id="location"
+            placeholder="https://www.tiktok.com/@drinklinknyc/video/7374836750948076846"
+            label="Your favorite TikTok review video URL"
+            variant="outlined"
+            fullWidth
+            required
+            value={vid}
+            onChange={handleVid}
+            sx={{ marginBottom: 3 }}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <IconButton
+            size={isMobile ? "medium" : "large"}
+            // sx={{ ...(isMobile && { display: "inline-block" }) }}
+            color="primary"
+            disabled={addingVid}
+            onClick={handleAddVid}
+          >
+            {addingVid ? <CircularProgress color="primary" /> : <Send />}
+          </IconButton>
+        </Grid>
+      </Grid>
+
+      <Typography variant="h6" color="secondary" gutterBottom>
+        Currently selected {videos.size} out of {listVid.length} video
+        {listVid.length > 1 ? "s" : ""}.
+      </Typography>
+
+      <VideoDisplay
+        listVid={[...videos.values()]}
+        videos={videos}
+        handleChangeVid={handleChangeVid}
+        handleDeleteVid={handleDeleteVid}
+        orientation="horizontal"
         sx={{
           padding: 3,
           borderRadius: 2,
           marginTop: 3,
           width: "100%",
-          background: "#28282B",
-          maxWidth: 1000,
+          background: "#131314",
+          marginBottom: 3,
         }}
-      >
-        <Typography variant="h6">Your TikTok video library</Typography>
-        <Typography variant="body1" sx={{ marginBottom: 2 }}>
-          You selected {videos.size} out of {listVid.length} video
-          {listVid.length > 1 ? "s" : ""}.
-        </Typography>
+        videosPerRow={5}
+        minimalSettings
+      />
 
-        <Grid container spacing={2}>
-          <Grid item xs={11}>
-            <TextField
-              id="location"
-              placeholder="https://www.tiktok.com/@drinklinknyc/video/7374836750948076846"
-              label="Your favorite TikTok review video URL"
-              variant="outlined"
-              fullWidth
-              required
-              value={vid}
-              onChange={handleVid}
-            />
-          </Grid>
-          <Grid item xs={1}>
-            <IconButton
-              size={isMobile ? "medium" : "large"}
-              // sx={{ ...(isMobile && { display: "inline-block" }) }}
-              color="primary"
-              disabled={addingVid}
-              onClick={handleAddVid}
-            >
-              {addingVid ? <CircularProgress color="primary" /> : <Send />}
-            </IconButton>
-          </Grid>
-        </Grid>
-        <VideoDisplay
-          listVid={listVid}
-          videos={videos}
-          handleChangeVid={handleChangeVid}
-          handleDeleteVid={handleDeleteVid}
-          sx={{
-            padding: 3,
-            borderRadius: 2,
-            marginTop: 3,
-            width: "100%",
-            background: "#131314",
-            maxWidth: 1000,
-          }}
-        />
-      </Paper>
-    </Box>
+      <Typography color="primary" variant="h5">
+        Your added TikTok videos
+      </Typography>
+
+      <VideoDisplay
+        listVid={listVid}
+        videos={videos}
+        handleChangeVid={handleChangeVid}
+        handleDeleteVid={handleDeleteVid}
+        orientation="vertical"
+        sx={{
+          padding: 3,
+          borderRadius: 2,
+          marginTop: 3,
+          width: "100%",
+          background: "#131314",
+          maxWidth: 1000,
+          height: 750,
+        }}
+      />
+    </Paper>
   );
 }

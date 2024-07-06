@@ -35,7 +35,7 @@ export default function FormScreen() {
 
   return (
     <>
-      <ImageBackground backgroundUrl={bgImage} opacity={0.2} />
+      {/* <ImageBackground backgroundUrl={bgImage} opacity={0.2} /> */}
 
       <Box className="main-content">
         <Grid container spacing={2}>
