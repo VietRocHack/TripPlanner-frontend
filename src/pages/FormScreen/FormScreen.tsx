@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
 import Catchphrase from "../HomeScreen/Catchphrase";
-import { TikTokVideoObject, TripInfo } from "../../utils/types";
+import { ActivityTag, TikTokVideoObject, TripInfo } from "../../utils/types";
 import FormPartTwo from "./FormPartTwo";
 
 import "./FormScreen.css";
@@ -21,10 +21,10 @@ import "../../animation.css";
 export default function FormScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tripInfo, setTripInfo] = useState<TripInfo>({
-    location: "",
-    startTime: "",
-    endTime: "",
-    activityTags: [],
+    location: "Placeholder",
+    startTime: "00:00",
+    endTime: "00:00",
+    activityTags: [ActivityTag.Adventure],
     comments: "",
   });
   const [videos, setVideos] = useState<Map<string, TikTokVideoObject>>(

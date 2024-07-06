@@ -7,7 +7,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { ChangeEvent, Dispatch, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, FormEvent, useEffect, useState } from "react";
 import { checkTikTokUrl, cleanTikTokVideoURL } from "../../utils/utils";
 import { TikTokVideoObject } from "../../utils/types";
 import { Send } from "@mui/icons-material"; // Import icon for button
@@ -64,8 +64,8 @@ export default function VideoSelector({
   /**
    * Chạy khi click upload button
    */
-  const handleAddVid = async () => {
-    console.log("Adding vid");
+  const handleAddVid = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setAddingVid(true);
     if (vid.length === 0) {
       alert("Empty");
@@ -153,10 +153,10 @@ export default function VideoSelector({
         trip.
       </Typography>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={2} component="form" onSubmit={handleAddVid}>
         <Grid item xs={11}>
           <TextField
-            id="location"
+            id="video_url"
             placeholder="https://www.tiktok.com/@drinklinknyc/video/7374836750948076846"
             label="Your favorite TikTok review video URL"
             variant="outlined"
@@ -172,8 +172,8 @@ export default function VideoSelector({
             size={isMobile ? "medium" : "large"}
             // sx={{ ...(isMobile && { display: "inline-block" }) }}
             disabled={addingVid}
-            onClick={handleAddVid}
             color="primary"
+            type="submit"
           >
             {addingVid ? <CircularProgress /> : <Send />}
           </IconButton>
