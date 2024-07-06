@@ -12,9 +12,8 @@ const GetStartedScreen: React.FC = () => {
       <ImageBackground backgroundUrl={bgImage} opacity={0.3} />
       <div className="main-flex">
         <Catchphrase />
-        <Typography variant="h6" sx={{ color: "white" }}>
-          SwipeAndFly is your travel helper with your interests and favorites in
-          mind.
+        <Typography variant="h6" sx={{ color: "white" }} textAlign="center">
+          SwipeAndFly plans your next memories.
         </Typography>
         <Button
           variant="contained"
