@@ -48,24 +48,27 @@ export default function FormSubmitGenerate({
         textAlign: "center",
       }}
     >
-      <IconButton
-        sx={{ fontSize: "3rem" }}
-        color="primary"
-        onClick={handleSubmit}
-        disabled={loading}
-      >
-        <SendIcon sx={{ width: 200, height: 200 }} />
-      </IconButton>
-      <Typography variant="h6" sx={{ marginTop: "10px" }}>
-        Ready? Swipe And Fly!
-      </Typography>
+      {!loading && (
+        <>
+          <IconButton
+            sx={{ fontSize: "3rem" }}
+            color="primary"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            <SendIcon sx={{ width: 200, height: 200 }} />
+          </IconButton>
+          <Typography variant="h6" sx={{ marginTop: "10px" }}>
+            Ready? Swipe And Fly!
+          </Typography>
+        </>
+      )}
       {loading && (
         <Box
           sx={{
-            marginTop: "20px",
             width: "80%",
-            height: "30px",
-            backgroundColor: "#f3f3f3",
+            height: 30,
+            backgroundColor: "f3f3f3",
             borderRadius: "5px",
             overflow: "hidden",
           }}
@@ -73,11 +76,11 @@ export default function FormSubmitGenerate({
           <Box
             sx={{
               height: "100%",
-              backgroundColor: "#3f51b5",
+              backgroundColor: "#FE2858",
               width: `${progress}%`,
               transition: "width 0.3s ease-in-out",
             }}
-          ></Box>
+          />
         </Box>
       )}
     </Paper>
