@@ -22,8 +22,8 @@ interface VideoDisplayProps {
   videos: Map<string, TikTokVideoObject>;
   // the videos to be displayed
   listVid: TikTokVideoObject[];
-  handleDeleteVid: (index: number, video: TikTokVideoObject) => void;
-  handleChangeVid: (video: TikTokVideoObject) => void;
+  handleDeleteVid?: (index: number, video: TikTokVideoObject) => void;
+  handleChangeVid?: (video: TikTokVideoObject) => void;
   orientation: "vertical" | "horizontal";
   videosPerRow?: number;
   minimalSettings?: boolean;
@@ -50,7 +50,7 @@ export default function VideoDisplay({
 }: VideoDisplayProps) {
   const settingBox = (video: TikTokVideoObject, index: number) => {
     if (minimalSettings) {
-      return (
+      return handleChangeVid ? (
         <Box
           sx={{
             display: "flex",
@@ -65,6 +65,8 @@ export default function VideoDisplay({
             color="secondary"
           />
         </Box>
+      ) : (
+        <></>
       );
     } else {
       return (
@@ -79,7 +81,9 @@ export default function VideoDisplay({
               <Checkbox
                 checked={videos.has(video.id)}
                 onChange={() => {
-                  handleChangeVid(video);
+                  if (handleChangeVid) {
+                    handleChangeVid(video);
+                  }
                 }}
                 color="secondary"
               />
@@ -95,7 +99,9 @@ export default function VideoDisplay({
           <IconButton
             color="primary"
             onClick={() => {
-              handleDeleteVid(index, video);
+              if (handleDeleteVid) {
+                handleDeleteVid(index, video);
+              }
             }}
             disableRipple={true}
           >
