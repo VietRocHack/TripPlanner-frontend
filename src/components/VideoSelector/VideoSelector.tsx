@@ -203,7 +203,7 @@ export default function VideoSelector({
           background: "#131314",
           marginBottom: 3,
         }}
-        videosPerRow={5}
+        videosPerRow={isMobile ? 2 : 5}
         minimalSettings
       />
 

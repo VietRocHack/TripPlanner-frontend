@@ -177,13 +177,13 @@ export default function VideoDisplay({
             </Paper>
           )}
         </Grid>
-      ) : (
+      ) : listVid.length > 0 ? (
         <Box style={{ display: "flex", overflowX: "auto", gap: 15 }}>
           {listVid.map((video, index) => (
             <Box
               key={video.id}
               sx={{
-                width: 100 / videosPerRow + "%",
+                minWidth: 100 / videosPerRow + "%",
               }}
             >
               <CssVarsProvider theme={theme}>
@@ -198,6 +198,29 @@ export default function VideoDisplay({
             </Box>
           ))}
         </Box>
+      ) : (
+        <Paper
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            maxWidth: 400,
+            margin: "auto",
+            padding: 4,
+            borderRadius: 2,
+            boxShadow: 1,
+          }}
+        >
+          <SlowMotionVideoIcon
+            fontSize="inherit"
+            color="secondary"
+            sx={{ fontSize: 40 }}
+          />
+          <Typography variant="body1" sx={{ marginTop: 2 }} textAlign="center">
+            Nothing added yet!
+          </Typography>
+        </Paper>
       )}
     </Paper>
   );
