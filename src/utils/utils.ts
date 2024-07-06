@@ -64,14 +64,11 @@ export const preparePrompt = (tripInfo: TripInfo) => {
 }
 
 export const prepareTikTokUrls = (videos: Map<string, TikTokVideoObject>) => {
-  console.log(videos);
   let videoUrls = "";
-  console.log(videos.size);
   if (videos.size === 0) return videoUrls;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  videos.forEach((video, id) => {
+  videos.forEach((video, _id) => {
     videoUrls += video.url + ","
   });
-  console.log(videoUrls);
   return videoUrls.substring(0, videoUrls.length-1);
 }
