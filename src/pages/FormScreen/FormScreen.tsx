@@ -33,7 +33,7 @@ export default function FormScreen() {
 
   return (
     <>
-      <Box className="main-content">
+      <Box className="main-content" mb={"10%"}>
         <ImageBackground backgroundUrl={bgImage} opacity={0.2} />
         <Grid container spacing={2} sx={{ zIndex: 1 }}>
           <Grid item xs={0} md={1}></Grid>
@@ -62,9 +62,9 @@ export default function FormScreen() {
                 },
                 {
                   condition: function (): boolean {
-                    throw new Error("Function not implemented.");
+                    return true;
                   },
-                  errorMsg: "",
+                  errorMsg: "This error is not supposed to be here.",
                 },
                 {
                   condition: function (): boolean {

@@ -133,10 +133,7 @@ export default function VideoDisplay({
                 <Grid
                   padding="0"
                   item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
+                  xs={Math.floor(12 / videosPerRow)}
                   key={`added-video-${index}`}
                   sx={{ padding: 0 }}
                 >
