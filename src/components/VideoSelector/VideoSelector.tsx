@@ -1,4 +1,5 @@
 import {
+  Alert,
   CircularProgress,
   Grid,
   IconButton,
@@ -34,6 +35,16 @@ export default function VideoSelector({
     new Set(JSON.parse(localStorage.getItem("vidIds") ?? "[]"))
   );
   const [addingVid, setAddingVid] = useState<boolean>(false);
+  const [urlErrorMsg, setUrlErrorMsg] = useState<string>("");
+  const [justAddedVid, setJustAddedVid] = useState<string>("");
+  const [shake, setShake] = useState<boolean>(false);
+
+  const handleShake = () => {
+    setShake(true);
+    setTimeout(() => {
+      setShake(false);
+    }, 500); // Reset shake after animation duration
+  };
 
   useEffect(() => {
     // update videos here too
@@ -61,11 +72,17 @@ export default function VideoSelector({
     setVid(event.target.value);
   };
 
+  const alertError = (errorMsg: string) => {
+    handleShake();
+    setUrlErrorMsg(errorMsg);
+  };
+
   /**
    * Chạy khi click upload button
    */
   const handleAddVid = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setUrlErrorMsg("");
     setAddingVid(true);
     if (vid.length === 0) {
       alert("Empty");
@@ -79,16 +96,17 @@ export default function VideoSelector({
     console.log("cleaning vid done");
 
     if (typeof extractedVid === "string") {
-      alert("Invalid TikTok URL");
+      setAddingVid(false);
+      alertError("The given URL is not valid");
     } else if (vidIds.has(extractedVid.id)) {
-      alert("Already exists");
+      setAddingVid(false);
+      alertError("You already have this video in your library");
     } else {
-      console.log("Checking exsistence");
       const isExist = await checkTikTokUrl(extractedVid.url);
-      console.log("Done");
 
       if (!isExist) {
-        alert("This TikTok URL does not exist");
+        setAddingVid(false);
+        alertError("This TikTok video does not exist");
         return;
       }
 
@@ -98,6 +116,7 @@ export default function VideoSelector({
         newVidIds.add(extractedVid.id);
         return newVidIds;
       });
+      setJustAddedVid(extractedVid.url);
       setVid("");
     }
     setAddingVid(false);
@@ -153,7 +172,13 @@ export default function VideoSelector({
         trip.
       </Typography>
 
-      <Grid container spacing={2} component="form" onSubmit={handleAddVid}>
+      <Grid
+        container
+        spacing={2}
+        component="form"
+        onSubmit={handleAddVid}
+        sx={{ mb: 3 }}
+      >
         <Grid item xs={11}>
           <TextField
             id="video_url"
@@ -164,7 +189,6 @@ export default function VideoSelector({
             required
             value={vid}
             onChange={handleVid}
-            sx={{ marginBottom: 3 }}
           />
         </Grid>
         <Grid item xs={1}>
@@ -178,6 +202,24 @@ export default function VideoSelector({
             {addingVid ? <CircularProgress /> : <Send />}
           </IconButton>
         </Grid>
+        {urlErrorMsg && (
+          <Grid item xs={12}>
+            <Alert
+              severity="error"
+              variant="outlined"
+              sx={{ animation: shake ? "shake 0.5s" : "none" }}
+            >
+              {urlErrorMsg}
+            </Alert>
+          </Grid>
+        )}
+        {justAddedVid && (
+          <Grid item xs={12}>
+            <Alert severity="success" variant="outlined">
+              Successfully added: {justAddedVid}
+            </Alert>
+          </Grid>
+        )}
       </Grid>
 
       <Typography variant="h6" gutterBottom>
