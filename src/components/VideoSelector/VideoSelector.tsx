@@ -1,40 +1,23 @@
 import {
-  Box,
-  Button,
-  Checkbox,
-  Experimental_CssVarsProvider as CssVarsProvider,
-  experimental_extendTheme as extendMuiTheme,
-  FormControlLabel,
-  FormGroup,
+  Alert,
+  CircularProgress,
   Grid,
   IconButton,
+  Paper,
   TextField,
-  ThemeProvider,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
-import { ChangeEvent, Dispatch, useEffect, useState } from "react";
-import AspectRatio from "@mui/joy/AspectRatio";
+import { ChangeEvent, Dispatch, FormEvent, useEffect, useState } from "react";
 import { checkTikTokUrl, cleanTikTokVideoURL } from "../../utils/utils";
-import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { TikTokVideoObject } from "../../utils/types";
-import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
-import { deepmerge } from "@mui/utils";
-// import { lightTheme } from "../../utils/themes";
+import { Send } from "@mui/icons-material"; // Import icon for button
+import VideoDisplay from "./VideoDisplay/VideoDisplay";
 import { darkTheme } from "../../utils/themes";
-
 interface VideoSelectorProps {
   videos: Map<string, TikTokVideoObject>;
   setVideos: Dispatch<React.SetStateAction<Map<string, TikTokVideoObject>>>;
 }
-
-const joyTheme = extendJoyTheme({
-  cssVarPrefix: "mui",
-});
-
-const muiTheme = extendMuiTheme();
-
-const theme = deepmerge(joyTheme, muiTheme);
 
 /**
  * Return a Stepper with multiple different ReactNodes as its steps
@@ -43,6 +26,7 @@ export default function VideoSelector({
   videos,
   setVideos,
 }: VideoSelectorProps) {
+  const isMobile = useMediaQuery(darkTheme.breakpoints.down("sm"));
   const [vid, setVid] = useState<string>("");
   const [listVid, setListVid] = useState<TikTokVideoObject[]>(
     JSON.parse(localStorage.getItem("listVid") ?? "[]")
@@ -51,6 +35,16 @@ export default function VideoSelector({
     new Set(JSON.parse(localStorage.getItem("vidIds") ?? "[]"))
   );
   const [addingVid, setAddingVid] = useState<boolean>(false);
+  const [urlErrorMsg, setUrlErrorMsg] = useState<string>("");
+  const [justAddedVid, setJustAddedVid] = useState<string>("");
+  const [shake, setShake] = useState<boolean>(false);
+
+  const handleShake = () => {
+    setShake(true);
+    setTimeout(() => {
+      setShake(false);
+    }, 500); // Reset shake after animation duration
+  };
 
   useEffect(() => {
     // update videos here too
@@ -74,25 +68,45 @@ export default function VideoSelector({
     localStorage.setItem("vidIds", JSON.stringify([...vidIds]));
   }, [vidIds]);
 
+  const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
+    setVid(event.target.value);
+  };
+
+  const alertError = (errorMsg: string) => {
+    handleShake();
+    setUrlErrorMsg(errorMsg);
+  };
+
   /**
    * Chạy khi click upload button
    */
-  const handleAddVid = async () => {
+  const handleAddVid = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setUrlErrorMsg("");
     setAddingVid(true);
-    if (vid.length == 0) {
+    if (vid.length === 0) {
+      alert("Empty");
+      setAddingVid(false);
       return;
     }
     const input = vid;
+    console.log("cleaning vid");
+
     const extractedVid = cleanTikTokVideoURL(input);
+    console.log("cleaning vid done");
+
     if (typeof extractedVid === "string") {
-      alert("Invalid TikTok URL");
+      setAddingVid(false);
+      alertError("The given URL is not valid");
     } else if (vidIds.has(extractedVid.id)) {
-      alert("Already exists");
+      setAddingVid(false);
+      alertError("You already have this video in your library");
     } else {
       const isExist = await checkTikTokUrl(extractedVid.url);
 
       if (!isExist) {
-        alert("This TikTok URL does not exist");
+        setAddingVid(false);
+        alertError("This TikTok video does not exist");
         return;
       }
 
@@ -102,17 +116,10 @@ export default function VideoSelector({
         newVidIds.add(extractedVid.id);
         return newVidIds;
       });
+      setJustAddedVid(extractedVid.url);
       setVid("");
     }
     setAddingVid(false);
-  };
-
-  // const deleteVideo = (index: number) => {
-  //   setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
-  // }
-
-  const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
-    setVid(event.target.value);
   };
 
   const handleDeleteVid = (index: number, video: TikTokVideoObject) => {
@@ -146,185 +153,125 @@ export default function VideoSelector({
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
-    <Box
+    <Paper
+      elevation={3}
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        maxWidth: 1500,
+        padding: 3,
+        borderRadius: 2,
         width: "100%",
-        margin: 3,
-        marginBottom: { xs: 2, sm: 2 },
-        padding: 10,
-        position: "relative",
-        zIndex: "1",
-        background: "#28282B",
-        // filter: "drop-shadow(-10px -10px 0 #24f6f0) brightness(110%)",
-        // boxShadow: "11.6px 10px 0 0 #fe2d52",
+        // background: "#28282B",
+        maxWidth: 1000,
+        backgroundColor: "rgba(40,40,43, 0.2) !important",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          marginBottom: 8,
-          padding: 3,
-          border: "1px solid lightgrey",
-          boxShadow: "5px 5px 0 0 lightgrey",
-        }}
+      <Typography variant="h4" fontWeight={"bold"} gutterBottom>
+        Customize your trip with your TikTok videos
+      </Typography>
+      <Typography variant="body1" sx={{ marginBottom: 3 }}>
+        Here you can add your TikTok videos and choose them to be put into your
+        trip.
+      </Typography>
+
+      <Grid
+        container
+        spacing={2}
+        component="form"
+        onSubmit={handleAddVid}
+        sx={{ mb: 3 }}
       >
-        <TextField
-          fullWidth
-          label="Input your TikTok URL video"
-          id="search-bar"
-          variant="standard"
-          onChange={handleVid}
-          value={vid}
-          color="primary"
-          InputProps={{ style: { width: "auto" } }}
-          sx={{
-            marginBottom: { xs: 2, sm: 0 },
-            width: "80%",
-            color: "black",
-          }}
-          inputProps={{ style: { fontSize: "x-large" } }} // font size of input text
-          InputLabelProps={{ style: { fontSize: "x-large" } }} // font size of input label
-        />
-
-        <input
-          style={{ display: "none" }}
-          id="video-upload"
-          type="text"
-          value={vid}
-        />
-        <Button
-          variant="contained"
-          onClick={handleAddVid}
-          sx={{
-            margin: "10px 0 0 10px",
-            fontSize: "large",
-          }}
-          disabled={addingVid}
-        >
-          {addingVid ? "Adding...." : "Add video"}
-        </Button>
-      </Box>
-
-      <FormGroup>
-        <Typography variant="h5">
-          Your TikTok video library
-        </Typography>
-        <Typography variant="h6">
-          You selected {videos.size} out of {listVid.length} video
-          {listVid.length > 1 ? "s" : ""}.
-        </Typography>
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            flexGrow: 1,
-            height: 750,
-            overflowY: "auto",
-            padding: 2,
-            margin: 0, // not sure why margin is set to -2 somewhere idk
-          }}
-        >
-          {listVid.length > 0 ? (
-            <>
-              {listVid.map((video, index) => (
-                <Grid
-                  padding="0"
-                  item
-                  xs={12}
-                  sm={6}
-                  md={3}
-                  key={`added-video-${index}`}
-                  sx={{ padding: 0 }}
-                >
-                  {/* Display video using this component */}
-                  <CssVarsProvider theme={theme}>
-                    <AspectRatio ratio="9/16">
-                      <iframe
-                        src={`https://www.tiktok.com/player/v1/${video.id}?rel=0&description=1`}
-                        style={{ borderRadius: "inherit" }}
-                      />
-                    </AspectRatio>
-                  </CssVarsProvider>
-                  
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={videos.has(video.id)}
-                          onChange={() => {
-                            handleChangeVid(video);
-                          }}
-                        />
-                      }
-                      label={
-                        videos.has(video.id) ? (
-                          <Typography color="primary">
-                            Added to the trip!
-                          </Typography>
-                        ) : (
-                          <Typography color="primary">
-                            Add to the trip!
-                          </Typography>
-                        )
-                      }
-                    />
-                    <IconButton
-                      color="warning"
-                      onClick={() => {
-                        handleDeleteVid(index, video);
-                      }}
-                      disableRipple={true}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
-                </Grid>
-              ))}
-            </>
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                maxWidth: 400,
-                margin: "auto",
-                padding: 4,
-                backgroundColor: "#f5f5f5",
-                borderRadius: 2,
-                boxShadow: 1,
-              }}
-            >
-              <SlowMotionVideoIcon
-                fontSize="inherit"
-                sx={{ fontSize: 60, color: "primary.main" }}
-              />
-              <Typography
-                variant="h6"
-                color="black"
-                sx={{ marginTop: 2 }}
-              >
-                Add your first TikTok here!
-              </Typography>
-            </Box>
-          )}
+        <Grid item xs={11}>
+          <TextField
+            id="video_url"
+            placeholder="https://www.tiktok.com/@drinklinknyc/video/7374836750948076846"
+            label="Your favorite TikTok review video URL"
+            variant="outlined"
+            fullWidth
+            required
+            value={vid}
+            onChange={handleVid}
+          />
         </Grid>
-      </FormGroup>
-    </Box>
-    </ThemeProvider>
+        <Grid item xs={1}>
+          <IconButton
+            size={isMobile ? "medium" : "large"}
+            // sx={{ ...(isMobile && { display: "inline-block" }) }}
+            disabled={addingVid}
+            color="primary"
+            type="submit"
+          >
+            {addingVid ? <CircularProgress /> : <Send />}
+          </IconButton>
+        </Grid>
+        {urlErrorMsg && (
+          <Grid item xs={12}>
+            <Alert
+              severity="error"
+              variant="outlined"
+              sx={{ animation: shake ? "shake 0.5s" : "none" }}
+            >
+              {urlErrorMsg}
+            </Alert>
+          </Grid>
+        )}
+        {justAddedVid && (
+          <Grid item xs={12}>
+            <Alert severity="success" variant="outlined">
+              Successfully added: {justAddedVid}
+            </Alert>
+          </Grid>
+        )}
+      </Grid>
+
+      <Typography variant="h6" gutterBottom>
+        Currently selected {videos.size} out of {listVid.length} video
+        {listVid.length > 1 ? "s" : ""}.
+      </Typography>
+
+      <VideoDisplay
+        listVid={[...videos.values()]}
+        videos={videos}
+        handleChangeVid={handleChangeVid}
+        handleDeleteVid={handleDeleteVid}
+        orientation="horizontal"
+        sx={{
+          padding: 3,
+          borderRadius: 2,
+          marginTop: 3,
+          width: "100%",
+          // background: "#131314",
+          marginBottom: 8,
+          backgroundColor: "rgba(19,19,20, 0.2) !important",
+        }}
+        videosPerRow={isMobile ? 2 : 5}
+        minimalSettings
+      />
+
+      <Typography
+        variant="h5"
+        fontWeight={"bold"}
+        gutterBottom
+        sx={{ marginBottom: 4 }}
+      >
+        Your added TikTok videos
+      </Typography>
+
+      <VideoDisplay
+        listVid={listVid}
+        videos={videos}
+        handleChangeVid={handleChangeVid}
+        handleDeleteVid={handleDeleteVid}
+        orientation="vertical"
+        sx={{
+          padding: 3,
+          borderRadius: 2,
+          width: "100%",
+          // background: "#131314",
+          maxWidth: 1000,
+          height: 750,
+          backgroundColor: "rgba(19,19,20, 0.2) !important",
+        }}
+        videosPerRow={isMobile ? 1 : 4}
+      />
+    </Paper>
   );
 }

@@ -1,3 +1,5 @@
+import { TikTokVideoObject, TripInfo } from "./types";
+
 export const cleanTikTokVideoURL = (inputUrl: string) => {
   try {
     const url = new URL(inputUrl);
@@ -40,3 +42,33 @@ export const checkTikTokUrl = async (url: string) => {
     return false;
   }
 };
+
+export const convertTo12HourFormat = (time: string) => {
+  if (time === "") {
+    return "N/A"
+  }
+  const [hourString, minute] = time.split(':');
+  let hour = parseInt(hourString, 10);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  hour = hour % 12 || 12; // Convert hour to 12-hour format
+  const formattedHour = hour < 10 ? `0${hour}` : hour; // Ensure two digits
+  return `${formattedHour}:${minute} ${ampm}`;
+};
+
+export const preparePrompt = (tripInfo: TripInfo) => {
+  return `I am going to ${tripInfo.location}. `
+  + `I want to start my day from ${tripInfo.startTime} `
+  + `and end my day at ${tripInfo.endTime}.`
+  + `The activities that I want to do is ${tripInfo.activityTags.join(", ")} `
+  + `and my special considerations are ${tripInfo.comments}.`
+}
+
+export const prepareTikTokUrls = (videos: Map<string, TikTokVideoObject>) => {
+  let videoUrls = "";
+  if (videos.size === 0) return videoUrls;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  videos.forEach((video, _id) => {
+    videoUrls += video.url + ","
+  });
+  return videoUrls.substring(0, videoUrls.length-1);
+}
