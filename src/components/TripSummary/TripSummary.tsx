@@ -63,7 +63,7 @@ export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
       )}
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h6" color="secondary">
-          I want do stuff in these TikToks
+          I want to do stuff in these TikToks
         </Typography>
         {isMobile && (
           <Typography variant="body1">(swipe right to see more)</Typography>
