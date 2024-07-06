@@ -9,6 +9,7 @@ import { Box, Grid } from "@mui/material";
 import FormPartOne from "./FormPartOne";
 import FormPartThree from "./FormPartThree";
 import ImageBackground from "../../components/Background/Background";
+import FormSubmitGenerate from "./FormSubmitGenerate";
 
 // interface Time{
 //   hour: number
@@ -45,7 +46,7 @@ export default function FormScreen() {
                 <FormPartOne tripInfo={tripInfo} setTripInfo={setTripInfo} />,
                 <FormPartTwo videos={videos} setVideos={setVideos} />,
                 <FormPartThree videos={videos} tripInfo={tripInfo} />,
-                <>end</>,
+                <FormSubmitGenerate videos={videos} tripInfo={tripInfo} />,
               ]}
             />
           </Grid>
