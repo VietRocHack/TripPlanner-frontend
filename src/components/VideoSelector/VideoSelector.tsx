@@ -103,10 +103,6 @@ export default function VideoSelector({
     setAddingVid(false);
   };
 
-  // const deleteVideo = (index: number) => {
-  //   setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
-  // }
-
   const handleDeleteVid = (index: number, video: TikTokVideoObject) => {
     setListVid((prevListVid) => prevListVid.filter((_, i) => i !== index));
     setVidIds((prev) => {
@@ -143,17 +139,17 @@ export default function VideoSelector({
       sx={{
         padding: 3,
         borderRadius: 2,
-        marginTop: 3,
         width: "100%",
-        background: "#28282B",
+        // background: "#28282B",
         maxWidth: 1000,
+        backgroundColor: "rgba(40,40,43, 0.2) !important",
       }}
     >
-      <Typography variant="h4" color="primary" gutterBottom>
+      <Typography variant="h4" fontWeight={"bold"} gutterBottom>
         Customize your trip with your TikTok videos
       </Typography>
       <Typography variant="body1" sx={{ marginBottom: 3 }}>
-        Here you can add your TikTok videos and choose it to be put into your
+        Here you can add your TikTok videos and choose them to be put into your
         trip.
       </Typography>
 
@@ -175,16 +171,16 @@ export default function VideoSelector({
           <IconButton
             size={isMobile ? "medium" : "large"}
             // sx={{ ...(isMobile && { display: "inline-block" }) }}
-            color="primary"
             disabled={addingVid}
             onClick={handleAddVid}
+            color="primary"
           >
-            {addingVid ? <CircularProgress color="primary" /> : <Send />}
+            {addingVid ? <CircularProgress /> : <Send />}
           </IconButton>
         </Grid>
       </Grid>
 
-      <Typography variant="h6" color="secondary" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         Currently selected {videos.size} out of {listVid.length} video
         {listVid.length > 1 ? "s" : ""}.
       </Typography>
@@ -200,14 +196,20 @@ export default function VideoSelector({
           borderRadius: 2,
           marginTop: 3,
           width: "100%",
-          background: "#131314",
-          marginBottom: 3,
+          // background: "#131314",
+          marginBottom: 8,
+          backgroundColor: "rgba(19,19,20, 0.2) !important",
         }}
         videosPerRow={isMobile ? 2 : 5}
         minimalSettings
       />
 
-      <Typography color="primary" variant="h5">
+      <Typography
+        variant="h5"
+        fontWeight={"bold"}
+        gutterBottom
+        sx={{ marginBottom: 4 }}
+      >
         Your added TikTok videos
       </Typography>
 
@@ -220,11 +222,11 @@ export default function VideoSelector({
         sx={{
           padding: 3,
           borderRadius: 2,
-          marginTop: 3,
           width: "100%",
-          background: "#131314",
+          // background: "#131314",
           maxWidth: 1000,
           height: 750,
+          backgroundColor: "rgba(19,19,20, 0.2) !important",
         }}
       />
     </Paper>

@@ -9,6 +9,7 @@ import {
   Paper,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Dispatch } from "react";
 
@@ -76,10 +77,18 @@ export default function TripCreator({
       sx={{
         flexGrow: 1,
         padding: 2,
-        background: "#28282B",
-        maxWidth: 1200,
+        maxWidth: 1000,
+        backgroundColor: "rgba(40,40,43, 0.2) !important",
       }}
     >
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ marginBottom: 3 }}
+        fontWeight={"bold"}
+      >
+        Where are your next destination?
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField

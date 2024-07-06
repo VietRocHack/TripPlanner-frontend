@@ -62,7 +62,7 @@ export default function VideoDisplay({
             onChange={() => {
               handleChangeVid(video);
             }}
-            color="secondary"
+            color="primary"
           />
         </Box>
       ) : (
@@ -85,14 +85,13 @@ export default function VideoDisplay({
                     handleChangeVid(video);
                   }
                 }}
-                color="secondary"
               />
             }
             label={
               videos.has(video.id) ? (
-                <Typography color="secondary">Added to the trip!</Typography>
+                <Typography color="primary">Added!</Typography>
               ) : (
-                <Typography>Add to the trip!</Typography>
+                <Typography>Add to the trip</Typography>
               )
             }
           />
@@ -171,7 +170,8 @@ export default function VideoDisplay({
             >
               <SlowMotionVideoIcon
                 fontSize="inherit"
-                sx={{ fontSize: 40, color: "primary.main" }}
+                color="secondary"
+                sx={{ fontSize: 40 }}
               />
               <Typography
                 variant="body1"

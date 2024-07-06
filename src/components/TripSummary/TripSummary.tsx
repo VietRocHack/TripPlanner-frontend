@@ -20,10 +20,9 @@ export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
       sx={{
         padding: 3,
         borderRadius: 2,
-        marginTop: 3,
         width: "100%",
-        background: "#28282B",
         maxWidth: 1000,
+        backgroundColor: "rgba(40,40,43, 0.2) !important",
       }}
     >
       <Typography variant="h4" gutterBottom>
@@ -31,25 +30,25 @@ export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
       </Typography>
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h6">I'll be going to</Typography>
-        <Typography variant="h4" fontWeight="bold" color="primary">
+        <Typography variant="h4" fontWeight="bold">
           {tripInfo.location ? tripInfo.location : "Anywhere, lol"}
         </Typography>
       </Box>
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h6">My day starts at</Typography>
-        <Typography variant="h4" fontWeight="bold" color="primary">
+        <Typography variant="h4" fontWeight="bold">
           {convertTo12HourFormat(tripInfo.startTime)}
         </Typography>
       </Box>
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h6">...and ends at</Typography>
-        <Typography variant="h4" fontWeight="bold" color="primary">
+        <Typography variant="h4" fontWeight="bold">
           {convertTo12HourFormat(tripInfo.endTime)}
         </Typography>
       </Box>
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h6">My vibes are</Typography>
-        <Typography variant="h5" fontWeight="bold" color="primary">
+        <Typography variant="h5" fontWeight="bold">
           {tripInfo.activityTags.length > 0
             ? tripInfo.activityTags.join(", ")
             : "Anything!"}
@@ -58,18 +57,14 @@ export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
       {tripInfo.comments !== "" && (
         <Box>
           <Typography variant="h6">Special Notes</Typography>
-          <Typography variant="h5" color="primary">
-            {tripInfo.comments}
-          </Typography>
+          <Typography variant="h5">{tripInfo.comments}</Typography>
         </Box>
       )}
       <Box sx={{ marginBottom: 2 }}>
-        <Typography variant="h6" color="secondary">
+        <Typography variant="h6">
           I want to do stuff in these TikToks
         </Typography>
-        {isMobile && (
-          <Typography variant="body1">(swipe right to see more)</Typography>
-        )}
+        <Typography variant="body1">(swipe right to see more)</Typography>
 
         <VideoDisplay
           listVid={[...videos.values()]}
@@ -80,8 +75,9 @@ export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
             borderRadius: 2,
             marginTop: 3,
             width: "100%",
-            background: "#131314",
+            // background: "#131314",
             marginBottom: 3,
+            backgroundColor: "rgba(19, 19, 20, 0.2) !important",
           }}
           videosPerRow={isMobile ? 1 : 5}
           minimalSettings
