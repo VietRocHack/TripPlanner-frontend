@@ -1,19 +1,14 @@
-// import React, { useState } from "react";
-// import "./GetStartedScreen.css";
-
-import ImageBackground from "../../components/Background/Background";
 import { useState } from "react";
 import CustomHorizontalStepper from "../../components/Stepper/CustomHorizontalStepper";
 import Catchphrase from "../HomeScreen/Catchphrase";
 import { TikTokVideoObject, TripInfo } from "../../utils/types";
 import FormPartTwo from "./FormPartTwo";
 
-import bgImage from "../../assets/wallpaper.jpg";
-
 import "./FormScreen.css";
 import { Box, Grid } from "@mui/material";
 import FormPartOne from "./FormPartOne";
 import FormPartThree from "./FormPartThree";
+import ImageBackground from "../../components/Background/Background";
 
 // interface Time{
 //   hour: number
@@ -35,10 +30,12 @@ export default function FormScreen() {
 
   return (
     <>
-      {/* <ImageBackground backgroundUrl={bgImage} opacity={0.2} /> */}
-
       <Box className="main-content">
-        <Grid container spacing={2}>
+        <ImageBackground
+          backgroundUrl={"/src/assets/background.jpeg"}
+          opacity={0.2}
+        />
+        <Grid container spacing={2} sx={{ zIndex: 1 }}>
           <Grid item xs={0} md={1}></Grid>
           <Grid item xs={12} md={10}>
             <Catchphrase />

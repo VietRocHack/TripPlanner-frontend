@@ -31,7 +31,7 @@ export default function CustomHorizontalStepper({
   return (
     <>
       <Box sx={{ width: "100%" }}>
-        <Stepper activeStep={activeStep}>
+        <Stepper activeStep={activeStep} sx={{ margin: 4 }}>
           {steps.map((label) => {
             return (
               <Step key={label}>

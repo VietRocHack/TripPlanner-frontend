@@ -32,7 +32,7 @@ export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h6">I'll be going to</Typography>
         <Typography variant="h4" fontWeight="bold" color="primary">
-          {tripInfo.location}
+          {tripInfo.location ? tripInfo.location : "Anywhere, lol"}
         </Typography>
       </Box>
       <Box sx={{ marginBottom: 2 }}>
@@ -50,7 +50,9 @@ export default function TripSummary({ videos, tripInfo }: TripSummaryProps) {
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h6">My vibes are</Typography>
         <Typography variant="h5" fontWeight="bold" color="primary">
-          {tripInfo.activityTags.join(", ")}
+          {tripInfo.activityTags.length > 0
+            ? tripInfo.activityTags.join(", ")
+            : "Anything!"}
         </Typography>
       </Box>
       {tripInfo.comments !== "" && (
