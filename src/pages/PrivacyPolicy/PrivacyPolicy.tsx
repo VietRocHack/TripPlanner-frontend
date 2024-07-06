@@ -15,12 +15,10 @@ const PrivacyPolicy = () => {
       </Typography>
       <Typography variant="body1" paragraph>
         At SwipeAndFly, accessible at{" "}
-        <Link href="https://SwipeAndFly-b05c6.web.app/">
-          SwipeAndFly-b05c6.web.app
-        </Link>
-        , one of our main priorities is the privacy of our visitors. This
-        Privacy Policy document contains types of information that is collected
-        and recorded by SwipeAndFly and how we use it.
+        <Link href="https://swipeandfly.world/">swipeandfly.world</Link>, one of
+        our main priorities is the privacy of our visitors. This Privacy Policy
+        document contains types of information that is collected and recorded by
+        SwipeAndFly and how we use it.
       </Typography>
       <Typography variant="body1" paragraph>
         If you have additional questions or require more information about our

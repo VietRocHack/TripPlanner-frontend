@@ -4,7 +4,7 @@ import "./GetStartedScreen.css";
 import { Button, Typography } from "@mui/material";
 import ImageBackground from "../../components/Background/Background";
 import Catchphrase from "../HomeScreen/Catchphrase";
-import bgImage from "../../assets/background.jpeg";
+import bgImage from "../../assets/wallpaper.jpg";
 
 const GetStartedScreen: React.FC = () => {
   return (
