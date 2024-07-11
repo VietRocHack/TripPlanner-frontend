@@ -54,6 +54,13 @@ export default function FormSubmitGenerate({
       const response = await fetch(
         `https://spvzn3tnm0.execute-api.us-east-1.amazonaws.com/generate_itinerary?` +
           `prompt=${encodeURIComponent(preparePrompt(tripInfo))}` +
+          `location=${encodeURIComponent(tripInfo.location!.description)}` +
+          `startTime=${encodeURIComponent(tripInfo.startTime)}` +
+          `endTime=${encodeURIComponent(tripInfo.endTime)}` +
+          `activityTags=${encodeURIComponent(
+            tripInfo.activityTags.join(",")
+          )}` +
+          `comments=${encodeURIComponent(tripInfo.comments)}` +
           `&video_urls=${prepareTikTokUrls(videos)}`,
         {
           method: "POST",
@@ -87,6 +94,7 @@ export default function FormSubmitGenerate({
         justifyContent: "center",
         height: 400,
         textAlign: "center",
+        backgroundColor: "rgba(40,40,43, 0.2) !important",
       }}
     >
       {!loading && (
