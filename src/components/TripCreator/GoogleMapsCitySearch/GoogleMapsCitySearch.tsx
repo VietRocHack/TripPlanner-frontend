@@ -30,7 +30,7 @@ const autocompleteService = { current: null };
 
 interface GoogleMapsCitySearchProps {
   location: PlaceType | null;
-  handleLocationChange: (location: PlaceType | null) => any;
+  handleLocationChange: (location: PlaceType | null) => unknown;
 }
 
 export default function GoogleMapsCitySearch({
@@ -58,7 +58,7 @@ export default function GoogleMapsCitySearch({
     () =>
       debounce(
         (
-          request: { input: string },
+          request: { input: string; types: string[] },
           callback: (results?: readonly PlaceType[]) => void
         ) => {
           (autocompleteService.current as any).getPlacePredictions(
@@ -87,21 +87,24 @@ export default function GoogleMapsCitySearch({
       return undefined;
     }
 
-    fetch({ input: inputValue }, (results?: readonly PlaceType[]) => {
-      if (active) {
-        let newOptions: readonly PlaceType[] = [];
+    fetch(
+      { input: inputValue, types: ["(cities)"] },
+      (results?: readonly PlaceType[]) => {
+        if (active) {
+          let newOptions: readonly PlaceType[] = [];
 
-        if (value) {
-          newOptions = [value];
+          if (value) {
+            newOptions = [value];
+          }
+
+          if (results) {
+            newOptions = [...newOptions, ...results];
+          }
+
+          setOptions(newOptions);
         }
-
-        if (results) {
-          newOptions = [...newOptions, ...results];
-        }
-
-        setOptions(newOptions);
       }
-    });
+    );
 
     return () => {
       active = false;
