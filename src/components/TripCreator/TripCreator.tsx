@@ -138,6 +138,13 @@ export default function TripCreator({
                 </Box>
               )}
               label="Activity"
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: "20%", // Adjust the max height of the dropdown
+                  },
+                },
+              }}
             >
               {Object.values(ActivityTag)
                 .sort()
