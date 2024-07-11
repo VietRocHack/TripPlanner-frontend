@@ -1,6 +1,5 @@
-import { ActivityTag, CityCountry, TripInfo } from "../../utils/types";
+import { ActivityTag, PlaceType, TripInfo } from "../../utils/types";
 import {
-  Autocomplete,
   Box,
   Checkbox,
   FormControl,
@@ -13,20 +12,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { createFilterOptions } from "@mui/material/Autocomplete";
 
 import { Dispatch } from "react";
-import city_list_json from "./city_list.json";
-
-// Get the list of city and country
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-const city_list: CityCountry[] = city_list_json;
-
-const filterOptions = createFilterOptions({
-  ignoreCase: true,
-  limit: 20,
-});
+import GoogleMapsCitySearch from "./GoogleMapsCitySearch/GoogleMapsCitySearch";
 
 interface TripCreatorProps {
   tripInfo: TripInfo;
@@ -38,9 +26,9 @@ export default function TripCreator({
   setTripInfo,
 }: TripCreatorProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleLocationChange = (event: any) => {
+  const handleLocationChange = (location: PlaceType | null) => {
     setTripInfo((prev) => {
-      return { ...prev, location: event.target.value };
+      return { ...prev, location: location };
     });
   };
 
@@ -104,7 +92,11 @@ export default function TripCreator({
 
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <Autocomplete
+          <GoogleMapsCitySearch
+            handleLocationChange={handleLocationChange}
+            location={tripInfo.location}
+          />
+          {/* <Autocomplete
             disablePortal
             id="location"
             options={city_list}
@@ -121,7 +113,7 @@ export default function TripCreator({
                 {...params}
               />
             )}
-          />
+          /> */}
         </Grid>
         <Grid item xs={12} sm={3}>
           <TextField
