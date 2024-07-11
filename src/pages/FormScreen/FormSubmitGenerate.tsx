@@ -29,7 +29,7 @@ export default function FormSubmitGenerate({
   useEffect(() => {
     setStatusList([
       "processing your request",
-      `wow, you're going to ${tripInfo.location}`,
+      `wow, you're going to ${tripInfo.location!.description}`,
       "analyzing your tiktoks",
       "googlin- i mean doing some magic",
       "great choice of videos, btw",
@@ -53,14 +53,14 @@ export default function FormSubmitGenerate({
     try {
       const response = await fetch(
         `https://spvzn3tnm0.execute-api.us-east-1.amazonaws.com/generate_itinerary?` +
-          `prompt=${encodeURIComponent(preparePrompt(tripInfo))}` +
-          `location=${encodeURIComponent(tripInfo.location!.description)}` +
-          `startTime=${encodeURIComponent(tripInfo.startTime)}` +
-          `endTime=${encodeURIComponent(tripInfo.endTime)}` +
-          `activityTags=${encodeURIComponent(
+          `&prompt=${encodeURIComponent(preparePrompt(tripInfo))}` +
+          `&location=${encodeURIComponent(tripInfo.location!.description)}` +
+          `&startTime=${encodeURIComponent(tripInfo.startTime)}` +
+          `&endTime=${encodeURIComponent(tripInfo.endTime)}` +
+          `&activityTags=${encodeURIComponent(
             tripInfo.activityTags.join(",")
           )}` +
-          `comments=${encodeURIComponent(tripInfo.comments)}` +
+          `&comments=${encodeURIComponent(tripInfo.comments)}` +
           `&video_urls=${prepareTikTokUrls(videos)}`,
         {
           method: "POST",
