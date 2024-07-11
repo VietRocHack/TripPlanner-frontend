@@ -2,6 +2,7 @@
 import {
   Alert,
   Box,
+  Button,
   CircularProgress,
   IconButton,
   Paper,
@@ -15,6 +16,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { preparePrompt, prepareTikTokUrls } from "../../utils/utils";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { TaskAlt } from "@mui/icons-material";
 
 const MAX_RETRIES = 5;
 
@@ -193,7 +195,22 @@ export default function FormSubmitGenerate({
       )}
       {curState == SubmitState.loading && (
         <>
-          <CircularProgress color="secondary" sx={{ marginBottom: 6 }} />
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              maxWidth: 100,
+              maxHeight: 100,
+              fontSize: 60,
+              mb: 3,
+            }}
+          >
+            {progress === 100 ? (
+              <TaskAlt color="secondary" fontSize="inherit" />
+            ) : (
+              <CircularProgress color="secondary" size={50} />
+            )}
+          </Box>
           <Box
             sx={{
               width: "80%",
@@ -205,7 +222,7 @@ export default function FormSubmitGenerate({
               border: "solid 2px",
             }}
           >
-            {progress == 100
+            {progress === 100
               ? "done!"
               : statusList[Math.floor(progress / (100 / statusList.length))]}
             <Box
@@ -236,6 +253,9 @@ export default function FormSubmitGenerate({
           <Typography variant="h6" sx={{ marginBottom: 2 }}>
             Wait a moment while we take you to your trip...
           </Typography>
+          <Button variant="contained" sx={{ mb: 3 }}>
+            See your trip
+          </Button>
           <Typography
             variant="body1"
             color="textSecondary"

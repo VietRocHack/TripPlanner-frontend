@@ -134,7 +134,12 @@ export default function GoogleMapsCitySearch({
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Location" fullWidth />
+        <TextField
+          {...params}
+          label="Location"
+          fullWidth
+          placeholder="Hanoi, Vietnam"
+        />
       )}
       renderOption={(props, option) => {
         const { key, ...optionProps } = props;
