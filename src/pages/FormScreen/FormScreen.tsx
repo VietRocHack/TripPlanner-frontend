@@ -45,10 +45,10 @@ export default function FormScreen() {
                 {
                   condition: (): boolean => {
                     return (
-                      tripInfo.location !== null
-                      // && tripInfo.startTime.length > 0
-                      // && tripInfo.endTime.length > 0
-                      // && tripInfo.activityTags.length > 0
+                      tripInfo.location !== null &&
+                      tripInfo.startTime.length > 0 &&
+                      tripInfo.endTime.length > 0 &&
+                      tripInfo.activityTags.length > 0
                     );
                   },
                   errorMsg: "Please fill in all the required (*) section",
