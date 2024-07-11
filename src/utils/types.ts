@@ -70,6 +70,7 @@ export interface StructuredFormatting {
   main_text_matched_substrings?: readonly MainTextMatchedSubstrings[];
 }
 export interface PlaceType {
+  terms: unknown;
   description: string;
   structured_formatting: StructuredFormatting;
 }

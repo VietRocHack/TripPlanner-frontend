@@ -1,9 +1,12 @@
 // import React from "react";
 import {
+  Alert,
   Box,
   CircularProgress,
   IconButton,
   Paper,
+  TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { TikTokVideoObject, TripInfo } from "../../utils/types";
@@ -11,6 +14,7 @@ import { useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { preparePrompt, prepareTikTokUrls } from "../../utils/utils";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const MAX_RETRIES = 5;
 
@@ -19,13 +23,22 @@ interface FormSubmitGenerateProps {
   videos: Map<string, TikTokVideoObject>;
 }
 
+enum SubmitState {
+  awaiting,
+  loading,
+  finished,
+}
+
 export default function FormSubmitGenerate({
   videos,
   tripInfo,
 }: FormSubmitGenerateProps) {
-  const [loading, setLoading] = useState(false);
+  const [curState, setCurState] = useState<SubmitState>(SubmitState.awaiting);
   const [progress, setProgress] = useState(0);
   const [statusList, setStatusList] = useState<string[]>([]);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [tripId, setTripId] = useState<string>("");
+  const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +54,8 @@ export default function FormSubmitGenerate({
   }, [tripInfo.location]);
 
   const handleSubmit = async () => {
-    setLoading(true);
+    setErrorMsg("");
+    setCurState(SubmitState.loading);
     let progressValue = 0;
 
     const interval = setInterval(() => {
@@ -62,16 +76,24 @@ export default function FormSubmitGenerate({
       requestedTripId = await fetchData();
     }
     if (requestedTripId == null) {
-      alert("Oops, our server is down. Please try again later");
+      setCurState(SubmitState.awaiting);
+      clearInterval(interval);
+      setProgress(0);
+      setErrorMsg("Oops, our server is down 💀 Please try again later!");
       return;
     }
 
-    alert(`Done! your trip id is ${requestedTripId}`);
-
-    // navigate(`/your-trip/${requestedTripId}`);
+    setTripId(requestedTripId);
     clearInterval(interval);
-    setLoading(false);
-    setProgress(0);
+    setProgress(100);
+
+    setTimeout(() => {
+      setCurState(SubmitState.finished);
+      setProgress(0);
+      setTimeout(() => {
+        handleProceed(requestedTripId);
+      }, 6000);
+    }, 2000);
   };
 
   const fetchData = async () => {
@@ -110,6 +132,22 @@ export default function FormSubmitGenerate({
     }
   };
 
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(`https://swipeandfly.world/your-trip/${tripId}`)
+      .then(() => setCopied(true))
+      .catch(() => setCopied(false));
+  };
+
+  const handleProceed = (tripId: string) => {
+    console.log(tripId);
+    if (tripId) {
+      navigate(`/your-trip/${tripId}`);
+    } else {
+      alert("No trip id is here yet!");
+    }
+  };
+
   return (
     <Paper
       elevation={3}
@@ -123,13 +161,28 @@ export default function FormSubmitGenerate({
         backgroundColor: "rgba(40,40,43, 0.2) !important",
       }}
     >
-      {!loading && (
+      {errorMsg && (
+        <Alert
+          severity="error"
+          variant="outlined"
+          sx={{
+            mx: 5,
+            mt: 3,
+            width: "80%",
+            animation: "shake 0.5s",
+          }}
+        >
+          {errorMsg}
+        </Alert>
+      )}
+
+      {curState == SubmitState.awaiting && (
         <>
           <IconButton
             sx={{ fontSize: "3rem" }}
             color="primary"
             onClick={handleSubmit}
-            disabled={loading}
+            disabled={curState != SubmitState.awaiting}
           >
             <SendIcon sx={{ width: 200, height: 200 }} />
           </IconButton>
@@ -138,7 +191,7 @@ export default function FormSubmitGenerate({
           </Typography>
         </>
       )}
-      {loading && (
+      {curState == SubmitState.loading && (
         <>
           <CircularProgress color="secondary" sx={{ marginBottom: 6 }} />
           <Box
@@ -152,7 +205,9 @@ export default function FormSubmitGenerate({
               border: "solid 2px",
             }}
           >
-            {statusList[Math.floor(progress / (100 / statusList.length))]}
+            {progress == 100
+              ? "done!"
+              : statusList[Math.floor(progress / (100 / statusList.length))]}
             <Box
               sx={{
                 height: "100%",
@@ -164,6 +219,52 @@ export default function FormSubmitGenerate({
             ></Box>
           </Box>
         </>
+      )}
+      {curState == SubmitState.finished && (
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          sx={{ width: "80%" }}
+        >
+          <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
+            Your Trip to{" "}
+            {(tripInfo.location!.terms as { value: string }[])[0].value} is
+            Ready!
+          </Typography>
+          <Typography variant="h6" sx={{ marginBottom: 2 }}>
+            Wait a moment while we take you to your trip...
+          </Typography>
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            mt={2}
+            sx={{ textAlign: "center" }}
+          >
+            Share this link with your friends to let them view your trip
+            details.
+          </Typography>
+          <Box
+            display="flex"
+            alignItems="center"
+            mt={2}
+            sx={{ width: "100%", maxWidth: 450 }}
+          >
+            <TextField
+              value={`swipeandfly.world/your-trip/${tripId}`}
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+            />
+            <Tooltip title={copied ? "Copied!" : "Copy to clipboard"}>
+              <IconButton onClick={handleCopy} sx={{ marginLeft: 1 }}>
+                <ContentCopyIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
       )}
     </Paper>
   );
