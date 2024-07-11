@@ -96,24 +96,6 @@ export default function TripCreator({
             handleLocationChange={handleLocationChange}
             location={tripInfo.location}
           />
-          {/* <Autocomplete
-            disablePortal
-            id="location"
-            options={city_list}
-            fullWidth
-            filterOptions={filterOptions}
-            renderInput={(params) => (
-              <TextField
-                placeholder="Hanoi, Vietnam"
-                value={tripInfo.location}
-                label="Location"
-                variant="outlined"
-                onChange={handleLocationChange}
-                required
-                {...params}
-              />
-            )}
-          /> */}
         </Grid>
         <Grid item xs={12} sm={3}>
           <TextField
@@ -157,14 +139,16 @@ export default function TripCreator({
               )}
               label="Activity"
             >
-              {Object.values(ActivityTag).map((activity) => (
-                <MenuItem key={activity} value={activity}>
-                  <Checkbox
-                    checked={tripInfo.activityTags.includes(activity)}
-                  />
-                  <ListItemText primary={activity} />
-                </MenuItem>
-              ))}
+              {Object.values(ActivityTag)
+                .sort()
+                .map((activity) => (
+                  <MenuItem key={activity} value={activity}>
+                    <Checkbox
+                      checked={tripInfo.activityTags.includes(activity)}
+                    />
+                    <ListItemText primary={activity} />
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </Grid>
