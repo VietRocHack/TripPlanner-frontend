@@ -56,7 +56,7 @@ export const convertTo12HourFormat = (time: string) => {
 };
 
 export const preparePrompt = (tripInfo: TripInfo) => {
-  return `I am going to ${tripInfo.location}. `
+  return `I am going to ${tripInfo.location?.description}. `
   + `I want to start my day from ${tripInfo.startTime} `
   + `and end my day at ${tripInfo.endTime}.`
   + `The activities that I want to do is ${tripInfo.activityTags.join(", ")} `
