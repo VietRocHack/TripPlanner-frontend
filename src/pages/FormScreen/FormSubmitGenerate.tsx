@@ -12,6 +12,8 @@ import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import { preparePrompt, prepareTikTokUrls } from "../../utils/utils";
 
+const MAX_RETRIES = 5;
+
 interface FormSubmitGenerateProps {
   tripInfo: TripInfo;
   videos: Map<string, TikTokVideoObject>;
@@ -21,7 +23,7 @@ export default function FormSubmitGenerate({
   videos,
   tripInfo,
 }: FormSubmitGenerateProps) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [statusList, setStatusList] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -50,6 +52,29 @@ export default function FormSubmitGenerate({
       }
     }, 300); // 99% in 30 seconds = 300ms interval
 
+    let requestedTripId = null;
+    let retry = 0;
+
+    while (!requestedTripId && retry < MAX_RETRIES) {
+      // wait sometimes before requesting a new one
+      retry += 1;
+      await new Promise((f) => setTimeout(f, 5000));
+      requestedTripId = await fetchData();
+    }
+    if (requestedTripId == null) {
+      alert("Oops, our server is down. Please try again later");
+      return;
+    }
+
+    alert(`Done! your trip id is ${requestedTripId}`);
+
+    // navigate(`/your-trip/${requestedTripId}`);
+    clearInterval(interval);
+    setLoading(false);
+    setProgress(0);
+  };
+
+  const fetchData = async () => {
     try {
       const response = await fetch(
         `https://spvzn3tnm0.execute-api.us-east-1.amazonaws.com/generate_itinerary?` +
@@ -68,22 +93,23 @@ export default function FormSubmitGenerate({
       );
       if (response.ok) {
         const result = await response.text();
-        navigate(`/your-trip/${result}`);
+        return result;
       } else {
         alert("error");
         console.error(
           "Failed to fetch data. Response status:",
           response.status
         );
+        console.log("An error has happened, retrying...");
+        return null;
       }
     } catch (error) {
       console.log("ERROR: " + error);
-    } finally {
-      clearInterval(interval);
-      setLoading(false);
-      setProgress(0);
+      console.log("An error has happened, retrying...");
+      return null;
     }
   };
+
   return (
     <Paper
       elevation={3}
