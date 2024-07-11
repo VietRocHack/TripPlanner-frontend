@@ -1,5 +1,6 @@
-import { ActivityTag, TripInfo } from "../../utils/types";
+import { ActivityTag, CityCountry, TripInfo } from "../../utils/types";
 import {
+  Autocomplete,
   Box,
   Checkbox,
   FormControl,
@@ -12,7 +13,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { createFilterOptions } from "@mui/material/Autocomplete";
+
 import { Dispatch } from "react";
+import city_list_json from "./city_list.json";
+
+// Get the list of city and country
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+const city_list: CityCountry[] = city_list_json;
+
+const filterOptions = createFilterOptions({
+  ignoreCase: true,
+  limit: 20,
+});
 
 interface TripCreatorProps {
   tripInfo: TripInfo;
@@ -23,9 +37,6 @@ export default function TripCreator({
   tripInfo,
   setTripInfo,
 }: TripCreatorProps) {
-  console.log(tripInfo);
-  console.log(setTripInfo);
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLocationChange = (event: any) => {
     setTripInfo((prev) => {
@@ -90,17 +101,26 @@ export default function TripCreator({
       >
         Where are your next destination?
       </Typography>
+
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <TextField
+          <Autocomplete
+            disablePortal
             id="location"
-            placeholder="Ha Noi, Vietnam"
-            value={tripInfo.location}
-            label="Location"
-            variant="outlined"
+            options={city_list}
             fullWidth
-            onChange={handleLocationChange}
-            required
+            filterOptions={filterOptions}
+            renderInput={(params) => (
+              <TextField
+                placeholder="Hanoi, Vietnam"
+                value={tripInfo.location}
+                label="Location"
+                variant="outlined"
+                onChange={handleLocationChange}
+                required
+                {...params}
+              />
+            )}
           />
         </Grid>
         <Grid item xs={12} sm={3}>

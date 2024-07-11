@@ -59,3 +59,8 @@ export interface FormRequirements {
   condition: (...args: unknown[]) => boolean;
   errorMsg: string;
 }
+
+export interface CityCountry {
+  label: string;
+  id: number;
+}
