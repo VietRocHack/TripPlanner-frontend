@@ -21,7 +21,7 @@ import "../../animation.css";
 export default function FormScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tripInfo, setTripInfo] = useState<TripInfo>({
-    location: "",
+    location: null,
     startTime: "",
     endTime: "",
     activityTags: [],
@@ -45,7 +45,7 @@ export default function FormScreen() {
                 {
                   condition: (): boolean => {
                     return (
-                      tripInfo.location.length > 0 &&
+                      tripInfo.location !== null &&
                       tripInfo.startTime.length > 0 &&
                       tripInfo.endTime.length > 0 &&
                       tripInfo.activityTags.length > 0
