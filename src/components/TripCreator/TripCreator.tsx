@@ -141,7 +141,7 @@ export default function TripCreator({
               MenuProps={{
                 PaperProps: {
                   style: {
-                    maxHeight: "20%", // Adjust the max height of the dropdown
+                    maxHeight: "30%", // Adjust the max height of the dropdown
                   },
                 },
               }}
