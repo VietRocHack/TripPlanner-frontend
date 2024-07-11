@@ -21,7 +21,7 @@ export default function FormSubmitGenerate({
   videos,
   tripInfo,
 }: FormSubmitGenerateProps) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [statusList, setStatusList] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -118,6 +118,7 @@ export default function FormSubmitGenerate({
           <Box
             sx={{
               width: "80%",
+              maxWidth: 700,
               height: 30,
               backgroundColor: "f3f3f3",
               borderRadius: "5px",
