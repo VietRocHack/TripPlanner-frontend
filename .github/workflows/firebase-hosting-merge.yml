@@ -5,9 +5,6 @@ on:
       - main
       - dev
 
-env:
-  VITE_MAPS_API_KEY: ${{secrets.MAPS_API_KEY_PROD}}
-
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -19,11 +16,18 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "TARGET=prod" >> $GITHUB_ENV
+            echo "MAPS_API_KEY=${{ secrets.MAPS_API_KEY_PROD }}" >> $GITHUB_ENV
           elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
             echo "TARGET=dev" >> $GITHUB_ENV
+            echo "MAPS_API_KEY=${{ secrets.MAPS_API_KEY_DEV }}" >> $GITHUB_ENV
+          else
+            echo "Unsupported base branch"
+            exit 1
           fi
 
       - run: npm ci && npm run build
+        env:
+          VITE_MAPS_API_KEY: ${{ env.MAPS_API_KEY }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
