@@ -18,16 +18,16 @@ jobs:
         id: set-target
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "::set-output name=target::prod"
+            echo "TARGET=prod" >> $GITHUB_ENV
           elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            echo "::set-output name=target::dev"
+            echo "TARGET=dev" >> $GITHUB_ENV
           fi
 
       - run: npm ci && npm run build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          target: ${{ steps.set-target.outputs.target }}
+          target: ${{ env.TARGET }}
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRIPPLANNER_B05C6 }}
           channelId: live
