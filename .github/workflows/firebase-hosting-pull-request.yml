@@ -17,9 +17,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set Firebase target
+        id: set-target
+        run: |
+          if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
+            echo "::set-output name=target::prod"
+          elif [[ "${{ github.event.pull_request.base.ref }}" == "dev" ]]; then
+            echo "::set-output name=target::dev"
+          fi
+
       - run: npm ci && npm run build
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          target: ${{ steps.set-target.outputs.target }}
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRIPPLANNER_B05C6 }}
           projectId: tripplanner-b05c6
