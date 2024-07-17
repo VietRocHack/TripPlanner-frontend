@@ -33,6 +33,42 @@ interface GoogleMapsCitySearchProps {
   handleLocationChange: (location: PlaceType | null) => unknown;
 }
 
+// Define a list of default cities
+const defaultCities: PlaceType[] = [
+  {
+    terms: [],
+    description: "New York, NY, USA",
+    structured_formatting: {
+      main_text: "New York",
+      secondary_text: "NY, USA",
+    },
+  },
+  {
+    terms: [],
+    description: "Paris, France",
+    structured_formatting: {
+      main_text: "Paris",
+      secondary_text: "France",
+    },
+  },
+  {
+    terms: [],
+    description: "London, England",
+    structured_formatting: {
+      main_text: "London",
+      secondary_text: "England",
+    },
+  },
+  {
+    terms: [],
+    description: "Los Angeles, CA, USA",
+    structured_formatting: {
+      main_text: "Los Angeles",
+      secondary_text: "CA, USA",
+    },
+  }
+];
+
 export default function GoogleMapsCitySearch({
   location,
   handleLocationChange,
@@ -83,7 +119,7 @@ export default function GoogleMapsCitySearch({
       return undefined;
     }
     if (inputValue === "") {
-      setOptions(value ? [value] : []);
+      setOptions(value ? [value, ...defaultCities] : defaultCities);
       return undefined;
     }
 
@@ -111,6 +147,13 @@ export default function GoogleMapsCitySearch({
     };
   }, [value, inputValue, fetch]);
 
+  useEffect(() => {
+    // Ensure the default cities are set initially
+    if (inputValue === "") {
+      setOptions(defaultCities);
+    }
+  }, [inputValue]);
+
   return (
     <Autocomplete
       id="location"
@@ -124,7 +167,6 @@ export default function GoogleMapsCitySearch({
       includeInputInList
       filterSelectedOptions
       value={value}
-      noOptionsText="No locations"
       onChange={(_event: any, newValue: PlaceType | null) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
