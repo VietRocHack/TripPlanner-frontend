@@ -147,6 +147,13 @@ export default function GoogleMapsCitySearch({
     };
   }, [value, inputValue, fetch]);
 
+  useEffect(() => {
+    // Ensure the default cities are set initially
+    if (inputValue === "") {
+      setOptions(defaultCities);
+    }
+  }, [inputValue]);
+
   return (
     <Autocomplete
       id="location"
@@ -160,7 +167,6 @@ export default function GoogleMapsCitySearch({
       includeInputInList
       filterSelectedOptions
       value={value}
-      noOptionsText="No locations"
       onChange={(_event: any, newValue: PlaceType | null) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
