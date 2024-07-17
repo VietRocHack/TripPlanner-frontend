@@ -68,7 +68,7 @@ export default function FormSubmitGenerate({
       }
     }, 300); // 99% in 30 seconds = 300ms interval
 
-    let requestedTripId = null;
+    let requestedTripId: any = null;
     let retry = 0;
 
     while (!requestedTripId && retry < MAX_RETRIES) {
