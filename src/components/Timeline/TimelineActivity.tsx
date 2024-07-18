@@ -3,12 +3,14 @@ import {
   Typography,
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendMuiTheme,
+  Button,
 } from "@mui/material";
 import { Activity } from "../../utils/types";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { deepmerge } from "@mui/utils";
 import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
 import { cleanTikTokVideoURL } from "../../utils/utils";
+import { useState } from "react";
 
 const joyTheme = extendJoyTheme({
   cssVarPrefix: "mui",
@@ -27,6 +29,7 @@ export default function TimelineActivity({
   width,
 }: TimelineActivityProps) {
   const apiKey = import.meta.env.VITE_MAPS_API_KEY;
+  const [openMap, setOpenMap] = useState(false);
   const displayTiktok = (url: string) => {
     const video = cleanTikTokVideoURL(url);
     if (typeof video === "string") {
@@ -64,6 +67,7 @@ export default function TimelineActivity({
               </Typography>
             </>
           )}
+          {openMap ?
           <iframe
             width="380"
             height="300"
@@ -72,6 +76,8 @@ export default function TimelineActivity({
             referrerPolicy="no-referrer-when-downgrade"
             src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${activity.location}`}>
           </iframe>
+          : <Button>Open Map</Button>
+          }
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           {activity.inspiredBy != null && (
