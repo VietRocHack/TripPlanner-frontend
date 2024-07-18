@@ -30,6 +30,11 @@ export default function TimelineActivity({
 }: TimelineActivityProps) {
   const apiKey = import.meta.env.VITE_MAPS_API_KEY;
   const [openMap, setOpenMap] = useState(false);
+
+  const handleOpenMap: any = () => {
+    setOpenMap(!openMap)
+  }
+
   const displayTiktok = (url: string) => {
     const video = cleanTikTokVideoURL(url);
     if (typeof video === "string") {
@@ -67,17 +72,21 @@ export default function TimelineActivity({
               </Typography>
             </>
           )}
-          {openMap ?
-          <iframe
-            width="380"
-            height="300"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-            src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${activity.location}`}>
-          </iframe>
-          : <Button>Open Map</Button>
-          }
+          {openMap ? (
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <iframe
+                width="380"
+                height="300"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${activity.location}`}>
+              </iframe>
+              <Button onClick={handleOpenMap} sx={{maxWidth: '380px'}}>Close Map</Button>
+            </div>
+          ) : (
+            <Button onClick={handleOpenMap}>Show Map</Button>
+          )}
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           {activity.inspiredBy != null && (
