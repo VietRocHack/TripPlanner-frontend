@@ -4,6 +4,7 @@ import {
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendMuiTheme,
   Button,
+  IconButton,
 } from "@mui/material";
 import { Activity } from "../../utils/types";
 import AspectRatio from "@mui/joy/AspectRatio";
@@ -11,6 +12,7 @@ import { deepmerge } from "@mui/utils";
 import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
 import { cleanTikTokVideoURL } from "../../utils/utils";
 import { useState } from "react";
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
 
 const joyTheme = extendJoyTheme({
   cssVarPrefix: "mui",
@@ -75,17 +77,20 @@ export default function TimelineActivity({
           {openMap ? (
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <iframe
-                width="380"
+                max-width="380"
                 height="300"
                 loading="lazy"
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
+                style={{borderRadius: "15px"}}
                 src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${activity.location}`}>
               </iframe>
-              <Button onClick={handleOpenMap} sx={{maxWidth: '380px'}}>Close Map</Button>
+              <Button onClick={handleOpenMap} >Close Map</Button>
             </div>
           ) : (
-            <Button onClick={handleOpenMap}>Show Map</Button>
+            <IconButton onClick={handleOpenMap}>
+              <FmdGoodIcon />
+            </IconButton>
           )}
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
