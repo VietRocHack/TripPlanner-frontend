@@ -3,7 +3,6 @@ import {
   Typography,
   Experimental_CssVarsProvider as CssVarsProvider,
   experimental_extendTheme as extendMuiTheme,
-  Button,
   IconButton,
 } from "@mui/material";
 import { Activity } from "../../utils/types";
