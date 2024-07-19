@@ -13,6 +13,7 @@ import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
 import { cleanTikTokVideoURL } from "../../utils/utils";
 import { useState } from "react";
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import WrongLocationIcon from '@mui/icons-material/WrongLocation';
 
 const joyTheme = extendJoyTheme({
   cssVarPrefix: "mui",
@@ -75,22 +76,26 @@ export default function TimelineActivity({
             </>
           )}
           {openMap ? (
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <iframe
-                max-width="380"
-                height="300"
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-                style={{borderRadius: "15px"}}
-                src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${activity.location}`}>
-              </iframe>
-              <Button onClick={handleOpenMap} >Close Map</Button>
-            </div>
+            <IconButton onClick={handleOpenMap}>
+              <WrongLocationIcon />
+            </IconButton>
           ) : (
             <IconButton onClick={handleOpenMap}>
               <FmdGoodIcon />
             </IconButton>
+          )}
+          {openMap && (
+            <div style={{display: "flex", flexDirection: "column"}}>
+              <iframe
+                max-width="300"
+                height="300"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                style={{borderRadius: "5px", marginTop: "1rem"}}
+                src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${activity.location}`}
+              ></iframe>
+            </div>
           )}
         </Grid>
         <Grid item xs={12} md={6} lg={4}>

@@ -246,9 +246,7 @@ export default function FormSubmitGenerate({
           sx={{ width: "80%" }}
         >
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
-            Your Trip to{" "}
-            {(tripInfo.location!.terms as { value: string }[])[0].value} is
-            Ready!
+            Your Trip is Ready!
           </Typography>
           <Typography variant="h6" sx={{ marginBottom: 2 }}>
             Wait a moment while we take you to your trip...
