@@ -87,12 +87,11 @@ export default function TimelineActivity({
           {openMap && (
             <div style={{display: "flex", flexDirection: "column"}}>
               <iframe
-                max-width="300"
                 height="300"
                 loading="lazy"
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
-                style={{borderRadius: "5px", marginTop: "1rem"}}
+                style={{borderRadius: "5px", marginTop: "1rem", maxWidth: '500px'}}
                 src={`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${activity.location}`}
               ></iframe>
             </div>
