@@ -3,6 +3,7 @@ import {
   CircularProgress,
   Grid,
   IconButton,
+  Link,
   Paper,
   TextField,
   Typography,
@@ -239,6 +240,39 @@ export default function VideoSelector({
           marginTop: 3,
           width: "100%",
           // background: "#131314",
+          marginBottom: 8,
+          backgroundColor: "rgba(19,19,20, 0.2) !important",
+        }}
+        videosPerRow={isMobile ? 2 : 5}
+        minimalSettings
+      />
+
+      <Typography variant="h5" fontWeight={"bold"} gutterBottom>
+        Get some inspiration here
+      </Typography>
+
+      <Typography variant="body1" sx={{ marginBottom: 4 }}>
+        Choose from the list below or go find some on{" "}
+        <Link
+          href="https://www.tiktok.com/search?q=where%20to%20go%20in%20nyc"
+          target="_blank"
+        >
+          TikTok
+        </Link>
+        .
+      </Typography>
+
+      <VideoDisplay
+        listVid={[...videos.values()]}
+        videos={videos}
+        handleChangeVid={handleChangeVid}
+        handleDeleteVid={handleDeleteVid}
+        orientation="horizontal"
+        sx={{
+          padding: 3,
+          borderRadius: 2,
+          marginTop: 3,
+          width: "100%",
           marginBottom: 8,
           backgroundColor: "rgba(19,19,20, 0.2) !important",
         }}
