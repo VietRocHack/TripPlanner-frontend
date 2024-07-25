@@ -202,6 +202,10 @@ export default function VideoSelector({
         return newVideos;
       });
     }
+
+    if (!listVid.includes(video)) {
+      listVid.push(video);
+    }
   };
 
   return (
