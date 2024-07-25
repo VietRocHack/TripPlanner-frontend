@@ -17,9 +17,11 @@ jobs:
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "TARGET=prod" >> $GITHUB_ENV
             echo "MAPS_API_KEY=${{ secrets.MAPS_API_KEY_PROD }}" >> $GITHUB_ENV
+            echo "VIDEO_ANALYSIS_API_URL=${{ secrets.VIDEO_ANALYSIS_API_URL_PROD }}" >> $GITHUB_ENV
           elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
             echo "TARGET=dev" >> $GITHUB_ENV
             echo "MAPS_API_KEY=${{ secrets.MAPS_API_KEY_DEV }}" >> $GITHUB_ENV
+            echo "VIDEO_ANALYSIS_API_URL=${{ secrets.VIDEO_ANALYSIS_API_URL_DEV }}" >> $GITHUB_ENV
           else
             echo "Unsupported base branch"
             exit 1
@@ -27,7 +29,7 @@ jobs:
 
       - run: npm ci && npm run build
         env:
-          VITE_MAPS_API_KEY: ${{ env.MAPS_API_KEY }}
+          VITE_VIDEO_ANALYSIS_API_URL: ${{ env.MAPS_API_KEY }}
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

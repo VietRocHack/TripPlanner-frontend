@@ -6,6 +6,7 @@ on: pull_request
 
 env:
   VITE_MAPS_API_KEY: ${{secrets.MAPS_API_KEY_DEV}}
+  VITE_VIDEO_ANALYSIS_API_URL: ${{secrets.VIDEO_ANALYSIS_API_URL_DEV}}
 
 permissions:
   checks: write
