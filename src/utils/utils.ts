@@ -72,3 +72,10 @@ export const prepareTikTokUrls = (videos: Map<string, TikTokVideoObject>) => {
   });
   return videoUrls.substring(0, videoUrls.length-1);
 }
+
+export const getTikTokSearchURLByLocation = (location: string): string => {
+  location = location.toLowerCase();
+  location = location.replace(/[^a-z ]/g, '');
+  const query = encodeURIComponent(`what to do in ${location}`);
+  return `https://www.tiktok.com/search?q=${query }`
+}

@@ -10,7 +10,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { ChangeEvent, Dispatch, FormEvent, useEffect, useState } from "react";
-import { checkTikTokUrl, cleanTikTokVideoURL } from "../../utils/utils";
+import {
+  checkTikTokUrl,
+  cleanTikTokVideoURL,
+  getTikTokSearchURLByLocation,
+} from "../../utils/utils";
 import { TikTokVideoObject } from "../../utils/types";
 import { Send } from "@mui/icons-material"; // Import icon for button
 import VideoDisplay from "./VideoDisplay/VideoDisplay";
@@ -308,10 +312,7 @@ export default function VideoSelector({
 
       <Typography variant="body1" sx={{ marginBottom: 4 }}>
         Choose from the list below or go find some on{" "}
-        <Link
-          href="https://www.tiktok.com/search?q=where%20to%20go%20in%20nyc"
-          target="_blank"
-        >
+        <Link href={getTikTokSearchURLByLocation(location)} target="_blank">
           TikTok
         </Link>
         .
