@@ -61,9 +61,6 @@ export default function VideoDisplay({
             checked={videos.has(video.id)}
             onChange={() => {
               handleChangeVid(video);
-              if (selectVidSideEffect) {
-                selectVidSideEffect(video);
-              }
             }}
             color="primary"
           />
