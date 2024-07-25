@@ -1,6 +1,6 @@
 import { TikTokVideoObject, TripInfo } from "./types";
 
-export const cleanTikTokVideoURL = (inputUrl: string) => {
+export const cleanTikTokVideoURL = (inputUrl: string): TikTokVideoObject | null => {
   try {
     const url = new URL(inputUrl);
 
@@ -25,7 +25,7 @@ export const cleanTikTokVideoURL = (inputUrl: string) => {
     const wellFormedUrl = `https://www.tiktok.com${pathname}`;
     return { url: wellFormedUrl, id };
   } catch (error) {
-    return "";
+    return null;
   }
 };
 

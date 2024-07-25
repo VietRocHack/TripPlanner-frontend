@@ -15,7 +15,12 @@ import { TikTokVideoObject } from "../../utils/types";
 import { Send } from "@mui/icons-material"; // Import icon for button
 import VideoDisplay from "./VideoDisplay/VideoDisplay";
 import { darkTheme } from "../../utils/themes";
+
+const VIDEO_ANALYSIS_API_URL: string = import.meta.env
+  .VITE_VIDEO_ANALYSIS_API_URL;
+
 interface VideoSelectorProps {
+  location: string;
   videos: Map<string, TikTokVideoObject>;
   setVideos: Dispatch<React.SetStateAction<Map<string, TikTokVideoObject>>>;
 }
@@ -24,6 +29,7 @@ interface VideoSelectorProps {
  * Return a Stepper with multiple different ReactNodes as its steps
  */
 export default function VideoSelector({
+  location,
   videos,
   setVideos,
 }: VideoSelectorProps) {
@@ -39,6 +45,7 @@ export default function VideoSelector({
   const [urlErrorMsg, setUrlErrorMsg] = useState<string>("");
   const [justAddedVid, setJustAddedVid] = useState<string>("");
   const [shake, setShake] = useState<boolean>(false);
+  const [suggestedVids, setSuggestedVids] = useState<TikTokVideoObject[]>([]);
 
   const handleShake = () => {
     setShake(true);
@@ -58,6 +65,21 @@ export default function VideoSelector({
       });
       return newVideos;
     });
+
+    suggestVideos().then((results: [string] | null) => {
+      console.log(results);
+      if (!results) return;
+      const newSuggested: TikTokVideoObject[] = [];
+      results.forEach((resultUrl) => {
+        const vidObj = cleanTikTokVideoURL(resultUrl);
+        if (vidObj) {
+          newSuggested.push(vidObj);
+        }
+      });
+      console.log(newSuggested);
+      setSuggestedVids(newSuggested);
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -68,6 +90,35 @@ export default function VideoSelector({
   useEffect(() => {
     localStorage.setItem("vidIds", JSON.stringify([...vidIds]));
   }, [vidIds]);
+
+  const suggestVideos = async () => {
+    try {
+      const response = await fetch(
+        `${VIDEO_ANALYSIS_API_URL}/suggest_videos?` +
+          `&location=${encodeURIComponent(location)}` +
+          `&num_videos=${5}`,
+        {
+          method: "GET",
+        }
+      );
+      console.log(response);
+      if (response.ok) {
+        const results = await response.json();
+        return results.result;
+      } else {
+        console.error(
+          "Failed to fetch data. Response status:",
+          response.status
+        );
+        console.log("An error has happened, retrying...");
+        return null;
+      }
+    } catch (error) {
+      console.log("ERROR: " + error);
+      console.log("An error has happened, retrying...");
+      return null;
+    }
+  };
 
   const handleVid = (event: ChangeEvent<HTMLInputElement>) => {
     setVid(event.target.value);
@@ -96,7 +147,7 @@ export default function VideoSelector({
     const extractedVid = cleanTikTokVideoURL(input);
     console.log("cleaning vid done");
 
-    if (typeof extractedVid === "string") {
+    if (!extractedVid) {
       setAddingVid(false);
       alertError("The given URL is not valid");
     } else if (vidIds.has(extractedVid.id)) {
@@ -263,7 +314,7 @@ export default function VideoSelector({
       </Typography>
 
       <VideoDisplay
-        listVid={[...videos.values()]}
+        listVid={suggestedVids}
         videos={videos}
         handleChangeVid={handleChangeVid}
         handleDeleteVid={handleDeleteVid}

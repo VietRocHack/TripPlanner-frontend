@@ -73,7 +73,13 @@ export default function FormScreen() {
               ]}
               nodes={[
                 <FormPartOne tripInfo={tripInfo} setTripInfo={setTripInfo} />,
-                <FormPartTwo videos={videos} setVideos={setVideos} />,
+                <FormPartTwo
+                  location={
+                    tripInfo.location ? tripInfo.location.description : ""
+                  }
+                  videos={videos}
+                  setVideos={setVideos}
+                />,
                 <FormPartThree videos={videos} tripInfo={tripInfo} />,
                 <FormSubmitGenerate videos={videos} tripInfo={tripInfo} />,
               ]}
