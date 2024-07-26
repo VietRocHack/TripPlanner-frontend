@@ -13,17 +13,15 @@ import FormSubmitGenerate from "./FormSubmitGenerate";
 import bgImage from "../../assets/background.jpeg";
 import "../../animation.css";
 
-// interface Time{
-//   hour: number
-//   minutes: number
-// }
+const DEFAULT_START_TIME = "07:00";
+const DEFAULT_END_TIME = "11:00";
 
 export default function FormScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tripInfo, setTripInfo] = useState<TripInfo>({
     location: null,
-    startTime: "",
-    endTime: "",
+    startTime: DEFAULT_START_TIME,
+    endTime: DEFAULT_END_TIME,
     activityTags: [],
     comments: "",
   });
@@ -75,7 +73,13 @@ export default function FormScreen() {
               ]}
               nodes={[
                 <FormPartOne tripInfo={tripInfo} setTripInfo={setTripInfo} />,
-                <FormPartTwo videos={videos} setVideos={setVideos} />,
+                <FormPartTwo
+                  location={
+                    tripInfo.location ? tripInfo.location.description : ""
+                  }
+                  videos={videos}
+                  setVideos={setVideos}
+                />,
                 <FormPartThree videos={videos} tripInfo={tripInfo} />,
                 <FormSubmitGenerate videos={videos} tripInfo={tripInfo} />,
               ]}

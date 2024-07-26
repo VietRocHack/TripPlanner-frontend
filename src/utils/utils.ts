@@ -1,6 +1,6 @@
 import { TikTokVideoObject, TripInfo } from "./types";
 
-export const cleanTikTokVideoURL = (inputUrl: string) => {
+export const cleanTikTokVideoURL = (inputUrl: string): TikTokVideoObject | null => {
   try {
     const url = new URL(inputUrl);
 
@@ -25,7 +25,7 @@ export const cleanTikTokVideoURL = (inputUrl: string) => {
     const wellFormedUrl = `https://www.tiktok.com${pathname}`;
     return { url: wellFormedUrl, id };
   } catch (error) {
-    return "";
+    return null;
   }
 };
 
@@ -71,4 +71,11 @@ export const prepareTikTokUrls = (videos: Map<string, TikTokVideoObject>) => {
     videoUrls += video.url + ","
   });
   return videoUrls.substring(0, videoUrls.length-1);
+}
+
+export const getTikTokSearchURLByLocation = (location: string): string => {
+  location = location.toLowerCase();
+  location = location.replace(/[^a-z ]/g, '');
+  const query = encodeURIComponent(`what to do in ${location}`);
+  return `https://www.tiktok.com/search?q=${query }`
 }
