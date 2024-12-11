@@ -19,6 +19,8 @@ import { TikTokVideoObject } from "../../utils/types";
 import { Send } from "@mui/icons-material"; // Import icon for button
 import VideoDisplay from "./VideoDisplay/VideoDisplay";
 import { darkTheme } from "../../utils/themes";
+import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
 const VIDEO_ANALYSIS_API_URL: string = import.meta.env
   .VITE_VIDEO_ANALYSIS_API_URL;
@@ -50,6 +52,7 @@ export default function VideoSelector({
   const [justAddedVid, setJustAddedVid] = useState<string>("");
   const [shake, setShake] = useState<boolean>(false);
   const [suggestedVids, setSuggestedVids] = useState<TikTokVideoObject[]>([]);
+  const [loadingSuggest, setLoadingSuggest] = useState<boolean>(true);
 
   const handleShake = () => {
     setShake(true);
@@ -71,7 +74,7 @@ export default function VideoSelector({
     });
 
     suggestVideos().then((results: [string] | null) => {
-      console.log(results);
+      setLoadingSuggest(false);
       if (!results) return;
       const newSuggested: TikTokVideoObject[] = [];
       results.forEach((resultUrl) => {
@@ -304,6 +307,34 @@ export default function VideoSelector({
         }}
         videosPerRow={isMobile ? 2 : 5}
         minimalSettings
+        emptyPlaceholderHorizontal={
+          <Paper
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              maxWidth: 400,
+              margin: "auto",
+              padding: 4,
+              borderRadius: 2,
+              boxShadow: 1,
+            }}
+          >
+            <SlowMotionVideoIcon
+              fontSize="inherit"
+              color="secondary"
+              sx={{ fontSize: 40 }}
+            />
+            <Typography
+              variant="body1"
+              sx={{ marginTop: 2 }}
+              textAlign="center"
+            >
+              Nothing added yet!
+            </Typography>
+          </Paper>
+        }
       />
 
       <Typography variant="h5" fontWeight={"bold"} gutterBottom>
@@ -334,6 +365,36 @@ export default function VideoSelector({
         }}
         videosPerRow={isMobile ? 2 : 5}
         minimalSettings
+        emptyPlaceholderHorizontal={
+          loadingSuggest ? null : (
+            <Paper
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                maxWidth: 400,
+                margin: "auto",
+                padding: 4,
+                borderRadius: 2,
+                boxShadow: 1,
+              }}
+            >
+              <SentimentVeryDissatisfiedIcon
+                fontSize="inherit"
+                color="secondary"
+                sx={{ fontSize: 40 }}
+              />
+              <Typography
+                variant="body1"
+                sx={{ marginTop: 2 }}
+                textAlign="center"
+              >
+                Can't find anything for you
+              </Typography>
+            </Paper>
+          )
+        }
       />
 
       <Typography
@@ -361,6 +422,34 @@ export default function VideoSelector({
           backgroundColor: "rgba(19,19,20, 0.2) !important",
         }}
         videosPerRow={isMobile ? 1 : 4}
+        emptyPlaceholderVertical={
+          <Paper
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              maxWidth: 400,
+              margin: "auto",
+              padding: 4,
+              borderRadius: 2,
+              boxShadow: 1,
+            }}
+          >
+            <SlowMotionVideoIcon
+              fontSize="inherit"
+              color="secondary"
+              sx={{ fontSize: 40 }}
+            />
+            <Typography
+              variant="body1"
+              sx={{ marginTop: 2 }}
+              textAlign="center"
+            >
+              Add your first TikTok here!
+            </Typography>
+          </Paper>
+        }
       />
     </Paper>
   );

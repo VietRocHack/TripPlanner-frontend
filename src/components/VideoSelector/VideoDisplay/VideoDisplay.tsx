@@ -9,9 +9,9 @@ import {
   Typography,
   IconButton,
   SxProps,
+  CircularProgress,
 } from "@mui/material";
 import { TikTokVideoObject } from "../../../utils/types";
-import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { extendTheme as extendJoyTheme } from "@mui/joy/styles";
 import { deepmerge } from "@mui/utils";
@@ -28,6 +28,8 @@ interface VideoDisplayProps {
   videosPerRow?: number;
   minimalSettings?: boolean;
   sx: SxProps | undefined;
+  emptyPlaceholderHorizontal?: React.ReactNode;
+  emptyPlaceholderVertical?: React.ReactNode;
 }
 
 const joyTheme = extendJoyTheme({
@@ -47,7 +49,28 @@ export default function VideoDisplay({
   videosPerRow = 4,
   minimalSettings = false,
   sx,
+  emptyPlaceholderHorizontal,
+  emptyPlaceholderVertical,
 }: VideoDisplayProps) {
+  const loading = (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: 200,
+      }}
+    >
+      <CircularProgress
+        sx={{
+          color: "red", // Set color to red
+          thickness: 5, // Increase thickness (default is 4)
+        }}
+      />
+    </Box>
+  );
+
   const settingBox = (video: TikTokVideoObject, index: number) => {
     if (minimalSettings) {
       return handleChangeVid ? (
@@ -152,32 +175,7 @@ export default function VideoDisplay({
               ))}
             </>
           ) : (
-            <Paper
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                maxWidth: 400,
-                margin: "auto",
-                padding: 4,
-                borderRadius: 2,
-                boxShadow: 1,
-              }}
-            >
-              <SlowMotionVideoIcon
-                fontSize="inherit"
-                color="secondary"
-                sx={{ fontSize: 40 }}
-              />
-              <Typography
-                variant="body1"
-                sx={{ marginTop: 2 }}
-                textAlign="center"
-              >
-                Add your first TikTok here!
-              </Typography>
-            </Paper>
+            emptyPlaceholderVertical ?? loading
           )}
         </Grid>
       ) : listVid.length > 0 ? (
@@ -202,28 +200,7 @@ export default function VideoDisplay({
           ))}
         </Box>
       ) : (
-        <Paper
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            maxWidth: 400,
-            margin: "auto",
-            padding: 4,
-            borderRadius: 2,
-            boxShadow: 1,
-          }}
-        >
-          <SlowMotionVideoIcon
-            fontSize="inherit"
-            color="secondary"
-            sx={{ fontSize: 40 }}
-          />
-          <Typography variant="body1" sx={{ marginTop: 2 }} textAlign="center">
-            Nothing added yet!
-          </Typography>
-        </Paper>
+        emptyPlaceholderHorizontal ?? loading
       )}
     </Paper>
   );
